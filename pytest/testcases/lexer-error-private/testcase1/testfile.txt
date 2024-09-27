@@ -1,0 +1,6 @@
+int main(){
+    if(1 & ){
+        printf("2024 Compiler\n");
+    }
+    return 0;
+}

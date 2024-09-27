@@ -1,0 +1,31 @@
+int isLeapYear(int a)
+{
+	if (0 == a % 4 & a % 100 != 0
+	    || 0 == a % 400)
+	{
+		return 1;
+	}
+	else
+	{
+		int x = 1 + 2;
+	}
+	return 0;
+}
+
+
+int main()
+{
+    printf("===========================\n");
+    printf("TEST isLeapYear:\n");
+
+	int Year = 0;
+    Year = getint();
+
+	if (isLeapYear(Year)) {
+	    printf("%d is a leap year!!\n", Year);
+	} else {
+	    printf("%d is not a leap year!!\n", Year);
+	}
+
+	return 0;
+}

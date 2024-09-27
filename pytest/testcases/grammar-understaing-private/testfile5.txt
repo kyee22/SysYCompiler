@@ -1,0 +1,78 @@
+// Global variables
+int x = 1, y = 2, z = 3, a = 4, b = 5;
+int c = 6, d = 7, e = 8, f = 9, g = 10;
+int h = 11, i = 12, j = 13, k = 14, l = 15;
+int m = 16, n = 17, o = 18, p = 19, q = 20;
+int r = 21, s = 22, t = 23, u = 24, v = 25;
+int w = 26, xx2 = 27, y2 = 28, z2 = 29, aa2 = 30;
+int b2 = 31, c2 = 32, d2 = 33, e2 = 34, ff2 = 35;
+int g2 = 36, h2 = 37, i2 = 38, j2 = 39, k2 = 40;
+
+const int GLOBAL_CONST1 = 15;
+const int GLOBAL_CONST2 = 8;
+const int GLOBAL_CONST3 = 3;
+
+int main() {
+    // Local variables
+    int x1 = 1, y1 = 2, z1 = 3, a1 = 4, b1 = 5;
+    int c1 = 6, d1 = 7, e1 = 8, f1 = 9, g1 = 10;
+    int h1 = 11, i1 = 12, j1 = 13, k1 = 14, l1 = 15;
+    int m1 = 16, n1 = 17, o1 = 18, p1 = 19, q1 = 20;
+    int r1 = 21, s1 = 22, t1 = 23, u1 = 24, v1 = 25;
+    int w1 = 26, x3 = 27, y3 = 28, z3 = 29, a3 = 30;
+    int b3 = 31, c3 = 32, d3 = 33, e3 = 34, f3 = 35;
+    int g3 = 36, h3 = 37, i3 = 38, j3 = 39, k3 = 40;
+
+    // Perform operations on global variables
+    x = (x + y) * (z + a) - (b + c) / d;
+    e = e * f + g - h + i;
+    j = j * k * l - m / n + o;
+    p = (p + q) * (r + s) / t - u;
+    v = v - w + xx2 * y2 - z2 + aa2;
+    b2 = b2 * c2 - d2 + e2 * ff2 - g2;
+    h2 = h2 + i2 * j2 - k2 + l * m;
+
+    // Perform operations on local variables
+    x1 = (x1 + y1) * (z1 + a1) - (b1 + c1) / d1;
+    e1 = e1 * f1 + g1 - h1 + i1;
+    j1 = j1 * k1 * l1 - m1 / n1 + o1;
+    p1 = (p1 + q1) * (r1 + s1) / t1 - u1;
+    v1 = v1 - w1 + x3 * y3 - z3 + a3;
+    b3 = b3 * c3 - d3 + e3 * f3 - g3;
+    h3 = h3 + i3 * j3 - k3 + l1 * m1;
+
+
+   // Return the sum of all variables
+   int res1 =  x + y + z + a + b + c + d + e + f + g + h + i + j + k + l + m + n + o + p + q
+           + r + s + t + u + v + w + xx2 + y2 + z2 + aa2 + b2 + c2 + d2 + e2 + ff2 + g2 + h2 + i2 + j2 + k2
+           + x1 + y1 + z1 + a1 + b1 + c1 + d1 + e1 + f1 + g1 + h1 + i1 + j1 + k1 + l1 + m1 + n1 + o1 + p1 + q1
+           + r1 + s1 + t1 + u1 + v1 + w1 + x3 + y3 + z3 + a3 + b3 + c3 + d3 + e3 + f3 + g3 + h3 + i3 + j3 + k3;
+
+   int res2 = GLOBAL_CONST1 + (GLOBAL_CONST2 * (res1 / GLOBAL_CONST3 + res1) + h3);
+
+    // Reuse global variables in local calculations
+    l1 = x + y + z;  // Reusing global x, y, z
+    m1 = a * b - c;  // Reusing global a, b, c
+    n1 = d / e + f;  // Reusing global d, e, f
+    o1 = (g + h) * (i - j);  // Reusing global g, h, i, j
+    p1 = k * l + m;  // Reusing global k, l, m
+
+    // More operations with reused variables
+    l1 = l1 - m1 + n1;  // Reuse l1, m1, n1
+    o1 = o1 * p1;  // Reuse o1, p1
+    p1 = l1 / o1;  // Reuse l1, o1
+
+    // Reuse more variables
+    q1 = r1 + s1 - t1;  // Reusing local r1, s1, t1
+    u1 = v1 * w1 + x3;  // Reusing local v1, w1, x3
+    y3 = (a3 + b3) * (c3 - d3);  // Reusing local a3, b3, c3, d3
+    z3 = e3 + f3 - g3;  // Reusing local e3, f3, g3
+
+    // Final operations with all reused variables
+    int res3 = l1 + m1 + n1 + o1 + p1 + q1 + u1 + y3 + z3;
+
+   printf("22371092\n");
+   printf("%d\n", res1);
+   printf("%d\n", res2);
+   printf("%d\n", res3);
+}

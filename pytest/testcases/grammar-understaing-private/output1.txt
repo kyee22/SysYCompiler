@@ -1,0 +1,1094 @@
+22371092
+============================================
+> TEST do_cpl_fa24_e1_b (1/1)
+4
+============================================
+> TEST do_cpl_fa24_e1_c (2/3)
+40
+============================================
+> TEST do_cpl_fa24_e1_c (2/3)
+0
+Moca finish 0 requirement!
+============================================
+> TEST do_cpl_fa24_e1_c (3/3)
+30
+Moca finish all requirements!
+============================================
+> TEST do_cpl_fa24_e1_d (1/2)
+12 2
+============================================
+> TEST do_cpl_fa24_e1_d (2/2)
+No answer
+============================================
+> TEST do_cpl_fa24_e1_e (1/2)
+Not triangle
+============================================
+> TEST do_cpl_fa24_e1_e (2/2)
+Acute triangle
+Isosceles triangle
+Equilateral triangle
+============================================
+> TEST do_cpl_fa24_e1_f (1/2)
+Ban lP
+============================================
+> TEST do_cpl_fa24_e1_f (2/2)
+Xhesica win
+============================================
+> TEST do_cpl_fa24_e1_g (1/10)
+6
+============================================
+> TEST do_cpl_fa24_e1_g (2/10)
+4
+============================================
+> TEST do_cpl_fa24_e1_g (3/10)
+0
+============================================
+> TEST do_cpl_fa24_e1_g (4/10)
+888888887
+============================================
+> TEST do_cpl_fa24_e1_g (5/10)
+333333333
+============================================
+> TEST do_cpl_fa24_e1_g (6/10)
+32547627
+============================================
+> TEST do_cpl_fa24_e1_g (7/10)
+0
+============================================
+> TEST do_cpl_fa24_e1_g (8/10)
+888888889
+============================================
+> TEST do_cpl_fa24_e1_g (9/10)
+888888889
+============================================
+> TEST do_cpl_fa24_e1_g (10/10)
+93153822
+============================================
+> TEST do_cpl_fa24_e1_h (1/1)
+2
+============================================
+> TEST do_cpl_fa24_e1_i (1/1)
+24
+Impossible
+7
+5
+1
+1
+1
+1
+Impossible
+============================================
+> TEST do_cpl_fa24_e1_j (1/3)
+5
+============================================
+> TEST do_cpl_fa24_e1_j (2/3)
+33
+============================================
+> TEST do_cpl_fa24_e1_j (3/3)
+4448880
+===========================
+> TEST isLeapYear:
+2100 is not a leap year!!
+===========================
+> TEST complex_conditions:
+0 does not meet the complex conditions.
+1 does not meet the complex conditions.
+2 meets the complex conditions.
+3 does not meet the complex conditions.
+4 meets the complex conditions.
+5 does not meet the complex conditions.
+6 meets the complex conditions.
+7 does not meet the complex conditions.
+8 meets the complex conditions.
+9 does not meet the complex conditions.
+10 meets the complex conditions.
+11 does not meet the complex conditions.
+12 meets the complex conditions.
+13 does not meet the complex conditions.
+14 meets the complex conditions.
+15 does not meet the complex conditions.
+16 meets the complex conditions.
+17 does not meet the complex conditions.
+18 meets the complex conditions.
+19 does not meet the complex conditions.
+20 meets the complex conditions.
+21 does not meet the complex conditions.
+22 meets the complex conditions.
+23 does not meet the complex conditions.
+24 meets the complex conditions.
+25 does not meet the complex conditions.
+26 meets the complex conditions.
+27 does not meet the complex conditions.
+28 meets the complex conditions.
+29 does not meet the complex conditions.
+30 meets the complex conditions.
+31 does not meet the complex conditions.
+32 meets the complex conditions.
+33 does not meet the complex conditions.
+34 meets the complex conditions.
+35 does not meet the complex conditions.
+36 meets the complex conditions.
+37 does not meet the complex conditions.
+38 meets the complex conditions.
+39 does not meet the complex conditions.
+40 meets the complex conditions.
+41 does not meet the complex conditions.
+42 meets the complex conditions.
+43 does not meet the complex conditions.
+44 meets the complex conditions.
+45 does not meet the complex conditions.
+46 meets the complex conditions.
+47 does not meet the complex conditions.
+48 meets the complex conditions.
+49 does not meet the complex conditions.
+50 meets the complex conditions.
+51 does not meet the complex conditions.
+52 meets the complex conditions.
+53 does not meet the complex conditions.
+54 meets the complex conditions.
+55 does not meet the complex conditions.
+56 meets the complex conditions.
+57 does not meet the complex conditions.
+58 meets the complex conditions.
+59 does not meet the complex conditions.
+60 meets the complex conditions.
+61 does not meet the complex conditions.
+62 meets the complex conditions.
+63 does not meet the complex conditions.
+64 meets the complex conditions.
+65 does not meet the complex conditions.
+66 meets the complex conditions.
+67 does not meet the complex conditions.
+68 meets the complex conditions.
+69 does not meet the complex conditions.
+70 meets the complex conditions.
+71 does not meet the complex conditions.
+72 meets the complex conditions.
+73 does not meet the complex conditions.
+74 meets the complex conditions.
+75 does not meet the complex conditions.
+76 meets the complex conditions.
+77 does not meet the complex conditions.
+78 meets the complex conditions.
+79 does not meet the complex conditions.
+80 meets the complex conditions.
+81 does not meet the complex conditions.
+82 meets the complex conditions.
+83 does not meet the complex conditions.
+84 meets the complex conditions.
+85 does not meet the complex conditions.
+86 meets the complex conditions.
+87 does not meet the complex conditions.
+88 meets the complex conditions.
+89 does not meet the complex conditions.
+90 meets the complex conditions.
+91 does not meet the complex conditions.
+92 meets the complex conditions.
+93 does not meet the complex conditions.
+94 meets the complex conditions.
+95 does not meet the complex conditions.
+96 meets the complex conditions.
+97 does not meet the complex conditions.
+98 meets the complex conditions.
+99 does not meet the complex conditions.
+100 meets the complex conditions.
+101 does not meet the complex conditions.
+102 meets the complex conditions.
+103 does not meet the complex conditions.
+104 does not meet the complex conditions.
+105 meets the complex conditions.
+106 does not meet the complex conditions.
+107 does not meet the complex conditions.
+108 meets the complex conditions.
+109 does not meet the complex conditions.
+110 meets the complex conditions.
+111 meets the complex conditions.
+112 does not meet the complex conditions.
+113 does not meet the complex conditions.
+114 meets the complex conditions.
+115 meets the complex conditions.
+116 does not meet the complex conditions.
+117 meets the complex conditions.
+118 does not meet the complex conditions.
+119 does not meet the complex conditions.
+120 meets the complex conditions.
+121 does not meet the complex conditions.
+122 does not meet the complex conditions.
+123 meets the complex conditions.
+124 does not meet the complex conditions.
+125 meets the complex conditions.
+126 meets the complex conditions.
+127 does not meet the complex conditions.
+128 does not meet the complex conditions.
+129 meets the complex conditions.
+130 meets the complex conditions.
+131 does not meet the complex conditions.
+132 meets the complex conditions.
+133 does not meet the complex conditions.
+134 does not meet the complex conditions.
+135 meets the complex conditions.
+136 does not meet the complex conditions.
+137 does not meet the complex conditions.
+138 meets the complex conditions.
+139 does not meet the complex conditions.
+140 meets the complex conditions.
+141 meets the complex conditions.
+142 does not meet the complex conditions.
+143 does not meet the complex conditions.
+144 meets the complex conditions.
+145 meets the complex conditions.
+146 does not meet the complex conditions.
+147 meets the complex conditions.
+148 does not meet the complex conditions.
+149 does not meet the complex conditions.
+150 meets the complex conditions.
+151 does not meet the complex conditions.
+152 does not meet the complex conditions.
+153 meets the complex conditions.
+154 does not meet the complex conditions.
+155 meets the complex conditions.
+156 meets the complex conditions.
+157 does not meet the complex conditions.
+158 does not meet the complex conditions.
+159 meets the complex conditions.
+160 meets the complex conditions.
+161 does not meet the complex conditions.
+162 meets the complex conditions.
+163 does not meet the complex conditions.
+164 does not meet the complex conditions.
+165 meets the complex conditions.
+166 does not meet the complex conditions.
+167 does not meet the complex conditions.
+168 meets the complex conditions.
+169 does not meet the complex conditions.
+170 meets the complex conditions.
+171 meets the complex conditions.
+172 does not meet the complex conditions.
+173 does not meet the complex conditions.
+174 meets the complex conditions.
+175 meets the complex conditions.
+176 does not meet the complex conditions.
+177 meets the complex conditions.
+178 does not meet the complex conditions.
+179 does not meet the complex conditions.
+180 meets the complex conditions.
+181 does not meet the complex conditions.
+182 does not meet the complex conditions.
+183 meets the complex conditions.
+184 does not meet the complex conditions.
+185 meets the complex conditions.
+186 meets the complex conditions.
+187 does not meet the complex conditions.
+188 does not meet the complex conditions.
+189 meets the complex conditions.
+190 meets the complex conditions.
+191 does not meet the complex conditions.
+192 meets the complex conditions.
+193 does not meet the complex conditions.
+194 does not meet the complex conditions.
+195 meets the complex conditions.
+196 does not meet the complex conditions.
+197 does not meet the complex conditions.
+198 meets the complex conditions.
+199 does not meet the complex conditions.
+200 does not meet the complex conditions.
+201 does not meet the complex conditions.
+202 does not meet the complex conditions.
+203 meets the complex conditions.
+204 does not meet the complex conditions.
+205 does not meet the complex conditions.
+206 does not meet the complex conditions.
+207 does not meet the complex conditions.
+208 does not meet the complex conditions.
+209 does not meet the complex conditions.
+210 meets the complex conditions.
+211 does not meet the complex conditions.
+212 does not meet the complex conditions.
+213 does not meet the complex conditions.
+214 does not meet the complex conditions.
+215 does not meet the complex conditions.
+216 does not meet the complex conditions.
+217 meets the complex conditions.
+218 does not meet the complex conditions.
+219 does not meet the complex conditions.
+220 does not meet the complex conditions.
+221 does not meet the complex conditions.
+222 does not meet the complex conditions.
+223 does not meet the complex conditions.
+224 meets the complex conditions.
+225 does not meet the complex conditions.
+226 does not meet the complex conditions.
+227 does not meet the complex conditions.
+228 does not meet the complex conditions.
+229 does not meet the complex conditions.
+230 does not meet the complex conditions.
+231 does not meet the complex conditions.
+232 does not meet the complex conditions.
+233 does not meet the complex conditions.
+234 does not meet the complex conditions.
+235 does not meet the complex conditions.
+236 does not meet the complex conditions.
+237 does not meet the complex conditions.
+238 meets the complex conditions.
+239 does not meet the complex conditions.
+240 does not meet the complex conditions.
+241 does not meet the complex conditions.
+242 does not meet the complex conditions.
+243 does not meet the complex conditions.
+244 does not meet the complex conditions.
+245 meets the complex conditions.
+246 does not meet the complex conditions.
+247 does not meet the complex conditions.
+248 does not meet the complex conditions.
+249 does not meet the complex conditions.
+250 does not meet the complex conditions.
+251 does not meet the complex conditions.
+252 meets the complex conditions.
+253 does not meet the complex conditions.
+254 does not meet the complex conditions.
+255 does not meet the complex conditions.
+256 does not meet the complex conditions.
+257 does not meet the complex conditions.
+258 does not meet the complex conditions.
+259 meets the complex conditions.
+260 does not meet the complex conditions.
+261 does not meet the complex conditions.
+262 does not meet the complex conditions.
+263 does not meet the complex conditions.
+264 does not meet the complex conditions.
+265 does not meet the complex conditions.
+266 meets the complex conditions.
+267 does not meet the complex conditions.
+268 does not meet the complex conditions.
+269 does not meet the complex conditions.
+270 does not meet the complex conditions.
+271 does not meet the complex conditions.
+272 does not meet the complex conditions.
+273 meets the complex conditions.
+274 does not meet the complex conditions.
+275 does not meet the complex conditions.
+276 does not meet the complex conditions.
+277 does not meet the complex conditions.
+278 does not meet the complex conditions.
+279 does not meet the complex conditions.
+280 meets the complex conditions.
+281 does not meet the complex conditions.
+282 does not meet the complex conditions.
+283 does not meet the complex conditions.
+284 does not meet the complex conditions.
+285 does not meet the complex conditions.
+286 does not meet the complex conditions.
+287 meets the complex conditions.
+288 does not meet the complex conditions.
+289 does not meet the complex conditions.
+290 does not meet the complex conditions.
+291 does not meet the complex conditions.
+292 does not meet the complex conditions.
+293 does not meet the complex conditions.
+294 meets the complex conditions.
+295 does not meet the complex conditions.
+296 does not meet the complex conditions.
+297 does not meet the complex conditions.
+298 does not meet the complex conditions.
+299 does not meet the complex conditions.
+300 does not meet the complex conditions.
+301 does not meet the complex conditions.
+302 does not meet the complex conditions.
+303 does not meet the complex conditions.
+304 does not meet the complex conditions.
+305 does not meet the complex conditions.
+306 meets the complex conditions.
+307 does not meet the complex conditions.
+308 does not meet the complex conditions.
+309 does not meet the complex conditions.
+310 does not meet the complex conditions.
+311 does not meet the complex conditions.
+312 meets the complex conditions.
+313 does not meet the complex conditions.
+314 does not meet the complex conditions.
+315 does not meet the complex conditions.
+316 does not meet the complex conditions.
+317 does not meet the complex conditions.
+318 does not meet the complex conditions.
+319 does not meet the complex conditions.
+320 does not meet the complex conditions.
+321 does not meet the complex conditions.
+322 does not meet the complex conditions.
+323 does not meet the complex conditions.
+324 does not meet the complex conditions.
+325 meets the complex conditions.
+326 does not meet the complex conditions.
+327 does not meet the complex conditions.
+328 does not meet the complex conditions.
+329 does not meet the complex conditions.
+330 does not meet the complex conditions.
+331 does not meet the complex conditions.
+332 does not meet the complex conditions.
+333 does not meet the complex conditions.
+334 does not meet the complex conditions.
+335 does not meet the complex conditions.
+336 does not meet the complex conditions.
+337 does not meet the complex conditions.
+338 meets the complex conditions.
+339 does not meet the complex conditions.
+340 meets the complex conditions.
+341 does not meet the complex conditions.
+342 does not meet the complex conditions.
+343 does not meet the complex conditions.
+344 does not meet the complex conditions.
+345 does not meet the complex conditions.
+346 does not meet the complex conditions.
+347 does not meet the complex conditions.
+348 does not meet the complex conditions.
+349 does not meet the complex conditions.
+350 does not meet the complex conditions.
+351 meets the complex conditions.
+352 does not meet the complex conditions.
+353 does not meet the complex conditions.
+354 does not meet the complex conditions.
+355 does not meet the complex conditions.
+356 does not meet the complex conditions.
+357 meets the complex conditions.
+358 does not meet the complex conditions.
+359 does not meet the complex conditions.
+360 does not meet the complex conditions.
+361 does not meet the complex conditions.
+362 does not meet the complex conditions.
+363 does not meet the complex conditions.
+364 meets the complex conditions.
+365 does not meet the complex conditions.
+366 does not meet the complex conditions.
+367 does not meet the complex conditions.
+368 does not meet the complex conditions.
+369 does not meet the complex conditions.
+370 does not meet the complex conditions.
+371 does not meet the complex conditions.
+372 does not meet the complex conditions.
+373 does not meet the complex conditions.
+374 meets the complex conditions.
+375 does not meet the complex conditions.
+376 does not meet the complex conditions.
+377 meets the complex conditions.
+378 does not meet the complex conditions.
+379 does not meet the complex conditions.
+380 does not meet the complex conditions.
+381 does not meet the complex conditions.
+382 does not meet the complex conditions.
+383 does not meet the complex conditions.
+384 does not meet the complex conditions.
+385 does not meet the complex conditions.
+386 does not meet the complex conditions.
+387 does not meet the complex conditions.
+388 does not meet the complex conditions.
+389 does not meet the complex conditions.
+390 meets the complex conditions.
+391 meets the complex conditions.
+392 does not meet the complex conditions.
+393 does not meet the complex conditions.
+394 does not meet the complex conditions.
+395 does not meet the complex conditions.
+396 does not meet the complex conditions.
+397 does not meet the complex conditions.
+398 does not meet the complex conditions.
+399 does not meet the complex conditions.
+400 does not meet the complex conditions.
+401 does not meet the complex conditions.
+402 does not meet the complex conditions.
+403 does not meet the complex conditions.
+404 does not meet the complex conditions.
+405 does not meet the complex conditions.
+406 does not meet the complex conditions.
+407 does not meet the complex conditions.
+408 does not meet the complex conditions.
+409 does not meet the complex conditions.
+410 does not meet the complex conditions.
+411 does not meet the complex conditions.
+412 does not meet the complex conditions.
+413 does not meet the complex conditions.
+414 meets the complex conditions.
+415 does not meet the complex conditions.
+416 does not meet the complex conditions.
+417 does not meet the complex conditions.
+418 does not meet the complex conditions.
+419 does not meet the complex conditions.
+420 does not meet the complex conditions.
+421 does not meet the complex conditions.
+422 does not meet the complex conditions.
+423 does not meet the complex conditions.
+424 does not meet the complex conditions.
+425 does not meet the complex conditions.
+426 does not meet the complex conditions.
+427 does not meet the complex conditions.
+428 does not meet the complex conditions.
+429 does not meet the complex conditions.
+430 does not meet the complex conditions.
+431 does not meet the complex conditions.
+432 does not meet the complex conditions.
+433 does not meet the complex conditions.
+434 does not meet the complex conditions.
+435 does not meet the complex conditions.
+436 does not meet the complex conditions.
+437 meets the complex conditions.
+438 does not meet the complex conditions.
+439 does not meet the complex conditions.
+440 does not meet the complex conditions.
+441 does not meet the complex conditions.
+442 does not meet the complex conditions.
+443 does not meet the complex conditions.
+444 does not meet the complex conditions.
+445 does not meet the complex conditions.
+446 does not meet the complex conditions.
+447 does not meet the complex conditions.
+448 does not meet the complex conditions.
+449 does not meet the complex conditions.
+450 does not meet the complex conditions.
+451 does not meet the complex conditions.
+452 does not meet the complex conditions.
+453 does not meet the complex conditions.
+454 does not meet the complex conditions.
+455 does not meet the complex conditions.
+456 does not meet the complex conditions.
+457 does not meet the complex conditions.
+458 does not meet the complex conditions.
+459 does not meet the complex conditions.
+460 meets the complex conditions.
+461 does not meet the complex conditions.
+462 does not meet the complex conditions.
+463 does not meet the complex conditions.
+464 does not meet the complex conditions.
+465 does not meet the complex conditions.
+466 does not meet the complex conditions.
+467 does not meet the complex conditions.
+468 does not meet the complex conditions.
+469 does not meet the complex conditions.
+470 does not meet the complex conditions.
+471 does not meet the complex conditions.
+472 does not meet the complex conditions.
+473 does not meet the complex conditions.
+474 does not meet the complex conditions.
+475 does not meet the complex conditions.
+476 does not meet the complex conditions.
+477 does not meet the complex conditions.
+478 does not meet the complex conditions.
+479 does not meet the complex conditions.
+480 does not meet the complex conditions.
+481 does not meet the complex conditions.
+482 does not meet the complex conditions.
+483 meets the complex conditions.
+484 does not meet the complex conditions.
+485 does not meet the complex conditions.
+486 does not meet the complex conditions.
+487 does not meet the complex conditions.
+488 does not meet the complex conditions.
+489 does not meet the complex conditions.
+490 does not meet the complex conditions.
+491 does not meet the complex conditions.
+492 does not meet the complex conditions.
+493 does not meet the complex conditions.
+494 does not meet the complex conditions.
+495 does not meet the complex conditions.
+496 does not meet the complex conditions.
+497 does not meet the complex conditions.
+498 does not meet the complex conditions.
+499 does not meet the complex conditions.
+500 does not meet the complex conditions.
+501 does not meet the complex conditions.
+502 does not meet the complex conditions.
+503 does not meet the complex conditions.
+504 does not meet the complex conditions.
+505 does not meet the complex conditions.
+506 meets the complex conditions.
+507 does not meet the complex conditions.
+508 does not meet the complex conditions.
+509 does not meet the complex conditions.
+510 does not meet the complex conditions.
+511 does not meet the complex conditions.
+512 does not meet the complex conditions.
+513 does not meet the complex conditions.
+514 does not meet the complex conditions.
+515 does not meet the complex conditions.
+516 does not meet the complex conditions.
+517 does not meet the complex conditions.
+518 does not meet the complex conditions.
+519 does not meet the complex conditions.
+520 does not meet the complex conditions.
+521 does not meet the complex conditions.
+522 does not meet the complex conditions.
+523 does not meet the complex conditions.
+524 does not meet the complex conditions.
+525 does not meet the complex conditions.
+526 does not meet the complex conditions.
+527 does not meet the complex conditions.
+528 does not meet the complex conditions.
+529 meets the complex conditions.
+530 does not meet the complex conditions.
+531 does not meet the complex conditions.
+532 does not meet the complex conditions.
+533 does not meet the complex conditions.
+534 does not meet the complex conditions.
+535 does not meet the complex conditions.
+536 does not meet the complex conditions.
+537 does not meet the complex conditions.
+538 does not meet the complex conditions.
+539 does not meet the complex conditions.
+540 does not meet the complex conditions.
+541 does not meet the complex conditions.
+542 does not meet the complex conditions.
+543 does not meet the complex conditions.
+544 does not meet the complex conditions.
+545 does not meet the complex conditions.
+546 does not meet the complex conditions.
+547 does not meet the complex conditions.
+548 does not meet the complex conditions.
+549 does not meet the complex conditions.
+550 does not meet the complex conditions.
+551 does not meet the complex conditions.
+552 meets the complex conditions.
+553 does not meet the complex conditions.
+554 does not meet the complex conditions.
+555 does not meet the complex conditions.
+556 does not meet the complex conditions.
+557 does not meet the complex conditions.
+558 does not meet the complex conditions.
+559 does not meet the complex conditions.
+560 does not meet the complex conditions.
+561 does not meet the complex conditions.
+562 does not meet the complex conditions.
+563 does not meet the complex conditions.
+564 does not meet the complex conditions.
+565 does not meet the complex conditions.
+566 does not meet the complex conditions.
+567 does not meet the complex conditions.
+568 does not meet the complex conditions.
+569 does not meet the complex conditions.
+570 does not meet the complex conditions.
+571 does not meet the complex conditions.
+572 does not meet the complex conditions.
+573 does not meet the complex conditions.
+574 does not meet the complex conditions.
+575 meets the complex conditions.
+576 does not meet the complex conditions.
+577 does not meet the complex conditions.
+578 does not meet the complex conditions.
+579 does not meet the complex conditions.
+580 does not meet the complex conditions.
+581 does not meet the complex conditions.
+582 does not meet the complex conditions.
+583 does not meet the complex conditions.
+584 does not meet the complex conditions.
+585 does not meet the complex conditions.
+586 does not meet the complex conditions.
+587 does not meet the complex conditions.
+588 does not meet the complex conditions.
+589 does not meet the complex conditions.
+590 does not meet the complex conditions.
+591 does not meet the complex conditions.
+592 does not meet the complex conditions.
+593 does not meet the complex conditions.
+594 does not meet the complex conditions.
+595 does not meet the complex conditions.
+596 does not meet the complex conditions.
+597 does not meet the complex conditions.
+598 meets the complex conditions.
+599 does not meet the complex conditions.
+600 does not meet the complex conditions.
+601 does not meet the complex conditions.
+602 does not meet the complex conditions.
+603 does not meet the complex conditions.
+604 does not meet the complex conditions.
+605 does not meet the complex conditions.
+606 does not meet the complex conditions.
+607 does not meet the complex conditions.
+608 does not meet the complex conditions.
+609 does not meet the complex conditions.
+610 does not meet the complex conditions.
+611 does not meet the complex conditions.
+612 does not meet the complex conditions.
+613 does not meet the complex conditions.
+614 does not meet the complex conditions.
+615 does not meet the complex conditions.
+616 does not meet the complex conditions.
+617 does not meet the complex conditions.
+618 does not meet the complex conditions.
+619 does not meet the complex conditions.
+620 does not meet the complex conditions.
+621 meets the complex conditions.
+622 does not meet the complex conditions.
+623 does not meet the complex conditions.
+624 does not meet the complex conditions.
+625 does not meet the complex conditions.
+626 does not meet the complex conditions.
+627 does not meet the complex conditions.
+628 does not meet the complex conditions.
+629 does not meet the complex conditions.
+630 does not meet the complex conditions.
+631 does not meet the complex conditions.
+632 does not meet the complex conditions.
+633 does not meet the complex conditions.
+634 does not meet the complex conditions.
+635 does not meet the complex conditions.
+636 does not meet the complex conditions.
+637 does not meet the complex conditions.
+638 does not meet the complex conditions.
+639 does not meet the complex conditions.
+640 does not meet the complex conditions.
+641 does not meet the complex conditions.
+642 does not meet the complex conditions.
+643 does not meet the complex conditions.
+644 meets the complex conditions.
+645 does not meet the complex conditions.
+646 does not meet the complex conditions.
+647 does not meet the complex conditions.
+648 does not meet the complex conditions.
+649 does not meet the complex conditions.
+650 does not meet the complex conditions.
+651 does not meet the complex conditions.
+652 does not meet the complex conditions.
+653 does not meet the complex conditions.
+654 does not meet the complex conditions.
+655 does not meet the complex conditions.
+656 does not meet the complex conditions.
+657 does not meet the complex conditions.
+658 does not meet the complex conditions.
+659 does not meet the complex conditions.
+660 does not meet the complex conditions.
+661 does not meet the complex conditions.
+662 does not meet the complex conditions.
+663 does not meet the complex conditions.
+664 does not meet the complex conditions.
+665 does not meet the complex conditions.
+666 does not meet the complex conditions.
+667 does not meet the complex conditions.
+668 does not meet the complex conditions.
+669 does not meet the complex conditions.
+670 does not meet the complex conditions.
+671 does not meet the complex conditions.
+672 does not meet the complex conditions.
+673 does not meet the complex conditions.
+674 does not meet the complex conditions.
+675 does not meet the complex conditions.
+676 does not meet the complex conditions.
+677 does not meet the complex conditions.
+678 does not meet the complex conditions.
+679 does not meet the complex conditions.
+680 does not meet the complex conditions.
+681 does not meet the complex conditions.
+682 does not meet the complex conditions.
+683 does not meet the complex conditions.
+684 does not meet the complex conditions.
+685 does not meet the complex conditions.
+686 does not meet the complex conditions.
+687 does not meet the complex conditions.
+688 does not meet the complex conditions.
+689 does not meet the complex conditions.
+690 meets the complex conditions.
+691 does not meet the complex conditions.
+692 does not meet the complex conditions.
+693 does not meet the complex conditions.
+694 does not meet the complex conditions.
+695 does not meet the complex conditions.
+696 does not meet the complex conditions.
+697 does not meet the complex conditions.
+698 does not meet the complex conditions.
+699 does not meet the complex conditions.
+700 does not meet the complex conditions.
+701 does not meet the complex conditions.
+702 does not meet the complex conditions.
+703 does not meet the complex conditions.
+704 does not meet the complex conditions.
+705 does not meet the complex conditions.
+706 does not meet the complex conditions.
+707 does not meet the complex conditions.
+708 does not meet the complex conditions.
+709 does not meet the complex conditions.
+710 does not meet the complex conditions.
+711 does not meet the complex conditions.
+712 does not meet the complex conditions.
+713 meets the complex conditions.
+714 does not meet the complex conditions.
+715 does not meet the complex conditions.
+716 does not meet the complex conditions.
+717 does not meet the complex conditions.
+718 does not meet the complex conditions.
+719 does not meet the complex conditions.
+720 does not meet the complex conditions.
+721 does not meet the complex conditions.
+722 does not meet the complex conditions.
+723 does not meet the complex conditions.
+724 does not meet the complex conditions.
+725 does not meet the complex conditions.
+726 does not meet the complex conditions.
+727 does not meet the complex conditions.
+728 does not meet the complex conditions.
+729 does not meet the complex conditions.
+730 does not meet the complex conditions.
+731 does not meet the complex conditions.
+732 does not meet the complex conditions.
+733 does not meet the complex conditions.
+734 does not meet the complex conditions.
+735 does not meet the complex conditions.
+736 meets the complex conditions.
+737 does not meet the complex conditions.
+738 does not meet the complex conditions.
+739 does not meet the complex conditions.
+740 does not meet the complex conditions.
+741 does not meet the complex conditions.
+742 does not meet the complex conditions.
+743 does not meet the complex conditions.
+744 does not meet the complex conditions.
+745 does not meet the complex conditions.
+746 does not meet the complex conditions.
+747 does not meet the complex conditions.
+748 does not meet the complex conditions.
+749 does not meet the complex conditions.
+750 does not meet the complex conditions.
+751 does not meet the complex conditions.
+752 does not meet the complex conditions.
+753 does not meet the complex conditions.
+754 does not meet the complex conditions.
+755 does not meet the complex conditions.
+756 does not meet the complex conditions.
+757 does not meet the complex conditions.
+758 does not meet the complex conditions.
+759 meets the complex conditions.
+760 does not meet the complex conditions.
+761 does not meet the complex conditions.
+762 does not meet the complex conditions.
+763 does not meet the complex conditions.
+764 does not meet the complex conditions.
+765 does not meet the complex conditions.
+766 does not meet the complex conditions.
+767 does not meet the complex conditions.
+768 does not meet the complex conditions.
+769 does not meet the complex conditions.
+770 does not meet the complex conditions.
+771 does not meet the complex conditions.
+772 does not meet the complex conditions.
+773 does not meet the complex conditions.
+774 does not meet the complex conditions.
+775 does not meet the complex conditions.
+776 does not meet the complex conditions.
+777 does not meet the complex conditions.
+778 does not meet the complex conditions.
+779 does not meet the complex conditions.
+780 does not meet the complex conditions.
+781 does not meet the complex conditions.
+782 meets the complex conditions.
+783 does not meet the complex conditions.
+784 does not meet the complex conditions.
+785 does not meet the complex conditions.
+786 does not meet the complex conditions.
+787 does not meet the complex conditions.
+788 does not meet the complex conditions.
+789 does not meet the complex conditions.
+790 does not meet the complex conditions.
+791 does not meet the complex conditions.
+792 does not meet the complex conditions.
+793 does not meet the complex conditions.
+794 does not meet the complex conditions.
+795 does not meet the complex conditions.
+796 does not meet the complex conditions.
+797 does not meet the complex conditions.
+798 does not meet the complex conditions.
+799 does not meet the complex conditions.
+800 does not meet the complex conditions.
+801 does not meet the complex conditions.
+802 does not meet the complex conditions.
+803 does not meet the complex conditions.
+804 does not meet the complex conditions.
+805 meets the complex conditions.
+806 does not meet the complex conditions.
+807 does not meet the complex conditions.
+808 does not meet the complex conditions.
+809 does not meet the complex conditions.
+810 does not meet the complex conditions.
+811 does not meet the complex conditions.
+812 does not meet the complex conditions.
+813 does not meet the complex conditions.
+814 does not meet the complex conditions.
+815 does not meet the complex conditions.
+816 does not meet the complex conditions.
+817 does not meet the complex conditions.
+818 does not meet the complex conditions.
+819 does not meet the complex conditions.
+820 does not meet the complex conditions.
+821 does not meet the complex conditions.
+822 does not meet the complex conditions.
+823 does not meet the complex conditions.
+824 does not meet the complex conditions.
+825 does not meet the complex conditions.
+826 does not meet the complex conditions.
+827 does not meet the complex conditions.
+828 meets the complex conditions.
+829 does not meet the complex conditions.
+830 does not meet the complex conditions.
+831 does not meet the complex conditions.
+832 does not meet the complex conditions.
+833 does not meet the complex conditions.
+834 does not meet the complex conditions.
+835 does not meet the complex conditions.
+836 does not meet the complex conditions.
+837 does not meet the complex conditions.
+838 does not meet the complex conditions.
+839 does not meet the complex conditions.
+840 does not meet the complex conditions.
+841 does not meet the complex conditions.
+842 does not meet the complex conditions.
+843 does not meet the complex conditions.
+844 does not meet the complex conditions.
+845 does not meet the complex conditions.
+846 does not meet the complex conditions.
+847 does not meet the complex conditions.
+848 does not meet the complex conditions.
+849 does not meet the complex conditions.
+850 does not meet the complex conditions.
+851 meets the complex conditions.
+852 does not meet the complex conditions.
+853 does not meet the complex conditions.
+854 does not meet the complex conditions.
+855 does not meet the complex conditions.
+856 does not meet the complex conditions.
+857 does not meet the complex conditions.
+858 does not meet the complex conditions.
+859 does not meet the complex conditions.
+860 does not meet the complex conditions.
+861 does not meet the complex conditions.
+862 does not meet the complex conditions.
+863 does not meet the complex conditions.
+864 does not meet the complex conditions.
+865 does not meet the complex conditions.
+866 does not meet the complex conditions.
+867 does not meet the complex conditions.
+868 does not meet the complex conditions.
+869 does not meet the complex conditions.
+870 does not meet the complex conditions.
+871 does not meet the complex conditions.
+872 does not meet the complex conditions.
+873 does not meet the complex conditions.
+874 meets the complex conditions.
+875 does not meet the complex conditions.
+876 does not meet the complex conditions.
+877 does not meet the complex conditions.
+878 does not meet the complex conditions.
+879 does not meet the complex conditions.
+880 does not meet the complex conditions.
+881 does not meet the complex conditions.
+882 does not meet the complex conditions.
+883 does not meet the complex conditions.
+884 does not meet the complex conditions.
+885 does not meet the complex conditions.
+886 does not meet the complex conditions.
+887 does not meet the complex conditions.
+888 does not meet the complex conditions.
+889 does not meet the complex conditions.
+890 does not meet the complex conditions.
+891 does not meet the complex conditions.
+892 does not meet the complex conditions.
+893 does not meet the complex conditions.
+894 does not meet the complex conditions.
+895 does not meet the complex conditions.
+896 does not meet the complex conditions.
+897 meets the complex conditions.
+898 does not meet the complex conditions.
+899 does not meet the complex conditions.
+900 does not meet the complex conditions.
+901 does not meet the complex conditions.
+902 does not meet the complex conditions.
+903 does not meet the complex conditions.
+904 does not meet the complex conditions.
+905 does not meet the complex conditions.
+906 does not meet the complex conditions.
+907 does not meet the complex conditions.
+908 does not meet the complex conditions.
+909 does not meet the complex conditions.
+910 does not meet the complex conditions.
+911 does not meet the complex conditions.
+912 does not meet the complex conditions.
+913 does not meet the complex conditions.
+914 does not meet the complex conditions.
+915 does not meet the complex conditions.
+916 does not meet the complex conditions.
+917 does not meet the complex conditions.
+918 does not meet the complex conditions.
+919 does not meet the complex conditions.
+920 meets the complex conditions.
+921 does not meet the complex conditions.
+922 does not meet the complex conditions.
+923 does not meet the complex conditions.
+924 does not meet the complex conditions.
+925 does not meet the complex conditions.
+926 does not meet the complex conditions.
+927 does not meet the complex conditions.
+928 does not meet the complex conditions.
+929 does not meet the complex conditions.
+930 does not meet the complex conditions.
+931 does not meet the complex conditions.
+932 does not meet the complex conditions.
+933 does not meet the complex conditions.
+934 does not meet the complex conditions.
+935 does not meet the complex conditions.
+936 does not meet the complex conditions.
+937 does not meet the complex conditions.
+938 does not meet the complex conditions.
+939 does not meet the complex conditions.
+940 does not meet the complex conditions.
+941 does not meet the complex conditions.
+942 does not meet the complex conditions.
+943 meets the complex conditions.
+944 does not meet the complex conditions.
+945 does not meet the complex conditions.
+946 does not meet the complex conditions.
+947 does not meet the complex conditions.
+948 does not meet the complex conditions.
+949 does not meet the complex conditions.
+950 does not meet the complex conditions.
+951 does not meet the complex conditions.
+952 does not meet the complex conditions.
+953 does not meet the complex conditions.
+954 does not meet the complex conditions.
+955 does not meet the complex conditions.
+956 does not meet the complex conditions.
+957 does not meet the complex conditions.
+958 does not meet the complex conditions.
+959 does not meet the complex conditions.
+960 does not meet the complex conditions.
+961 does not meet the complex conditions.
+962 does not meet the complex conditions.
+963 does not meet the complex conditions.
+964 does not meet the complex conditions.
+965 does not meet the complex conditions.
+966 meets the complex conditions.
+967 does not meet the complex conditions.
+968 does not meet the complex conditions.
+969 does not meet the complex conditions.
+970 does not meet the complex conditions.
+971 does not meet the complex conditions.
+972 does not meet the complex conditions.
+973 does not meet the complex conditions.
+974 does not meet the complex conditions.
+975 does not meet the complex conditions.
+976 does not meet the complex conditions.
+977 does not meet the complex conditions.
+978 does not meet the complex conditions.
+979 does not meet the complex conditions.
+980 does not meet the complex conditions.
+981 does not meet the complex conditions.
+982 does not meet the complex conditions.
+983 does not meet the complex conditions.
+984 does not meet the complex conditions.
+985 does not meet the complex conditions.
+986 does not meet the complex conditions.
+987 does not meet the complex conditions.
+988 does not meet the complex conditions.
+989 meets the complex conditions.
+990 does not meet the complex conditions.
+991 does not meet the complex conditions.
+992 does not meet the complex conditions.
+993 does not meet the complex conditions.
+994 does not meet the complex conditions.
+995 does not meet the complex conditions.
+996 does not meet the complex conditions.
+997 does not meet the complex conditions.
+998 does not meet the complex conditions.
+999 does not meet the complex conditions.
+1000 does not meet the complex conditions.

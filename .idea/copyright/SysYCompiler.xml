@@ -1,0 +1,6 @@
+<component name="CopyrightManager">
+  <copyright>
+    <option name="notice" value="SysYCompiler: A Compiler for SysY.&#10;&#10;SysYCompiler is an individually developed course project&#10;for Compiling Techniques @ School of Computer Science &amp;amp; &#10;Engineering, Beihang University, Fall 2024.&#10;&#10;Copyright (C) &amp;#36;originalComment.match(&quot;Copyright \(c\) (\d+)&quot;, 1, &quot;-&quot;, &quot;&amp;#36;today.year&quot;)&amp;#36;today.year Yixuan Kuang &lt;kyee22@buaa.edu.cn&gt;&#10;&#10;This file is part of SysYCompiler." />
+    <option name="myName" value="SysYCompiler" />
+  </copyright>
+</component>

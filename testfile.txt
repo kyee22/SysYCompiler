@@ -1,0 +1,30 @@
+const char gCchar32 = ' ', gCchar33 = '!', gCchar34 = '7', gCchar35 = '#',
+           gCchar36 = '$', gCchar37 = '%', gCchar38 = '&', gCchar39 = '\'',
+           gCchar40 = '(', gCchar41 = ')', gCchar42 = '*', gCchar43 = '+',
+           gCchar44 = ',', gCchar45 = '-', gCchar46 = '.', gCchar47 = '/',
+           gCchar48 = '0', gCchar49 = '1', gCchar50 = '2', gCchar51 = '3',
+           gCchar52 = '4', gCchar53 = '5', gCchar54 = '6', gCchar55 = '7',
+           gCchar56 = '8', gCchar57 = '9', gCchar58 = ':', gCchar59 = ';',
+           gCchar60 = '<', gCchar61 = '=', gCchar62 = '>', gCchar63 = '?',
+           gCchar64 = '@', gCchar65 = 'A', gCchar66 = 'B', gCchar67 = 'C',
+           gCchar68 = 'D', gCchar69 = 'E', gCchar70 = 'F', gCchar71 = 'G',
+           gCchar72 = 'H', gCchar73 = 'I', gCchar74 = 'J', gCchar75 = 'K',
+           gCchar76 = 'L', gCchar77 = 'M', gCchar78 = 'N', gCchar79 = 'O',
+           gCchar80 = 'P', gCchar81 = 'Q', gCchar82 = 'R', gCchar83 = 'S',
+           gCchar84 = 'T', gCchar85 = 'U', gCchar86 = 'V', gCchar87 = 'W',
+           gCchar88 = 'X', gCchar89 = 'Y', gCchar90 = 'Z', gCchar91 = '[',
+           gCchar92 = '\\', gCchar93 = ']', gCchar94 = '^', gCchar95 = '_',
+           gCchar96 = '`', gCchar97 = 'a', gCchar98 = 'b', gCchar99 = 'c',
+           gCchar100 = 'd', gCchar101 = 'e', gCchar102 = 'f', gCchar103 = 'g',
+           gCchar104 = 'h', gCchar105 = 'i', gCchar106 = 'j', gCchar107 = 'k',
+           gCchar108 = 'l', gCchar109 = 'm', gCchar110 = 'n', gCchar111 = 'o',
+           gCchar112 = 'p', gCchar113 = 'q', gCchar114 = 'r', gCchar115 = 's',
+           gCchar116 = 't', gCchar117 = 'u', gCchar118 = 'v', gCchar119 = 'w',
+           gCchar120 = 'x', gCchar121 = 'y', gCchar122 = 'z', gCchar123 = '{',
+           gCchar124 = '|', gCchar125 = '}', gCchar126 = '~';
+const char DouBlequ_ote = '\\', quOte = '\'', slash = '\\', alert = '\a',
+           back = '\b', taB = '\t', vTab = '\v', _f = '\f', zERO = '\0';
+
+int main() {
+;   (4
+}

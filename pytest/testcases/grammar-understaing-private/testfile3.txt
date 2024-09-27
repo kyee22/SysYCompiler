@@ -1,0 +1,298 @@
+const char student_id[30] = "22371092", magic_str[20] = "%&assjeb34f";
+
+int is_lower(char ch) {
+    if (ch < 'a') {
+        return 0;
+    }
+    if (ch > 'z') {
+        return 0;
+    }
+    return 1;
+}
+
+int is_upper(char ch) {
+    if (ch < 'A') {
+        return 0;
+    }
+    if (ch > 'Z') {
+        return 0;
+    }
+    return 1;
+}
+
+
+char char_to_lower(char ch) {
+    if (is_upper(ch)) {
+        return ch - 'A' + 'a';
+    }
+    return ch;
+}
+
+void str_to_lower(char s[], int len) {
+    int i;
+    for (i = 0; i < len; i = i + 1) {
+        s[i] = char_to_lower(s[i]);
+    }
+}
+
+int strlen(char s[]) {
+    int len = 0;
+    int	i = 0;
+    for(; s[i] != '\0'; ) {
+        len = len + 1;
+        i = i + 1;
+    }
+    return len;
+}
+
+
+
+void memset(char s[], char c, int n) {
+    int i;
+    for (i = 0; i < n; i = i + 1) {
+        s[i] = c;
+    }
+}
+
+void memcpy(char out[], char in[], int n) {
+    int i;
+    for (i = 0; i < n; i = i + 1) {
+        out[i] = in[i];
+    }
+}
+
+void bubbleSort(int arr[], int n) {
+    int i, j;
+    for (i = 0; i < n - 1; i = i + 1) {
+        int swapped = 0;
+        for (j = 0; j < n - i - 1; j = j + 1) {
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+                swapped = 1;
+            }
+        }
+        if (swapped == 0) {
+            break;
+        }
+    }
+}
+
+
+int main() {
+    int i;
+    printf("22371092\n");
+    printf("============================================\n");
+    printf("> TEST output const char[]\n");
+    for (i = 0; i < strlen(student_id); i = i + 1){
+        printf("%c", student_id[i]);
+    }
+    printf("\n");
+    for (i = 0; i < strlen(magic_str); i = i + 1){
+        printf("%c", magic_str[i]);
+    }
+    printf("\n");
+
+    printf("============================================\n");
+    printf("> TEST load from char[]\n");
+    char far_away[6] = "01234";
+    char tmp = far_away[4];
+    printf("%c\n", tmp);
+    char away_far[6] = {'1', '2'};
+
+    printf("============================================\n");
+    printf("> TEST store into char[]\n");
+    away_far[2] = tmp;
+    printf("%c\n", away_far[2]);
+
+    printf("============================================\n");
+    printf("> TEST output partially initialized char[]\n");
+    int arr[3] = {0};
+    printf("%d %d %d\n", arr[0], arr[1], arr[2]);
+
+    printf("============================================\n");
+    printf("> TEST output char[] with help of `strlen()`\n");
+    char s0[100] = "1a323BC(DE}fg*HijKlmn";
+    for (i = 0; i < strlen(s0); i = i + 1) {
+        if (i == strlen(s0) - 1) {
+            printf("%c\n", s0[i]);
+        } else {
+            printf("%c", s0[i]);
+        }
+    }
+
+    printf("============================================\n");
+    printf("> TEST `str_to_lower()`\n");
+    str_to_lower(s0, strlen(s0));
+    for (i = 0; i < strlen(s0); i = i + 1) {
+        if (i == strlen(s0) - 1) {
+            printf("%c\n", s0[i]);
+        } else {
+            printf("%c", s0[i]);
+        }
+    }
+
+    printf("============================================\n");
+    printf("> TEST `strlen()`\n");
+    char s1[5] = "abcd";
+    printf("%d\n", strlen(s1));
+
+    printf("============================================\n");
+    printf("> TEST output chars from partially initialized char[]\n");
+    char s2[5] = {'a', 'B', 'c'};
+    printf("%d %d %d %d %d\n", s2[0], s2[1], s2[2], s2[3], s2[4]);
+
+    printf("============================================\n");
+    printf("> TEST `memset()`\n");
+    memset(s2, 'k', 5);
+    printf("%d %d %d %d %d\n", s2[0], s2[1], s2[2], s2[3], s2[4]);
+    printf("%c %c %c %c %c\n", s2[0], s2[1], s2[2], s2[3], s2[4]);
+
+    printf("============================================\n");
+    printf("> TEST `memcpy()`\n");
+    char s3[10] = {'I'};
+    char s4[10] = {'l', 'o', 'v', 'e'};
+    char s5[10] = {'C', 'o', 'm', 'p', 'i', 'l', 'e', 'r'};
+    memcpy(s2, s3, 1);
+    printf("%c ", s2[0]);
+    memcpy(s2, s4, 4);
+    printf("%c%c%c%c ", s2[0], s2[1], s2[2], s2[3]);
+    printf("%c%c%c%c%c%c%c%c!\n", s5[0], s5[1], s5[2], s5[3], s5[4], s5[5], s5[6], s5[7]);
+
+    char s6[100] = "SysY is a subset of C language";
+    char s7[100];
+    memcpy(s7, s6, strlen(s6) + 1);
+    for (i = 0; i < strlen(s7); i = i + 1) {
+        printf("%c", s7[i]);
+    }
+    printf("\n");
+
+    printf("============================================\n");
+    printf("> TEST `bubbleSort()`\n");
+    int lst1[20] = {64, 34, 25, 12, 22, 11, 90};
+    i = 0;
+    for (; i < 7; i = i + 1) {
+        if (i == 7 - 1) {
+            printf("%d\n", lst1[i]);
+        } else {
+            printf("%d ", lst1[i]);
+        }
+    }
+    bubbleSort(lst1, 7);
+    i = 0;
+    for (; i < 7; i = i + 1) {
+        if (i == 7 - 1) {
+            printf("%d\n", lst1[i]);
+        } else {
+            printf("%d ", lst1[i]);
+        }
+    }
+
+    int lst2[20] = {64, 34, 25, 12, 22, 11, 90, 64, 34, 25, 12, 22, 11, 90};
+    i = 0;
+    for (; i < 14; i = i + 1) {
+        if (i == 14 - 1) {
+            printf("%d\n", lst2[i]);
+        } else {
+            printf("%d ", lst2[i]);
+        }
+    }
+    bubbleSort(lst2, 14);
+    i = 0;
+    for (; i < 14; i = i + 1) {
+        if (i == 14 - 1) {
+            printf("%d\n", lst2[i]);
+        } else {
+            printf("%d ", lst2[i]);
+        }
+    }
+
+
+    printf("============================================\n");
+    printf("> TEST `getchar()` and `str_to_lower()`\n");
+    char buf[100];
+    for (i = 0; ; ) {
+        buf[i] = getchar();
+        if (buf[i] == '\n') {
+            break;
+        }
+        i = i + 1;
+    }
+    buf[i] = '\0';
+    str_to_lower(buf, i);
+    for (i = 0; i < strlen(buf); i = i + 1) {
+        printf("%c", buf[i]);
+    }
+    printf("\n");
+    // read from the file (2/6)
+    for (i = 0; ; i = i + 1) {
+        buf[i] = getchar();
+        if (buf[i] == '\n') {
+            break;
+        }
+    }
+    buf[i] = '\0';
+    str_to_lower(buf, i);
+    for (i = 0; i < strlen(buf); i = i + 1) {
+        printf("%c", buf[i]);
+    }
+    printf("\n");
+    // read from the file (3/6)
+    i = 0;
+    for (; ; ) {
+        buf[i] = getchar();
+        if (buf[i] == '\n') {
+            break;
+        }
+        i = i + 1;
+    }
+    buf[i] = '\0';
+    str_to_lower(buf, i);
+    for (i = 0; i < strlen(buf); i = i + 1) {
+        printf("%c", buf[i]);
+    }
+    printf("\n");
+    // read from the file (4/6)
+    i = 0;
+    for (; ; i = i + 1) {
+        buf[i] = getchar();
+        if (buf[i] == '\n') {
+            break;
+        }
+    }
+    buf[i] = '\0';
+    str_to_lower(buf, i);
+    for (i = 0; i < strlen(buf); i = i + 1) {
+        printf("%c", buf[i]);
+    }
+    printf("\n");
+    // read from the file (5/6)
+    for (i = 0; 1; ) {
+        buf[i] = getchar();
+        if (buf[i] == '\n') {
+            break;
+        }
+        i = i + 1;
+    }
+    buf[i] = '\0';
+    str_to_lower(buf, i);
+    for (i = 0; i < strlen(buf); i = i + 1) {
+        printf("%c", buf[i]);
+    }
+    printf("\n");
+   // read from the file (6/6)
+    for (i = 0; 1; i = i + 1) {
+        buf[i] = getchar();
+        if (buf[i] == '\n') {
+            break;
+        }
+    }
+    buf[i] = '\0';
+    str_to_lower(buf, i);
+    for (i = 0; i < strlen(buf); i = i + 1) {
+        printf("%c", buf[i]);
+    }
+    printf("\n");
+    return 0;
+}
