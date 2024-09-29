@@ -15,7 +15,7 @@ package frontend.sysy.context;
 import static frontend.sysy.token.TokenType.*;
 import static utils.AssertUtils.ASSERT;
 
-public class ForloopStmtContext extends StmtContext {
+public class ForloopStmtContext extends Context {
     private TerminalContext FORTK_ = null;
     private TerminalContext LPARENT_ = null;
     private TerminalContext RPARENT_ = null;

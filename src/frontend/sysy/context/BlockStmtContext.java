@@ -14,7 +14,7 @@ package frontend.sysy.context;
 
 import static utils.AssertUtils.ASSERT;
 
-public class BlockStmtContext extends StmtContext {
+public class BlockStmtContext extends Context {
     private BlockContext block = null;
 
     @Override

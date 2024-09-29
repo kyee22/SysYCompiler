@@ -36,7 +36,7 @@ public class FuncTypeContext extends Context {
 
     @Override
     public void add(Context context) {
-        ASSERT(false, "FuncType only accepts Non-Terminal Context");
+        ASSERT(false, "FuncType only accepts Terminal Context");
     }
 
     @Override

@@ -40,6 +40,8 @@ public interface ContextVisitor<T> {
     default T visit(BreakStmtContext ctx) {return visitDefault(ctx);}
     default T visit(ContinueStmtContext ctx) {return visitDefault(ctx);}
     default T visit(ReturnStmtContext ctx) {return visitDefault(ctx);}
+    default T visit(GetIntStmtContext ctx ) {return visitDefault(ctx);}
+    default T visit(GetCharStmtContext ctx) {return visitDefault(ctx);}
     default T visit(PrintfStmtContext ctx) {return visitDefault(ctx);}
     default T visit(ForStmtContext ctx) {return visitDefault(ctx);}
     default T visit(ExpContext ctx) {return visitDefault(ctx);}

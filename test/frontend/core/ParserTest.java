@@ -10,14 +10,10 @@
  * This file is part of SysYCompiler.
  */
 
-package frontend.error;
+package frontend.core;
 
-public interface ErrorListener {
-    void onError(int lineno, ErrorType errorType);
+import static org.junit.jupiter.api.Assertions.*;
 
-    void onRollback(int lineno, ErrorType errorType);
+class ParserTest {
 
-    boolean hasErrors();
-
-    void flushErrors(String errorFilePath);
 }

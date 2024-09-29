@@ -15,7 +15,7 @@ package frontend.sysy.context;
 import static frontend.sysy.token.TokenType.*;
 import static utils.AssertUtils.ASSERT;
 
-public class ContinueStmtContext extends StmtContext {
+public class ContinueStmtContext extends Context {
     private TerminalContext CONTINUETK_ = null;
     private TerminalContext SEMICN_ = null;
 

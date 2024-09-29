@@ -12,48 +12,44 @@
 
 package frontend.sysy.context;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static frontend.sysy.token.TokenType.*;
+import static frontend.sysy.token.TokenType.RPARENT;
 import static utils.AssertUtils.ASSERT;
 
-public class PrintfStmtContext extends Context {
-    private TerminalContext PRINTFTK_ = null;
+public class GetCharStmtContext extends Context {
+    private TerminalContext ASSIGN_ = null;
+    private TerminalContext SEMICN_ = null;
+    private TerminalContext GETCHARTK_ = null;
     private TerminalContext LPARENT_ = null;
     private TerminalContext RPARENT_ = null;
-    private TerminalContext STRCON_ = null;
-    private TerminalContext SEMICN_ = null;
-    private List<TerminalContext> COMMA_ = new ArrayList<>();
-    private List<ExpContext> exp = new ArrayList<>();
+    private LValContext lVal = null;
 
     @Override
     public void add(Context context) {
         super.add(context);
-        if (context instanceof ExpContext) {
-            exp.add((ExpContext) context);
+        if (context instanceof LValContext) {
+            lVal = (LValContext) context;
         } else {
-            ASSERT(false, "PrintfStmt only accepts ExpContext");
+            ASSERT(false, "GetChar only accepts LValContext");
         }
     }
 
     @Override
     public void add(TerminalContext ctx) {
         super.add(ctx);
-        if (ctx.getToken().is(PRINTFTK)) {
-            PRINTFTK_ = ctx;
+        if (ctx.getToken().is(ASSIGN)) {
+            ASSIGN_ = ctx;
+        } else if (ctx.getToken().is(SEMICN)) {
+            SEMICN_ = ctx;
+        } else if (ctx.getToken().is(GETCHARTK)) {
+            GETCHARTK_ = ctx;
+        } else if (ctx.getToken().is(GETCHARTK)) {
         } else if (ctx.getToken().is(LPARENT)) {
             LPARENT_ = ctx;
         } else if (ctx.getToken().is(RPARENT)) {
             RPARENT_ = ctx;
-        } else if (ctx.getToken().is(STRCON)) {
-            STRCON_ = ctx;
-        } else if (ctx.getToken().is(COMMA)) {
-            COMMA_.add(ctx);
-        } else if (ctx.getToken().is(SEMICN)) {
-            SEMICN_ = ctx;
         } else {
-            ASSERT(false, "PrintfStmt only accepts PRINTFTK or LPARENT or RPARENT or STRCON or COMMA or SEMICN");
+            ASSERT(false, "GetChar only accepts ASSIGN or SEMICN or GETCHARTK or LPARENT or RPARENT");
         }
     }
 

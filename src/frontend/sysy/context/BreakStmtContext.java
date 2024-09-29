@@ -16,7 +16,7 @@ import static frontend.sysy.token.TokenType.*;
 import static utils.AssertUtils.ASSERT;
 
 
-public class BreakStmtContext extends StmtContext {
+public class BreakStmtContext extends Context {
     private TerminalContext BREAKTK_ = null;
     private TerminalContext SEMICN_ = null;
 

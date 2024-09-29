@@ -18,7 +18,7 @@ import java.util.List;
 import static frontend.sysy.token.TokenType.*;
 import static utils.AssertUtils.ASSERT;
 
-public class VarDeclContext extends DeclContext {
+public class VarDeclContext extends Context {
     public List<TerminalContext> COMMA_ = new ArrayList<>();
     public TerminalContext SEMICN_ = null;
     public BTypeContext bType = null;

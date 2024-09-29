@@ -17,13 +17,9 @@ import static frontend.sysy.token.TokenType.*;
 import static frontend.sysy.token.TokenType.GETCHARTK;
 import static utils.AssertUtils.ASSERT;
 
-public class AssignStmtContext extends StmtContext {
+public class AssignStmtContext extends Context {
     private TerminalContext ASSIGN_ = null;
     private TerminalContext SEMICN_ = null;
-    private TerminalContext GETINTTK_ = null;
-    private TerminalContext GETCHARTK_ = null;
-    private TerminalContext LPARENT_ = null;
-    private TerminalContext RPARENT_ = null;
     private LValContext lVal = null;
     private ExpContext exp = null;
 
@@ -46,16 +42,8 @@ public class AssignStmtContext extends StmtContext {
             ASSIGN_ = ctx;
         } else if (ctx.getToken().is(SEMICN)) {
             SEMICN_ = ctx;
-        } else if (ctx.getToken().is(GETINTTK)) {
-            GETINTTK_ = ctx;
-        } else if (ctx.getToken().is(GETCHARTK)) {
-            GETCHARTK_ = ctx;
-        } else if (ctx.getToken().is(LPARENT)) {
-            LPARENT_ = ctx;
-        } else if (ctx.getToken().is(RPARENT)) {
-            RPARENT_ = ctx;
         } else {
-            ASSERT(false, "AssignStmt only accepts ASSIGN or SEMICN or GETINTTK or LPARENT or RPARENT or GETCHARTK");
+            ASSERT(false, "AssignStmt only accepts ASSIGN or SEMICN");
         }
     }
 

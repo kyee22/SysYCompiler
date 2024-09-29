@@ -145,69 +145,6 @@ public class AstExtractVisitor extends BaseContextVisitor<Void> {
     }
 
     @Override
-    public Void visit(AssignStmtContext ctx) {
-        Void r = super.visit(ctx);
-        infos.add("<Stmt>");
-        return r;
-    }
-
-    @Override
-    public Void visit(IfStmtContext ctx) {
-        Void r = super.visit(ctx);
-        infos.add("<Stmt>");
-        return r;
-    }
-
-    @Override
-    public Void visit(ForloopStmtContext ctx) {
-        Void r = super.visit(ctx);
-        infos.add("<Stmt>");
-        return r;
-    }
-
-    @Override
-    public Void visit(ExpStmtContext ctx) {
-        Void r = super.visit(ctx);
-        infos.add("<Stmt>");
-        return r;
-    }
-
-    @Override
-    public Void visit(BlockStmtContext ctx) {
-        Void r = super.visit(ctx);
-        infos.add("<Stmt>");
-        return r;
-    }
-
-    @Override
-    public Void visit(BreakStmtContext ctx) {
-        Void r = super.visit(ctx);
-        infos.add("<Stmt>");
-        return r;
-    }
-
-    @Override
-    public Void visit(ContinueStmtContext ctx) {
-        Void r = super.visit(ctx);
-        infos.add("<Stmt>");
-        return r;
-    }
-
-    @Override
-    public Void visit(ReturnStmtContext ctx) {
-        Void r = super.visit(ctx);
-        infos.add("<Stmt>");
-        return r;
-    }
-
-    @Override
-    public Void visit(PrintfStmtContext ctx) {
-        Void r = super.visit(ctx);
-        infos.add("<Stmt>");
-        return r;
-    }
-
-    @Override
     public Void visit(ForStmtContext ctx) {
         Void r = super.visit(ctx);
         infos.add("<ForStmt>");

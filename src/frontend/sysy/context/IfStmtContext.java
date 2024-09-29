@@ -15,7 +15,7 @@ package frontend.sysy.context;
 import static frontend.sysy.token.TokenType.*;
 import static utils.AssertUtils.ASSERT;
 
-public class IfStmtContext extends StmtContext {
+public class IfStmtContext extends Context {
     private TerminalContext IFTK_ = null;
     private TerminalContext ELSETK_ = null;
     private TerminalContext LPARENT_ = null;

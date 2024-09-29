@@ -75,14 +75,14 @@ public enum TokenType {
     EOFTK("EOFTK")
     ;
 
-    private String value;
+    private String typeCode;
 
-    TokenType(String value) {
-        this.value = value;
+    TokenType(String typeCode) {
+        this.typeCode = typeCode;
     }
 
     @Override
     public String toString() {
-        return value;
+        return typeCode;
     }
 }

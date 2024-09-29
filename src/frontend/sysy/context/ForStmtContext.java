@@ -38,6 +38,7 @@ public class ForStmtContext extends Context {
         if (ctx.getToken().is(ASSIGN)) {
             ASSIGN_ = ctx;
         } else {
+            System.out.println(ctx.getToken().getText() + " at line " + ctx.getToken().getLineno());
             ASSERT(false, "ForStmt only accepts ASSIGN");
         }
     }
