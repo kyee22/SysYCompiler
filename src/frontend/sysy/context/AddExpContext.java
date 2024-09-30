@@ -19,19 +19,16 @@ import static frontend.sysy.token.TokenType.*;
 import static utils.AssertUtils.ASSERT;
 
 public class AddExpContext extends Context {
-    private TerminalContext OP_ = null;
-    private MulExpContext mulExp = null;
-    private AddExpContext addExp = null;
+    private List<TerminalContext> OP_ = new ArrayList<>();
+    private List<MulExpContext> mulExp = new ArrayList<>();
 
     @Override
     public void add(Context context) {
         super.add(context);
         if (context instanceof MulExpContext) {
-            mulExp = (MulExpContext) context;
-        } else if (context instanceof AddExpContext) {
-            addExp = (AddExpContext) context;
+            mulExp.add((MulExpContext) context);
         } else {
-            ASSERT(false, "AddExp only accepts MulExpContext, AddExpContext");
+            ASSERT(false, "AddExp only accepts MulExpContext");
         }
     }
 
@@ -39,7 +36,7 @@ public class AddExpContext extends Context {
     public void add(TerminalContext ctx) {
         super.add(ctx);
         if (ctx.getToken().any(PLUS, MINU)) {
-            OP_ = ctx;
+            OP_.add(ctx);
         } else {
             ASSERT(false, "AddExp only accepts PLUS and MINU");
         }

@@ -19,17 +19,14 @@ import static frontend.sysy.token.TokenType.*;
 import static utils.AssertUtils.ASSERT;
 
 public class LAndExpContext extends Context {
-    private TerminalContext OP_ = null;
-    private EqExpContext eqExp = null;
-    private LAndExpContext lAndExp = null;
+    private List<TerminalContext> OP_ = new ArrayList<>();
+    private List<EqExpContext> eqExp = new ArrayList<>();
 
     @Override
     public void add(Context context) {
         super.add(context);
         if (context instanceof EqExpContext) {
-            eqExp = (EqExpContext) context;
-        } else if (context instanceof LAndExpContext) {
-            lAndExp = (LAndExpContext) context;
+            eqExp.add((EqExpContext) context);
         } else {
             ASSERT(false, "LAndExp only accepts EqExpContext");
         }
@@ -39,7 +36,7 @@ public class LAndExpContext extends Context {
     public void add(TerminalContext ctx) {
         super.add(ctx);
         if (ctx.getToken().is(AND)) {
-            OP_ = ctx;
+            OP_.add(ctx);
         } else {
             ASSERT(false, "LAndExp only accepts AND");
         }

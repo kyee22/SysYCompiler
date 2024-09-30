@@ -18,6 +18,7 @@ import frontend.error.ErrorType;
 import frontend.sysy.context.*;
 import frontend.sysy.token.Token;
 import frontend.sysy.token.TokenType;
+import utils.DEBUG;
 
 import static frontend.sysy.context.ContextType.*;
 import static frontend.sysy.token.TokenType.*;
@@ -26,9 +27,17 @@ import static utils.AssertUtils.ASSERT;
 
 import java.util.*;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class Parser {
+    /*
+     *  The idea of designing parse rule in declarative-programming instead
+     *  of objective-oriented-programming takes great inspiration from
+     *  https://github.com/Toby-Shi-cloud/SysY-Compiler-2023
+     *
+     *  Compared to OOP, which focus on Object, functional programming which
+     *  focus on Function, helps generate functions from functions to support
+     *  declarative programming.
+     */
 
     private final List<Token> tokens;
     private List<ErrorMessage> errors = new ArrayList<>();
@@ -36,17 +45,18 @@ public class Parser {
     private List<ErrorListener> errorListeners = new ArrayList<>();
     private Context ast = null;
 
-    public interface Generator extends Function<Parser, Optional<List<Context>>> {}
+    private interface Generator extends Function<Parser, Optional<List<Context>>> {}
 
     private TerminalContext hardMatch(TokenType type) {
         if (pos >= tokens.size()) {
-            System.out.println("HardMatch Overflow---------------------");
+            DEBUG.println("HardMatch Overflow");
             return null;
         }
         if (tokens.get(pos).is(type)) {
+            DEBUG.println("OK! Match " + type.toString() + " at line " + tokens.get(pos).getLineno() + ": " + tokens.get(pos).getText());
             return new TerminalContext(tokens.get(pos++));
         }
-        System.out.println("HardMatch " + type.toString() + " at line " + tokens.get(pos).getLineno() + ": " + tokens.get(pos).getText());
+        DEBUG.println("HardMatch " + type.toString() + " at line " + tokens.get(pos).getLineno() + ": " + tokens.get(pos).getText());
         return null;
     }
 
@@ -55,7 +65,7 @@ public class Parser {
             return null;
         }
         if (!tokens.get(pos).is(type)) {
-            System.out.println("SoftMatch " + type.toString() + " at line " + tokens.get(pos).getLineno() + ": " + tokens.get(pos).getText());
+            DEBUG.println("Oop! SoftMatch " + type.toString() + " at line " + tokens.get(pos).getLineno() + ": " + tokens.get(pos).getText());
             int lineno = tokens.get(pos - 1).getLineno();
             Token dummyToken = Token.makeToken(type, "", lineno);
             errors.add(new ErrorMessage(lineno, errorType));
@@ -65,7 +75,7 @@ public class Parser {
         }
     }
 
-    public static Generator gen(TokenType type, ErrorType errorType) {
+    private static Generator gen(TokenType type, ErrorType errorType) {
         return (Parser self) -> {
             Context terminal = self.softMatch(type, errorType);
             if (terminal != null) {
@@ -76,7 +86,7 @@ public class Parser {
         };
     }
 
-    public static Generator gen(TokenType type) {
+    private static Generator gen(TokenType type) {
         return (Parser self) -> {
             Context terminal = self.hardMatch(type);
             if (terminal != null) {
@@ -87,18 +97,24 @@ public class Parser {
         };
     }
 
-    public static Generator gen(ContextType type) {
+    private static Generator gen(ContextType type) {
         return (Parser self) -> {
+            DEBUG.lprint("gen " + type + " ...");
+            if (self.pos < self.tokens.size()) DEBUG.print(" at line " + self.tokens.get(self.pos).getLineno() + ": " + self.tokens.get(self.pos).getText()  + " \n");
+
             Context context = self.parse(type);
             if (context != null) {
                 List<Context> result = List.of(context);
+                DEBUG.rprintln("gen " + type.toString() + " ok!");
                 return Optional.of(result);
             }
+
+            DEBUG.rprintln("gen " + type + " failed!");
             return Optional.empty();
         };
     }
 
-    public static Generator cat(Generator... generators) {
+    private static Generator cat(Generator... generators) {
         return (Parser self) -> {
             // save the progress of parsing
             // & error handling for roll back
@@ -121,7 +137,6 @@ public class Parser {
         };
     }
 
-    // operator |
     public static Generator or(Generator... generators) {
         return (Parser self) -> {
             for (Generator generator : generators) {
@@ -213,32 +228,13 @@ public class Parser {
             case ConstExp -> new ConstExpContext();
         };
         List<Context> children = result.get();
-        switch (type) {
-            case AddExp:
-            case RelExp:
-            case EqExp:
-            case LAndExp:
-            case LOrExp: {
-                // AddExp, RelExp, EqExp, LAndExp, LOrExp 逆序添加
-                for (int i = children.size() - 1; i >= 0; i--) {
-                    Context child = children.get(i);
-                    if (child instanceof TerminalContext) {
-                        context.add((TerminalContext) child);
-                    } else {
-                        context.add(child);
-                    }
-                }
-            }
-            default: {
-                // 其余语法单元正序添加
-                for (int i = 0; i < children.size(); i++) {
-                    Context child = children.get(i);
-                    if (child instanceof TerminalContext) {
-                        context.add((TerminalContext) child);
-                    } else {
-                        context.add(child);
-                    }
-                }
+
+        DEBUG.println("generating " + type.toString() + " with " + children.size() + " children");
+        for (Context child : children) {
+            if (child instanceof TerminalContext) {
+                context.add((TerminalContext) child);
+            } else {
+                context.add(child);
             }
         }
         return context;
@@ -265,12 +261,9 @@ public class Parser {
     }
 
     private Context parse(ContextType type) {
-        System.out.print("Try " + type.toString());
-        if (pos < tokens.size()) System.out.println(" at line " + tokens.get(pos).getLineno() + ": " + tokens.get(pos).getText());
         Generator generator = switch (type) {
             // 编译单元 CompUnit → {Decl} {FuncDef} MainFuncDef
-            case CompUnit ->        cat(any(gen(Decl)),
-                                        any(gen(FuncDef)),
+            case CompUnit ->        cat(any(or(gen(FuncDef), gen(Decl))),
                                         gen(MainFuncDef));
 
             // 声明 Decl → ConstDecl | VarDecl
@@ -353,22 +346,7 @@ public class Parser {
             case BlockItem ->        or(gen(Decl),
                                         gen(Stmt));
 
-
-             //语句 Stmt → LVal '=' Exp ';' // 每种类型的语句都要覆盖
-             //    | [Exp] ';' //有无Exp两种情况
-             //    | Block
-             //    | 'if' '(' Cond ')' Stmt [ 'else' Stmt ] // 1.有else 2.无else
-             //    | 'for' '(' [ForStmt] ';' [Cond] ';' [ForStmt] ')' Stmt // 1. 无缺省， 1种情况 2.
-             //    ForStmt与Cond中缺省一个， 3种情况 3. ForStmt与Cond中缺省两个， 3种情况 4. ForStmt与Cond全部
-             //    缺省， 1种情况
-             //    | 'break' ';'
-            //     | 'continue' ';'
-             //    | 'return' [Exp] ';' // 1.有Exp 2.无Exp
-             //    | LVal '=' 'getint''('')'';'
-             //    | LVal '=' 'getchar''('')'';'
-             //    | 'printf''('StringConst {','Exp}')'';' // 1.有Exp 2.无Exp
             case Stmt ->             or(gen(AssignStmt),
-                                        gen(ExpStmt),
                                         gen(BlockStmt),
                                         gen(IfStmt),
                                         gen(ForloopStmt),
@@ -377,7 +355,8 @@ public class Parser {
                                         gen(ReturnStmt),
                                         gen(GetIntStmt),
                                         gen(GetCharStmt),
-                                        gen(PrintfStmt));
+                                        gen(PrintfStmt),
+                                        gen(ExpStmt));
 
             case AssignStmt ->      cat(gen(LVal),
                                         gen(ASSIGN),
@@ -464,8 +443,8 @@ public class Parser {
             case Character ->           gen(CHRCON);
 
             // 一元表达式 UnaryExp → PrimaryExp | Ident '(' [FuncRParams] ')' | UnaryOp UnaryExp
-            case UnaryExp ->         or(gen(PrimaryExp),
-                                        cat(gen(IDENFR), gen(LPARENT), option(gen(FuncRParams)), gen(RPARENT, MISSING_RPARENT)),
+            case UnaryExp ->         or(cat(gen(IDENFR), gen(LPARENT), option(gen(FuncRParams)), gen(RPARENT, MISSING_RPARENT)),
+                                        gen(PrimaryExp),
                                         cat(gen(UnaryOp), gen(UnaryExp)));
 
             // 单目运算符 UnaryOp → '+' | '−' | '!'
@@ -479,38 +458,32 @@ public class Parser {
 
             // 乘除模表达式 MulExp → UnaryExp | MulExp ('*' | '/' | '%') UnaryExp
             case MulExp ->          cat(gen(UnaryExp),
-                                        option(cat(or(gen(MULT), gen(DIV), gen(MOD)), gen(MulExp))));
+                                        any(cat(or(gen(MULT), gen(DIV), gen(MOD)), gen(UnaryExp))));
 
             // 加减表达式 AddExp → MulExp | AddExp ('+' | '−') MulExp
             case AddExp ->          cat(gen(MulExp),
-                                        option(cat(or(gen(PLUS), gen(MINU)), gen(AddExp))));
+                                        any(cat(or(gen(PLUS), gen(MINU)), gen(MulExp))));
 
             // 关系表达式 RelExp → AddExp | RelExp ('<' | '>' | '<=' | '>=') AddExp
             case RelExp ->          cat(gen(AddExp),
-                                        option(cat(or(gen(LSS), gen(GRE), gen(LEQ), gen(GEQ)), gen(RelExp))));
+                                        any(cat(or(gen(LSS), gen(GRE), gen(LEQ), gen(GEQ)), gen(AddExp))));
 
             // 相等性表达式 EqExp → RelExp | EqExp ('==' | '!=') RelExp
             case EqExp ->           cat(gen(RelExp),
-                                        option(cat(or(gen(EQL), gen(NEQ)), gen(EqExp))));
+                                        any(cat(or(gen(EQL), gen(NEQ)), gen(RelExp))));
 
             // 逻辑与表达式 LAndExp → EqExp | LAndExp '&&' EqExp
             case LAndExp ->         cat(gen(EqExp),
-                                        option(cat(gen(AND), gen(LAndExp))));
+                                        any(cat(gen(AND), gen(EqExp))));
 
             // 逻辑或表达式 LOrExp → LAndExp | LOrExp '||' LAndExp
             case LOrExp ->          cat(gen(LAndExp),
-                                        option(cat(gen(OR), gen(LOrExp))));
+                                        any(cat(gen(OR), gen(LAndExp))));
 
             // 常量表达式 ConstExp → AddExp 注： 使用的 Ident 必须是常量
             case ConstExp ->            gen(AddExp);
         };
-        Context r = generate(type, generator);
-        //if (r != null) {
-        //    System.out.println("OK!");
-        //} else {
-        //    System.out.println("ERROR!");
-        //}
-        return r;
+        return generate(type, generator);
     }
 
     public void addErrorListener(ErrorListener listener) {
@@ -519,7 +492,7 @@ public class Parser {
 
     private void notifyErrorListeners(int lineno, ErrorType errorType) {
         for (ErrorListener listener : errorListeners) {
-            listener.onError(lineno, errorType);  // 通知所有监听者
+            listener.onError(lineno, errorType);  // notify all listeners
         }
     }
 }

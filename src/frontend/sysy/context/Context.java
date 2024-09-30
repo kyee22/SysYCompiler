@@ -12,9 +12,6 @@
 
 package frontend.sysy.context;
 
-import frontend.core.Parser;
-import static frontend.core.Parser.Generator;
-
 import java.util.List;
 import java.util.ArrayList;
 

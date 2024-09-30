@@ -19,19 +19,16 @@ import static frontend.sysy.token.TokenType.*;
 import static utils.AssertUtils.ASSERT;
 
 public class EqExpContext extends Context {
-    private TerminalContext OP_ = null;
-    private RelExpContext relExp = null;
-    private EqExpContext eqExp = null;
+    private List<TerminalContext> OP_ = new ArrayList<>();
+    private List<RelExpContext> relExp = new ArrayList<>();
 
     @Override
     public void add(Context context) {
         super.add(context);
         if (context instanceof RelExpContext) {
-            relExp = (RelExpContext) context;
-        } else if (context instanceof EqExpContext) {
-            eqExp = (EqExpContext) context;
+            relExp.add((RelExpContext) context);
         } else {
-            ASSERT(false, "EqExp only accepts RelExpContext, EqExpContext");
+            ASSERT(false, "EqExp only accepts RelExpContext");
         }
     }
 
@@ -39,7 +36,7 @@ public class EqExpContext extends Context {
     public void add(TerminalContext ctx) {
         super.add(ctx);
         if (ctx.getToken().any(EQL, NEQ)) {
-            OP_ = ctx;
+            OP_.add(ctx);
         } else {
             ASSERT(false, "EqExp only accepts EQL or NEQ");
         }

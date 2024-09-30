@@ -8,9 +8,6 @@ void f2() {
     a = 1;
 }
 
-void f3(int a[]) {
-
-}
 
 void f4() {
     int a[2];

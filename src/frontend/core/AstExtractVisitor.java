@@ -216,43 +216,79 @@ public class AstExtractVisitor extends BaseContextVisitor<Void> {
 
     @Override
     public Void visit(MulExpContext ctx) {
-        Void r = super.visit(ctx);
-        infos.add("<MulExp>");
+        Void r = null;
+        List<Context> chidren = ctx.getChildren();
+        for (int i = 0; i < chidren.size(); i++) {
+            r = chidren.get(i).accept(this);
+            if ((i & 1) == 0) {
+                infos.add("<MulExp>");
+            }
+        }
         return r;
     }
 
     @Override
     public Void visit(AddExpContext ctx) {
-        Void r = super.visit(ctx);
-        infos.add("<AddExp>");
+        Void r = null;
+        List<Context> chidren = ctx.getChildren();
+        for (int i = 0; i < chidren.size(); i++) {
+            r = chidren.get(i).accept(this);
+            if ((i & 1) == 0) {
+                infos.add("<AddExp>");
+            }
+        }
         return r;
     }
 
     @Override
     public Void visit(RelExpContext ctx) {
-        Void r = super.visit(ctx);
-        infos.add("<RelExp>");
+        Void r = null;
+        List<Context> chidren = ctx.getChildren();
+        for (int i = 0; i < chidren.size(); i++) {
+            r = chidren.get(i).accept(this);
+            if ((i & 1) == 0) {
+                infos.add("<RelExp>");
+            }
+        }
         return r;
     }
 
     @Override
     public Void visit(EqExpContext ctx) {
-        Void r = super.visit(ctx);
-        infos.add("<EqExp>");
+        Void r = null;
+        List<Context> chidren = ctx.getChildren();
+        for (int i = 0; i < chidren.size(); i++) {
+            r = chidren.get(i).accept(this);
+            if ((i & 1) == 0) {
+                infos.add("<EqExp>");
+            }
+        }
         return r;
     }
 
     @Override
     public Void visit(LOrExpContext ctx) {
-        Void r = super.visit(ctx);
-        infos.add("<LOrExp>");
+        Void r = null;
+        List<Context> chidren = ctx.getChildren();
+        for (int i = 0; i < chidren.size(); i++) {
+            r = chidren.get(i).accept(this);
+            if ((i & 1) == 0) {
+                infos.add("<LOrExp>");
+            }
+        }
         return r;
     }
 
     @Override
     public Void visit(LAndExpContext ctx) {
-        Void r = super.visit(ctx);
-        infos.add("<LAndExp>");
+        Void r = null;
+        List<Context> chidren = ctx.getChildren();
+        for (int i = 0; i < chidren.size(); i++) {
+            r = chidren.get(i).accept(this);
+            if ((i & 1) == 0) {
+                infos.add("<LAndExp>");
+            }
+        }
         return r;
     }
 

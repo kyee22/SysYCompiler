@@ -19,19 +19,16 @@ import static frontend.sysy.token.TokenType.*;
 import static utils.AssertUtils.ASSERT;
 
 public class MulExpContext extends Context {
-    private TerminalContext OP_ = null;
-    private UnaryExpContext unaryExp = null;
-    private MulExpContext mulExp = null;
+    private List<TerminalContext> OP_ = new ArrayList<>();
+    private List<UnaryExpContext> unaryExp = new ArrayList<>();
 
     @Override
     public void add(Context context) {
         super.add(context);
         if (context instanceof UnaryExpContext) {
-            unaryExp = (UnaryExpContext) context;
-        } else if (context instanceof MulExpContext) {
-            mulExp = (MulExpContext) context;
+            unaryExp.add((UnaryExpContext) context);
         } else {
-            ASSERT(false, "MulExp only accepts UnaryExpContext, MulExpContext");
+            ASSERT(false, "MulExp only accepts UnaryExpContext");
         }
     }
 
@@ -39,7 +36,7 @@ public class MulExpContext extends Context {
     public void add(TerminalContext ctx) {
         super.add(ctx);
         if (ctx.getToken().any(MULT, MOD, DIV)) {
-            OP_ = ctx;
+            OP_.add(ctx);
         } else {
             ASSERT(false, "MulExp only accepts MULT or DIV or MOD");
         }
