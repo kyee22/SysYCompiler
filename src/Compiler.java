@@ -10,7 +10,8 @@
  * This file is part of SysYCompiler.
  */
 
-import frontend.core.AstExtractVisitor;
+import frontend.core.InfoExtractVisitor;
+import frontend.core.SemanticCheckVisitor;
 import frontend.sysy.context.Context;
 import utils.Charstream;
 import frontend.core.Lexer;
@@ -18,18 +19,17 @@ import frontend.core.Parser;
 import frontend.error.ErrorListener;
 import frontend.error.ErrorReporter;
 
-import static utils.AssertUtils.ASSERT;
-
 public class Compiler {
+    private static final int LAB = 2;
     private static final String INPUT_PATH = "testfile.txt";
     private static final String LEXER_OUTPUT_PATH = "lexer.txt";
     private static final String ERR_PATH = "error.txt";
-    private static final String PARSER_OUTPUT_PATH = "parser.txt";  // todo
+    private static final String PARSER_OUTPUT_PATH = "parser.txt";
     private static final String IR_PATH = "";   // todo
     private static final String ASM_PATH = "";  // todo
 
     public static void main(String[] args)  {
-        /*      Error Handle, which is through the whole pipeline        */
+        /*      Error Handling is through the whole pipeline        */
         ErrorListener errorListener = new ErrorReporter();
 
         /*      STEP 0: Source File ---> Char Stream        */
@@ -44,13 +44,30 @@ public class Compiler {
         Parser parser = new Parser(lexer.getTokens());
         parser.addErrorListener(errorListener);
         parser.engine();
+        Context ast = parser.getAst();
+
+        /*      STEP 3: Semantic Check        */
+        SemanticCheckVisitor semanticCheckVisitor = new SemanticCheckVisitor();
+        semanticCheckVisitor.addErrorListener(errorListener);
+        ast.accept(semanticCheckVisitor);
+
+        /*      Switch on output interface for corresponding lab    */
+        switch (LAB) {
+            case 1:
+                lexer.flushTokens(LEXER_OUTPUT_PATH);
+                break;
+            case 2:
+                InfoExtractVisitor infoExtractVisitor = new InfoExtractVisitor();
+                ast.accept(infoExtractVisitor);
+                infoExtractVisitor.flushInfos(PARSER_OUTPUT_PATH);
+                break;
+            default:
+                break;
+        }
+
         if (errorListener.hasErrors()) {
             errorListener.flushErrors(ERR_PATH);
-        } else {
-            AstExtractVisitor visitor = new AstExtractVisitor();
-            Context ast = parser.getAst();
-            ast.accept(visitor);
-            visitor.flushInfos(PARSER_OUTPUT_PATH);
         }
+
     }
 }

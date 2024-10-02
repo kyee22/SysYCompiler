@@ -1,21 +1,13 @@
 void f1() {
-    return              // 2 i
+    return
 }
 
 void f2() {
-    ;a
-    a                   // 7 i
+    int a = 0;
+    a
     a = 1;
 }
 
-void f3(int a[]) {
-    b[acs2+rfc*x*(8   // 12 i
-    c = 2024;
-}
-
-void x() {
-    a[b+b;
-}
 
 void f4() {
     int a[2];
@@ -23,6 +15,5 @@ void f4() {
 }
 
 int main() {
-    const int c = {(2};
     return 0;
 }

@@ -10,7 +10,7 @@
  * This file is part of SysYCompiler.
  */
 
-package utils;
+package java.utilss;
 
 import org.junit.jupiter.api.Test;
 

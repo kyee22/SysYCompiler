@@ -47,4 +47,15 @@ public class ReturnStmtContext extends Context {
         return visitor.visit(this);
     }
 
+    public TerminalContext RETURNTK() {
+        return RETURNTK_;
+    }
+
+    public TerminalContext SEMICN() {
+        return SEMICN_;
+    }
+
+    public ExpContext exp() {
+        return exp;
+    }
 }

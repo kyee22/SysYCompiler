@@ -9,7 +9,7 @@ RESET = '\033[0m'
 
 # 项目根目录和测试用例目录
 project_root = "."
-testcases_root = os.path.join(project_root, "pytest", "testcases", "parser-error-private")
+testcases_root = os.path.join(project_root, "test", "python", "testcases", "lexer-error-private")
 
 # 遍历所有的测试用例
 def run_tests():
@@ -36,7 +36,7 @@ def run_tests():
             print(f"{RED}Test {testcase} failed to run.{RESET}")
             continue
 
-        # 3. 读取 parser.txt 和 ans.txt
+        # 3. 读取 lexer.txt 和 ans.txt
         with open(os.path.join(project_root, "error.txt"), 'r') as error_output:
             with open(ans_path, 'r') as expected_output:
                 error_lines = error_output.readlines()

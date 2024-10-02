@@ -9,7 +9,7 @@ RESET = '\033[0m'
 
 # 项目根目录和测试用例目录
 project_root = "."
-testcases_root = os.path.join(project_root, "pytest", "testcases", "parser-public")
+testcases_root = os.path.join(project_root, "test", "python", "testcases", "parser-public")
 
 # 遍历所有的测试用例
 def run_tests():

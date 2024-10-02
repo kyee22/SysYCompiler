@@ -34,14 +34,6 @@ public class Context implements Visitable {
         children.add(ctx);
     }
 
-    public int getStartLineno() {
-        return children.get(0).getStartLineno();
-    }
-
-    public int getEndLineno() {
-        return children.get(children.size() - 1).getEndLineno();
-    }
-
     public List<Context> getChildren() {
         return children;
     }

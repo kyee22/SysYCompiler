@@ -1,4 +1,16 @@
-package frontend;
+/*
+ * SysYCompiler: A Compiler for SysY.
+ *
+ * SysYCompiler is an individually developed course project
+ * for Compiling Techniques @ School of Computer Science &
+ * Engineering, Beihang University, Fall 2024.
+ *
+ * Copyright (C) 2024 Yixuan Kuang <kyee22@buaa.edu.cn>
+ *
+ * This file is part of SysYCompiler.
+ */
+
+package frontend.core;
 
 import frontend.core.Lexer;
 import frontend.sysy.token.Token;
@@ -14,7 +26,7 @@ public class LexerTest {
         Charstream s = Charstream.fromString("0123456789");
         Lexer lexer = new Lexer(s);
         lexer.engine();
-        String[] expected = new String[]{"INTCON 0", "INTCON 123456789", "EOFTK EOF"};
+        String[] expected = new String[]{"INTCON 0", "INTCON 123456789"};
         String[] actual = lexer.getTokens().stream().map(Token::toString).toArray(String[]::new);
         assertArrayEquals(expected, actual);
     }

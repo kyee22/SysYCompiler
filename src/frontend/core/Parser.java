@@ -149,7 +149,6 @@ public class Parser {
         };
     }
 
-    // operator *
     public static Generator option(Generator gen) {
         return (Parser self) -> {
             Optional<List<Context>> result = gen.apply(self);
@@ -229,7 +228,7 @@ public class Parser {
         };
         List<Context> children = result.get();
 
-        DEBUG.println("generating " + type.toString() + " with " + children.size() + " children");
+        DEBUG.println("generating " + type + " with " + children.size() + " children");
         for (Context child : children) {
             if (child instanceof TerminalContext) {
                 context.add((TerminalContext) child);
@@ -248,6 +247,9 @@ public class Parser {
         ast = parse(CompUnit);
         if (ast == null) {
             ASSERT(false, "Parse Error");
+        }
+        if (pos < tokens.size()) {
+            ASSERT(false, "Expect EOF");
         }
         if (!errors.isEmpty()) {
             for (ErrorMessage error : errors) {

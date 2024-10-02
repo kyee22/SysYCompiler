@@ -55,4 +55,12 @@ public class FuncDefContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public FuncTypeContext funcType() {
+        return funcType;
+    }
+
+    public BlockContext block() {
+        return block;
+    }
 }

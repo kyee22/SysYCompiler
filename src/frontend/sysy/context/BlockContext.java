@@ -48,4 +48,17 @@ public class BlockContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public TerminalContext RBRACE() {
+        return RBRACE_;
+    }
+
+    public List<BlockItemContext> blockItem() {
+        return blockItem;
+    }
+
+    public BlockItemContext blockItem(int index) {
+        ASSERT(0 <= index && index < blockItem.size(), "Block only accepts index " + index);
+        return blockItem.get(index);
+    }
 }

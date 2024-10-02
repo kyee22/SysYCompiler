@@ -12,11 +12,12 @@
 
 package frontend.sysy.context;
 
+import static frontend.sysy.token.TokenType.MINU;
+import static frontend.sysy.token.TokenType.PLUS;
+import static utils.AssertUtils.ASSERT;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import static frontend.sysy.token.TokenType.*;
-import static utils.AssertUtils.ASSERT;
 
 public class AddExpContext extends Context {
     private List<TerminalContext> OP_ = new ArrayList<>();

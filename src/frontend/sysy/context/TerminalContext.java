@@ -26,16 +26,6 @@ public class TerminalContext extends Context {
     }
 
     @Override
-    public int getStartLineno() {
-        return token.getLineno();
-    }
-
-    @Override
-    public int getEndLineno() {
-        return token.getLineno();
-    }
-
-    @Override
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }

@@ -43,4 +43,16 @@ public class FuncTypeContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public TerminalContext VOIDTK() {
+        return VOIDTK_;
+    }
+
+    public TerminalContext INTTK() {
+        return INTTK_;
+    }
+
+    public TerminalContext CHARTK() {
+        return CHARTK_;
+    }
 }

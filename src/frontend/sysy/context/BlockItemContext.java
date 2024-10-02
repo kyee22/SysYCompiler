@@ -39,4 +39,8 @@ public class BlockItemContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public StmtContext stmt() {
+        return stmt;
+    }
 }

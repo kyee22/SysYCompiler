@@ -61,4 +61,20 @@ public class PrintfStmtContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public TerminalContext STRCON() {
+        return STRCON_;
+    }
+
+    public TerminalContext PRINTFTK() {
+        return PRINTFTK_;
+    }
+
+    public List<ExpContext> exp() {
+        return exp;
+    }
+
+    public ExpContext exp(int index) {
+        return exp.get(index);
+    }
 }

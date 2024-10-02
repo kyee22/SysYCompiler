@@ -41,4 +41,7 @@ public class ContinueStmtContext extends Context {
         return visitor.visit(this);
     }
 
+    public TerminalContext CONTINUETK() {
+        return CONTINUETK_;
+    }
 }

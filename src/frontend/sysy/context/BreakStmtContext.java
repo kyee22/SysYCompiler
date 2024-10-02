@@ -41,4 +41,8 @@ public class BreakStmtContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public TerminalContext BREAKTK() {
+        return BREAKTK_;
+    }
 }

@@ -81,10 +81,10 @@
 
 
 *   当容许错误的时候，是否会混淆其他语法单元
-    *   `int func() {return 0;}` 因为容许缺失 `;` 会将 `int func` 混淆成 $VarDecl$；
-    *   `a = getint();` 因为容许缺失将会 `a` 直接匹配为 $ExpStmt$；
+    *   `int func() {return 0;}` 因为容许缺失 `;` 会将 `int func` 混淆成 $VarDecl$；（本该提前看）
+    *   `a = getint();` 因为容许缺失 `;` 将会 `a` 直接匹配为 $ExpStmt$；（）
 *   不容许错误的时候，也要尽可能长的匹配
-    *   `int lval = call();` 应该将 `call` 匹配为 $UnaryExp$ 的调用分支，而不是直接将 `call`  $UnaryExp$ 的 $PrimaryExp$ 分支。
+    *   `int lval = call();` 应该将 `call` 匹配为 $UnaryExp$ 的调用分支，而不是直接将 `call`  $UnaryExp$ 的 $PrimaryExp$ 分支。（本该提前看）
 
 
 

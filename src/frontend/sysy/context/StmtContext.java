@@ -67,4 +67,8 @@ public class StmtContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public ReturnStmtContext returnStmt() {
+        return returnStmt;
+    }
 }
