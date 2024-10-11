@@ -16,20 +16,23 @@ public class Token {
     private TokenType type;
     private String text;
     private int lineno;
+    private int colno;
 
-    private Token(TokenType type, String text, int lineno) {
+    private Token(TokenType type, String text, int lineno, int colno) {
         this.type = type;
         this.text = text;
         this.lineno = lineno;
+        this.colno = colno;
     }
 
-    public static Token makeToken(TokenType type, String text, int lineno) {
-        return new Token(type, text, lineno);
+    public static Token makeToken(TokenType type, String text, int lineno, int colno) {
+        return new Token(type, text, lineno, colno);
     }
 
     @Override
     public String toString() {
         return type.toString() + " " + text;
+        //return type.toString() + " " + text + " @L" + lineno + ":" + colno;
     }
 
     public TokenType getType() {
@@ -38,6 +41,10 @@ public class Token {
 
     public int getLineno() {
         return lineno;
+    }
+
+    public int getColno() {
+        return colno;
     }
 
     public String getText() {

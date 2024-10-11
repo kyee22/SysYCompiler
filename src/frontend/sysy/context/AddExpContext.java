@@ -48,4 +48,11 @@ public class AddExpContext extends Context {
         return visitor.visit(this);
     }
 
+    public List<MulExpContext> mulExp() {
+        return mulExp;
+    }
+
+    public MulExpContext mulExp(int index) {
+        return mulExp.get(index);
+    }
 }

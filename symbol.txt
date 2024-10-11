@@ -1,0 +1,4 @@
+1 i ConstInt
+1 a IntFunc
+3 i ConstInt
+4 ii Int

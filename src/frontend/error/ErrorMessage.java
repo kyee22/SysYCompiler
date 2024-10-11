@@ -14,10 +14,12 @@ package frontend.error;
 
 public class ErrorMessage {
         private int lineno;
+        private int colno;
         private ErrorType type;
 
-        public ErrorMessage(int lineno, ErrorType type) {
+        public ErrorMessage(int lineno, int colno, ErrorType type) {
             this.lineno = lineno;
+            this.colno = colno;
             this.type = type;
         }
 
@@ -29,8 +31,12 @@ public class ErrorMessage {
         return lineno;
     }
 
-    @Override
-        public String toString() {
-            return lineno + " " + type.toString();
-        }
+    public int getColno() {
+        return colno;
     }
+
+    @Override
+    public String toString() {
+        return lineno + " " + type.toString();
+    }
+}

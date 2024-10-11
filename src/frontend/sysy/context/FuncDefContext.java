@@ -63,4 +63,12 @@ public class FuncDefContext extends Context {
     public BlockContext block() {
         return block;
     }
+
+    public TerminalContext IDENFR() {
+        return IDENFR_;
+    }
+
+    public FuncFParamsContext funcFParams() {
+        return funcFParams;
+    }
 }

@@ -46,4 +46,8 @@ public class FuncFParamsContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    //public List<FuncFParamContext> funcFParams() {
+    //    return funcFParams;
+    //}
 }

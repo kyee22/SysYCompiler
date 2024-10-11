@@ -51,6 +51,7 @@ public class Lexer {
 
     private Charstream stream;
     private int lineno = 1;
+    private int lineStartOffset = -1;
     private List<Token> tokens = new ArrayList<>();
     private List<ErrorListener> errorListeners = new ArrayList<>();
 
@@ -67,6 +68,7 @@ public class Lexer {
 
     private Token next() {
         StringBuilder builder = new StringBuilder();
+        int colno = stream.getPos() - lineStartOffset;
         char ch = stream.getc();
         builder.append(ch);
 
@@ -79,7 +81,7 @@ public class Lexer {
             stream.ungetc();
             String text = builder.toString();
             TokenType type = keywords.containsKey(text) ? keywords.get(text) : IDENFR;
-            return makeToken(type, text, lineno);
+            return makeToken(type, text, lineno, colno);
         } else if (Character.isDigit(ch)) {
             if (ch != '0') {
                 ch = stream.getc();
@@ -89,7 +91,7 @@ public class Lexer {
                 }
                 stream.ungetc();
             }
-            return makeToken(INTCON, builder.toString(), lineno);
+            return makeToken(INTCON, builder.toString(), lineno, colno);
         } else if (ch == '\"') {
             ch = stream.getc();
             while (ch != '\"') {
@@ -101,7 +103,7 @@ public class Lexer {
                 ch = stream.getc();
             }
             builder.append(ch);
-            return makeToken(STRCON, builder.toString(), lineno);
+            return makeToken(STRCON, builder.toString(), lineno, colno);
         } else if (ch == '\'') {
             // todo
             ch = stream.getc();
@@ -112,13 +114,13 @@ public class Lexer {
             }
             ch = stream.getc();
             builder.append(ch);
-            return makeToken(CHRCON, builder.toString(), lineno);
+            return makeToken(CHRCON, builder.toString(), lineno, colno);
         } else if (ch == '+') {
-            return makeToken(PLUS, builder.toString(), lineno);
+            return makeToken(PLUS, builder.toString(), lineno, colno);
         } else if (ch == '-') {
-            return makeToken(MINU, builder.toString(), lineno);
+            return makeToken(MINU, builder.toString(), lineno, colno);
         } else if (ch == '*') {
-            return makeToken(MULT, builder.toString(), lineno);
+            return makeToken(MULT, builder.toString(), lineno, colno);
         } else if (ch == '/') {
             ch = stream.getc();
             if (ch == '/') {
@@ -131,7 +133,7 @@ public class Lexer {
                 ch = stream.getc();
                 while (ch != EOF) {
                     if (ch == '\n') {
-                        ++lineno;
+                        newLine();
                     }
                     if (ch == '*') {
                         ch = stream.getc();
@@ -147,17 +149,17 @@ public class Lexer {
                 return next();
             }
             stream.ungetc();
-            return makeToken(DIV, builder.toString(), lineno);
+            return makeToken(DIV, builder.toString(), lineno, colno);
         } else if (ch == '%') {
-            return makeToken(MOD, builder.toString(), lineno);
+            return makeToken(MOD, builder.toString(), lineno, colno);
         } else if (ch == '!') {
             ch = stream.getc();
             if (ch == '=') {
                 builder.append(ch);
-                return makeToken(NEQ, builder.toString(), lineno);
+                return makeToken(NEQ, builder.toString(), lineno, colno);
             } else {
                 stream.ungetc();
-                return makeToken(NOT, builder.toString(), lineno);
+                return makeToken(NOT, builder.toString(), lineno, colno);
             }
         } else if (ch == '&') {
             ch = stream.getc();
@@ -165,71 +167,76 @@ public class Lexer {
                 builder.append(ch);
             } else {
                 stream.ungetc();
-                notifyErrorListeners(lineno, ILLEGAL_SYM);
+                notifyErrorListeners(lineno, colno, ILLEGAL_SYM);
             }
-            return makeToken(AND, builder.toString(), lineno);
+            return makeToken(AND, builder.toString(), lineno, colno);
         } else if (ch == '|') {
             ch = stream.getc();
             if (ch == '|') {
                 builder.append(ch);
             } else {
                 stream.ungetc();
-                notifyErrorListeners(lineno, ILLEGAL_SYM);
+                notifyErrorListeners(lineno, colno, ILLEGAL_SYM);
             }
-            return makeToken(OR, builder.toString(), lineno);
+            return makeToken(OR, builder.toString(), lineno, colno);
         } else if (ch == '<') {
             ch = stream.getc();
             if (ch == '=') {
                 builder.append(ch);
-                return makeToken(LEQ, builder.toString(), lineno);
+                return makeToken(LEQ, builder.toString(), lineno, colno);
             } else {
                 stream.ungetc();
-                return makeToken(LSS, builder.toString(), lineno);
+                return makeToken(LSS, builder.toString(), lineno, colno);
             }
         } else if (ch == '>') {
             ch = stream.getc();
             if (ch == '=') {
                 builder.append(ch);
-                return makeToken(GEQ, builder.toString(), lineno);
+                return makeToken(GEQ, builder.toString(), lineno, colno);
             } else {
                 stream.ungetc();
-                return makeToken(GRE, builder.toString(), lineno);
+                return makeToken(GRE, builder.toString(), lineno, colno);
             }
         } else if (ch == '=') {
             ch = stream.getc();
             if (ch == '=') {
                 builder.append(ch);
-                return makeToken(EQL, builder.toString(), lineno);
+                return makeToken(EQL, builder.toString(), lineno, colno);
             } else {
                 stream.ungetc();
-                return makeToken(ASSIGN, builder.toString(), lineno);
+                return makeToken(ASSIGN, builder.toString(), lineno, colno);
             }
         } else if (ch == ',') {
-            return makeToken(COMMA, builder.toString(), lineno);
+            return makeToken(COMMA, builder.toString(), lineno, colno);
         } else if (ch == ';') {
-            return makeToken(SEMICN, builder.toString(), lineno);
+            return makeToken(SEMICN, builder.toString(), lineno, colno);
         } else if (ch == '(') {
-            return makeToken(LPARENT, builder.toString(), lineno);
+            return makeToken(LPARENT, builder.toString(), lineno, colno);
         } else if (ch == ')') {
-            return makeToken(RPARENT, builder.toString(), lineno);
+            return makeToken(RPARENT, builder.toString(), lineno, colno);
         } else if (ch == '[') {
-            return makeToken(LBRACK, builder.toString(), lineno);
+            return makeToken(LBRACK, builder.toString(), lineno, colno);
         } else if (ch == ']') {
-            return makeToken(RBRACK, builder.toString(), lineno);
+            return makeToken(RBRACK, builder.toString(), lineno, colno);
         } else if (ch == '{') {
-            return makeToken(LBRACE, builder.toString(), lineno);
+            return makeToken(LBRACE, builder.toString(), lineno, colno);
         } else if (ch == '}') {
-            return makeToken(RBRACE, builder.toString(), lineno);
+            return makeToken(RBRACE, builder.toString(), lineno, colno);
         } else if (ch == '\n') {
-            ++lineno;
+            newLine();
             return next();
         } else if (Character.isWhitespace(ch)) {
             return next();
         } else if (ch == EOF) {
-            return makeToken(EOFTK, "EOF", lineno);
+            return makeToken(EOFTK, "EOF", lineno, colno);
         } else {
-            return makeToken(UNDEF, builder.toString(), lineno);
+            return makeToken(UNDEF, builder.toString(), lineno, colno);
         }
+    }
+    
+    private void newLine() {
+        ++lineno;
+        lineStartOffset = stream.getPos() - 1;
     }
 
     public void flushTokens(String filePath) {
@@ -244,9 +251,9 @@ public class Lexer {
         errorListeners.add(listener);
     }
 
-    private void notifyErrorListeners(int lineno, ErrorType errorType) {
+    private void notifyErrorListeners(int lineno, int colno, ErrorType errorType) {
         for (ErrorListener listener : errorListeners) {
-            listener.onError(lineno, errorType);  // 通知所有监听者
+            listener.onError(lineno, colno, errorType);  // 通知所有监听者
         }
     }
 }

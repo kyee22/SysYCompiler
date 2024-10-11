@@ -43,4 +43,8 @@ public class Charstream {
     public void ungetc() {
         --pos;
     }
+
+    public int getPos() {
+        return pos;
+    }
 }

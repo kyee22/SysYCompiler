@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 public class StringUtils {
 
-    public static int resolveNumOfFormat(String formatStr) {
+    public static int resolveNumOfPlaceHoders(String formatStr) {
         List<String> placeHoders = List.of("%d", "%c");
         return placeHoders.stream()
                           .mapToInt(placeHoder -> countOccurrences(formatStr, placeHoder))

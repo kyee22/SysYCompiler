@@ -48,4 +48,16 @@ public class FuncFParamContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public TerminalContext IDENFR() {
+        return IDENFR_;
+    }
+
+    public TerminalContext LBRACK() {
+        return LBRACK_;
+    }
+
+    public BTypeContext bType() {
+        return bType;
+    }
 }

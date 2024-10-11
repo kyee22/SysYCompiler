@@ -47,4 +47,8 @@ public class ForStmtContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public LValContext lVal() {
+        return lVal;
+    }
 }

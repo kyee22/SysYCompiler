@@ -50,4 +50,11 @@ public class LValContext extends Context {
         return visitor.visit(this);
     }
 
+    public TerminalContext IDENFR() {
+        return IDENFR_;
+    }
+
+    public TerminalContext LBRACK() {
+        return LBRACK_;
+    }
 }

@@ -13,9 +13,7 @@
 package frontend.error;
 
 public interface ErrorListener {
-    void onError(int lineno, ErrorType errorType);
-
-    void onRollback(int lineno, ErrorType errorType);
+    void onError(int lineno, int colno, ErrorType errorType);
 
     boolean hasErrors();
 

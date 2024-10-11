@@ -46,4 +46,12 @@ public class MulExpContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public List<UnaryExpContext> unaryExp() {
+        return unaryExp;
+    }
+
+    public UnaryExpContext unaryExp(int index) {
+        return unaryExp.get(index);
+    }
 }

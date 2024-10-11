@@ -51,6 +51,14 @@ public class VarDefContext extends Context {
         }
     }
 
+    public TerminalContext IDENFR() {
+        return IDENFR_;
+    }
+
+    public TerminalContext LBRACK() {
+        return LBRACK_;
+    }
+
     @Override
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);

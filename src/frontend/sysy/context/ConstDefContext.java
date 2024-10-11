@@ -55,4 +55,12 @@ public class ConstDefContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public TerminalContext IDENFR() {
+        return IDENFR_;
+    }
+
+    public TerminalContext LBRACK() {
+        return LBRACK_;
+    }
 }

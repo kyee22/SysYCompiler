@@ -56,5 +56,9 @@ public class ConstDeclContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public BTypeContext bType() {
+        return bType;
+    }
 }
 

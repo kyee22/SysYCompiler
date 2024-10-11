@@ -59,5 +59,20 @@ public class UnaryExpContext extends Context {
         return visitor.visit(this);
     }
 
+    public TerminalContext IDENFR() {
+        return IDENFR_;
+    }
+
+    public FuncRParamsContext funcRParams() {
+        return funcRParams;
+    }
+
+    public PrimaryExpContext primaryExp() {
+        return primaryExp;
+    }
+
+    public UnaryExpContext unaryExp() {
+        return unaryExp;
+    }
 }
 

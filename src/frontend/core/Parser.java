@@ -67,8 +67,9 @@ public class Parser {
         if (!tokens.get(pos).is(type)) {
             DEBUG.println("Oop! SoftMatch " + type.toString() + " at line " + tokens.get(pos).getLineno() + ": " + tokens.get(pos).getText());
             int lineno = tokens.get(pos - 1).getLineno();
-            Token dummyToken = Token.makeToken(type, "", lineno);
-            errors.add(new ErrorMessage(lineno, errorType));
+            int colno = tokens.get(pos - 1).getColno() + tokens.get(pos - 1).getText().length();
+            Token dummyToken = Token.makeToken(type, "", lineno, colno);
+            errors.add(new ErrorMessage(lineno, colno, errorType));
             return new TerminalContext(dummyToken);
         } else {
             return hardMatch(type);
@@ -253,7 +254,7 @@ public class Parser {
         }
         if (!errors.isEmpty()) {
             for (ErrorMessage error : errors) {
-                notifyErrorListeners(error.getLineno(), error.getType());
+                notifyErrorListeners(error.getLineno(), error.getColno(), error.getType());
             }
         }
     }
@@ -492,9 +493,9 @@ public class Parser {
         errorListeners.add(listener);
     }
 
-    private void notifyErrorListeners(int lineno, ErrorType errorType) {
+    private void notifyErrorListeners(int lineno, int colno, ErrorType errorType) {
         for (ErrorListener listener : errorListeners) {
-            listener.onError(lineno, errorType);  // notify all listeners
+            listener.onError(lineno, colno, errorType);  // notify all listeners
         }
     }
 }

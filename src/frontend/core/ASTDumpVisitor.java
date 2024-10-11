@@ -18,7 +18,7 @@ import static utils.FileUtils.writeListToFile;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InfoExtractVisitor extends BaseContextVisitor<Void> {
+public class ASTDumpVisitor extends BaseContextVisitor<Void> {
     private List<String> infos = new ArrayList<>();
 
     public void flushInfos(String filePath) {

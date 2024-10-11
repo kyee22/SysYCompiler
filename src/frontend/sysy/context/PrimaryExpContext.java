@@ -55,4 +55,20 @@ public class PrimaryExpContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public ExpContext exp() {
+        return exp;
+    }
+
+    public LValContext lVal() {
+        return lVal;
+    }
+
+    public NumberContext number() {
+        return number;
+    }
+
+    public CharacterContext character() {
+        return character;
+    }
 }
