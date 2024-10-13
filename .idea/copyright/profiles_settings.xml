@@ -2,6 +2,7 @@
   <settings>
     <module2copyright>
       <element module="All" copyright="SysYCompiler" />
+      <element module="Open Files" copyright="LLVM@USTC" />
     </module2copyright>
   </settings>
 </component>

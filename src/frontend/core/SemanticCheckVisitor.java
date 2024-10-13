@@ -64,6 +64,7 @@ public class SemanticCheckVisitor extends BaseContextVisitor<Type> {
         Token ident = ctx.IDENFR().getToken();
         if (curScope.localResolve(ident.getText()) != null) {
             notifyErrorListeners(ident.getLineno(), ident.getColno(), REDEF_SYM);
+            return r;
         }
 
         Type type = declType;
@@ -90,6 +91,7 @@ public class SemanticCheckVisitor extends BaseContextVisitor<Type> {
         Token ident = ctx.IDENFR().getToken();
         if (curScope.localResolve(ident.getText()) != null) {
             notifyErrorListeners(ident.getLineno(), ident.getColno(), REDEF_SYM);
+            return r;
         }
         Type type = declType;
         if (ctx.LBRACK() != null) {
@@ -125,7 +127,9 @@ public class SemanticCheckVisitor extends BaseContextVisitor<Type> {
         Type type = funcType.VOIDTK() != null ? Type.makeVoidFuncType(List.copyOf(paramTypesQueue)) :
                     funcType.INTTK()  != null ? Type.makeIntFuncType(List.copyOf(paramTypesQueue)) :
                                                 Type.makeCharFuncType(List.copyOf(paramTypesQueue));
-        curScope.define(ident.getText(), type);
+        if (curScope.localResolve(ident.getText()) == null) {
+            curScope.define(ident.getText(), type);
+        }
         // 再又一次进入到内层作用域
         curScope = innerScope;
         Type r = visit(ctx.block());
@@ -179,8 +183,10 @@ public class SemanticCheckVisitor extends BaseContextVisitor<Type> {
             type = type.isInt() ? Type.makeIntArrayType()
                                 : Type.makeCharArrayType();
         }
-        paramTypesQueue.add(type);
-        curScope.define(ident.getText(), type);
+        paramTypesQueue.add(type);//todo: REDEF时是略过还是加入到函数签名
+        if (curScope.localResolve(ident.getText()) == null) {
+            curScope.define(ident.getText(), type);
+        }
 
         return super.visit(ctx);
     }

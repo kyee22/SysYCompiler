@@ -6,6 +6,7 @@ import time
 GREEN = '\033[92m'
 RED = '\033[91m'
 RESET = '\033[0m'
+PURPLE = '\033[95m'
 
 # 项目根目录和测试用例目录
 project_root = "."
@@ -76,4 +77,17 @@ def run_java_compiler():
         return False
 
 if __name__ == "__main__":
+    print("")
+    print(f"{PURPLE}Running private test cases...{RESET}")
+    print("")
     run_tests()
+    print(f"{PURPLE}Done private test cases.{RESET}")
+
+    testcases_root = os.path.join(project_root, "test", "python", "testcases", "semantic-check-error-public")
+
+    print("")
+    print(f"{PURPLE}Running public test cases...{RESET}")
+    print("")
+    run_tests()
+    print(f"{PURPLE}Done public test cases.{RESET}")
+

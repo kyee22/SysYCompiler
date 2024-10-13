@@ -1,0 +1,6 @@
+<component name="CopyrightManager">
+  <copyright>
+    <option name="notice" value="SysYCompiler: A Compiler for SysY.&#10;&#10;SysYCompiler is an individually developed course project&#10;for Compiling Techniques @ School of Computer Science &amp;amp; &#10;Engineering, Beihang University, Fall 2024.&#10;&#10;Copyright (C) &amp;#36;originalComment.match(&quot;Copyright \(c\) (\d+)&quot;, 1, &quot;-&quot;, &quot;&amp;#36;today.year&quot;)&amp;#36;today.year Yixuan Kuang &lt;kyee22@buaa.edu.cn&gt;&#10;&#10;This file is part of SysYCompiler.&#10;&#10;The files within 'llvm' package is adapted from Compiler Principles @ USTC &lt;https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2024ustc-jianmu-compiler&gt;, which is implemented in C++.&#10;&#10;This file is part of 'llvm' package." />
+    <option name="myName" value="LLVM@USTC" />
+  </copyright>
+</component>

@@ -1,0 +1,10 @@
+# COPYRIGHT
+
+*版权所有 © 2024 中国科学技术大学《编译原理与技术》课程组*
+
+中国科学技术大学的《编译原理与技术》课程从 LLVM IR 中裁剪出了适用于教学的精简的 IR 子集，并将其命名为 Light IR。同时依据 LLVM 的设计，为 Light IR 提供了配套简化的 C++ 库，用于生成 IR。
+
+笔者重写了该 C++ 库的 Java 版本，作为 IR 生成的 API，应用到 2024 北京航空航天大学计算机学院《编译技术》课程实验中，对应 Project 下的`frontend.llvm` package。
+
+Light IR：https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2024ustc-jianmu-compiler/-/tree/main/src/lightir
+
