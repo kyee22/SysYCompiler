@@ -12,9 +12,8 @@ unit_tests:
   script:
     - java -version # 添加此行以检查 Java 版本
     - mkdir -p lab/Compiler/src/frontend/core lab/Compiler/src/utils lab/Compiler/test/java
-    - cp -r ./src/frontend/core/* lab/Compiler/src/frontend/core/
-    - cp -r ./src/utils/* lab/Compiler/src/utils/
-    - cp ./test/java/CompilerTest.java lab/Compiler/test/java/
+    - cp -r ./src/* lab/Compiler/src/*
+    - cp ./test/* lab/Compiler/test/*
     - javac -encoding UTF-8 lab/Compiler/src/frontend/core/*.java
     - javac -encoding UTF-8 lab/Compiler/src/utils/*.java
     - javac -encoding UTF-8 lab/Compiler/test/java/CompilerTest.java
