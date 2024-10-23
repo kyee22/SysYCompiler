@@ -5,7 +5,7 @@ cd lab/Compiler
 
 # 设置类路径，包括src、lib目录中的JAR文件
 LIB_DIR="lib"
-CLASSPATH=".:src:$(ls lib/*.jar | tr ' ' ':')"
+CLASSPATH=".:src:$(ls lib/*.jar | tr '\n' ':')"
 
 # 输出类路径以验证
 echo "Classpath: $CLASSPATH"
