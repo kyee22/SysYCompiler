@@ -11,12 +11,9 @@ unit_tests:
   stage: test
   script:
     - java -version # 添加此行以检查 Java 版本
-    - mkdir -p lab/Compiler/src frontend utils test/java
-    - cp -r ./src lab/Compiler/src/
-    - cp -r ./test lab/Compiler/test/
-    - ls -R lab/Compiler # 显示 lab/Compiler 目录内容以检查文件是否正确复制
-    - cd lab/Compiler
-    - javac -encoding UTF-8 -cp "src/frontend:src/utils" src/frontend/**/*.java
-    - javac -encoding UTF-8 -cp "src/frontend:src/utils" src/utils/**/*.java
-    - javac -encoding UTF-8 -cp "src/frontend:src/utils:test/java" test/java/CompilerTest.java
-    - java -cp "test/java:src/frontend:src/utils" org.junit.runner.JUnitCore CompilerTest
+    - mkdir -p lab/Compiler
+    - cp -r ./src lab/Compiler/src
+    - cp -r ./test lab/Compiler/test
+    - cp -r ./lib lab/Compiler/lib
+    - chmod +x run-test.sh
+    - ./run-test.sh
