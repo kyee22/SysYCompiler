@@ -24,7 +24,6 @@ stages:
 llvm_api_test:
   stage: unit_test
   script:
-    - cd lab/Compiler
     - |
       ./run-test.sh \
       --select-class test.java.InstructionTest \
@@ -35,7 +34,6 @@ llvm_api_test:
 utils_test:
   stage: unit_test
   script:
-    - cd lab/Compiler
     - |
       ./run-test.sh \
       --select-class test.java.StringUtilsTest 
@@ -46,7 +44,8 @@ lexer_public:
     - utils_test
     - llvm_api_test
   script:
-    - cd lab/Compiler
+    - |
+      ./run-test.sh \
       --select-class test.java.CompilerTest \
       --select-method testLexerPublic
 
@@ -56,7 +55,8 @@ lexer_error_private:
     - utils_test
     - llvm_api_test
   script:
-    - cd lab/Compiler
+    - |
+      ./run-test.sh \
       --select-class test.java.CompilerTest \
       --select-method testLexerErrorPrivate
 
@@ -67,7 +67,8 @@ parser_public:
     - lexer_public
     - lexer_error_private
   script:
-    - cd lab/Compiler
+    - |
+      ./run-test.sh \
       --select-class test.java.CompilerTest \
       --select-method testParserPublic
 
@@ -78,7 +79,8 @@ parser_error_public:
     - lexer_public
     - lexer_error_private
   script:
-    - cd lab/Compiler
+    - |
+      ./run-test.sh \
       --select-class test.java.CompilerTest \
       --select-method testParserErrorPublic
 
@@ -89,7 +91,8 @@ parser_error_private:
     - lexer_public
     - lexer_error_private
   script:
-    - cd lab/Compiler
+    - |
+      ./run-test.sh \
       --select-class test.java.CompilerTest \
       --select-method testParserErrorPrivate
 
@@ -100,7 +103,8 @@ semantic_check_public:
     - parser_error_public
     - parser_error_private
   script:
-    - cd lab/Compiler
+    - |
+      ./run-test.sh \
       --select-class test.java.CompilerTest \
       --select-method testSemanticCheckPublic
 
@@ -111,7 +115,8 @@ semantic_check_error_public:
     - parser_error_public
     - parser_error_private
   script:
-    - cd lab/Compiler
+    - |
+      ./run-test.sh \
       --select-class test.java.CompilerTest \
       --select-method testSemanticCheckErrorPublic
 
@@ -122,6 +127,7 @@ semantic_check_error_private:
     - parser_error_public
     - parser_error_private
   script:
-    - cd lab/Compiler
+    - |
+      ./run-test.sh \
       --select-class test.java.CompilerTest \
       --select-method testSemanticCheckErrorPrivate
