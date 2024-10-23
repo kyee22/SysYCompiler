@@ -24,12 +24,99 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CompilerTest {
     Path rootDir = Paths.get(".");
-    Path testCaseDir = Paths.get(".", "test", "python", "testcases");
+    Path outputPath;
+    Path testCasePath;
+
 
     @Test
-    public void test() throws IOException, InterruptedException {
+    public void testLexerPublic() throws IOException, InterruptedException {
+        Compiler.LAB = 1;
+        outputPath = Paths.get("lexer.txt");
 
-        assertTrue(runBatchTests(Paths.get(".", "test", "python", "testcases", "parser-error-public"), Paths.get("error.txt")));
+        testCasePath = Paths.get(".", "test", "python", "testcases", "lexer-public", "A");
+        assertTrue(runBatchTests(testCasePath,  outputPath));
+
+        testCasePath = Paths.get(".", "test", "python", "testcases", "lexer-public", "B");
+        assertTrue(runBatchTests(testCasePath,  outputPath));
+
+        testCasePath = Paths.get(".", "test", "python", "testcases", "lexer-public", "C");
+        assertTrue(runBatchTests(testCasePath,  outputPath));
+    }
+
+
+    @Test
+    public void testLexerErrorPrivate() throws IOException, InterruptedException {
+        Compiler.LAB = 1;
+        outputPath = Paths.get("error.txt");
+
+        testCasePath = Paths.get(".", "test", "python", "testcases", "lexer-error-private");
+        assertTrue(runBatchTests(testCasePath,  outputPath));
+    }
+
+    @Test
+    public void testParserPublic() throws IOException, InterruptedException {
+        Compiler.LAB = 2;
+        outputPath = Paths.get("parser.txt");
+
+        testCasePath = Paths.get(".", "test", "python", "testcases", "parser-public", "A");
+        assertTrue(runBatchTests(testCasePath,  outputPath));
+
+        testCasePath = Paths.get(".", "test", "python", "testcases", "parser-public", "B");
+        assertTrue(runBatchTests(testCasePath,  outputPath));
+
+        testCasePath = Paths.get(".", "test", "python", "testcases", "parser-public", "C");
+        assertTrue(runBatchTests(testCasePath,  outputPath));
+    }
+
+    @Test
+    public void testParserErrorPublic() throws IOException, InterruptedException {
+        Compiler.LAB = 2;
+        outputPath = Paths.get("error.txt");
+
+        testCasePath = Paths.get(".", "test", "python", "testcases", "parser-error-public");
+        assertTrue(runBatchTests(testCasePath,  outputPath));
+    }
+
+    @Test
+    public void testParserErrorPrivate() throws IOException, InterruptedException {
+        Compiler.LAB = 2;
+        outputPath = Paths.get("error.txt");
+
+        testCasePath = Paths.get(".", "test", "python", "testcases", "parser-error-private");
+        assertTrue(runBatchTests(testCasePath,  outputPath));
+    }
+
+    @Test
+    public void testSemanticCheckPublic() throws IOException, InterruptedException {
+        Compiler.LAB = 3;
+        outputPath = Paths.get("symbol.txt");
+
+        testCasePath = Paths.get(".", "test", "python", "testcases", "semantic-check-public", "A");
+        assertTrue(runBatchTests(testCasePath,  outputPath));
+
+        testCasePath = Paths.get(".", "test", "python", "testcases", "semantic-check-public", "B");
+        assertTrue(runBatchTests(testCasePath,  outputPath));
+
+        testCasePath = Paths.get(".", "test", "python", "testcases", "semantic-check-public", "C");
+        assertTrue(runBatchTests(testCasePath,  outputPath));
+    }
+
+    @Test
+    public void testSemanticCheckErrorPublic() throws IOException, InterruptedException {
+        Compiler.LAB = 3;
+        outputPath = Paths.get("error.txt");
+
+        testCasePath = Paths.get(".", "test", "python", "testcases", "semantic-check-error-public");
+        assertTrue(runBatchTests(testCasePath,  outputPath));
+    }
+
+    @Test
+    public void testSemanticCheckErrorPrivate() throws IOException, InterruptedException {
+        Compiler.LAB = 3;
+        outputPath = Paths.get("error.txt");
+
+        testCasePath = Paths.get(".", "test", "python", "testcases", "semantic-check-error-private");
+        assertTrue(runBatchTests(testCasePath,  outputPath));
     }
 
 
@@ -41,14 +128,14 @@ class CompilerTest {
         int cnt = 0;
 
         if (outputLines.size() != expectedLines.size()) {
-            System.out.println("Error " + cnt++ + ": expected " + expectedLines.size() + " lines but got " + outputLines.size());
+            System.out.println("Error " + cnt++ + ": expected " + expectedLines.size() + " lines but got " + outputLines.size() + " lines");
         }
 
-        for (int i = 0; i < Math.max(outputLines.size(), expectedLines.size()); i++) {
+        for (int i = 0; i < Math.min(outputLines.size(), expectedLines.size()); i++) {
             String outputLine = i < outputLines.size() ? outputLines.get(i) : null;
             String expectedLine = i < expectedLines.size() ? expectedLines.get(i) : null;
             if (!outputLine.equals(expectedLine)) {
-                System.out.println("Error " + cnt++ + ": expected " + expectedLine + " lines but got " + outputLine + " at line " + i + 1);
+                System.out.println("Error " + cnt++ + ": expected \"" + expectedLine + "\" but got \"" + outputLine + "\" at line " + (i + 1));
             }
         }
 
@@ -56,26 +143,27 @@ class CompilerTest {
     }
 
     public boolean runBatchTests(Path batchDirectory, Path outputPath) throws IOException, InterruptedException {
-        List<Path> testcases = Files.walk(batchDirectory)
+        List<Path> testcases = Files.list(batchDirectory)
                 .filter(Files::isDirectory)
                 .filter(dir -> !dir.equals(batchDirectory))
                 .sorted()
                 .collect(Collectors.toList());
 
-        System.out.println("Run test cases in " + batchDirectory + " ...");
+        printColoredText("Run test cases in " + batchDirectory + " ...", ANSI_PURPLE);
         int numPass = 0, numFail = 0;
         for (Path testcase : testcases) {
             if (runTestCase(testcase, outputPath)) {
-                System.out.println("[       OK ] TEST " + testcase);
+                printColoredText("[       OK ] TEST " + testcase.getFileName(), ANSI_GREEN);
                 ++numPass;
             } else {
-                System.out.println("[   FAILED ] TEST " + testcase);
+                printColoredText("[   FAILED ] TEST " + testcase.getFileName(), ANSI_RED);
                 ++numFail;
             }
         }
-        System.out.println("[  PASSED  ] " + numPass +  " tests.\n");
+        printColoredText("", ANSI_PURPLE);
+        printColoredText("[  PASSED  ] " + numPass +  " tests.\n", ANSI_GREEN);
         if (numFail != 0) {
-            System.out.println("[   FAILED ] " + numFail +  " tests.\n");
+            printColoredText("[   FAILED ] " + numFail +  " tests.\n", ANSI_RED);
         }
         return numFail == 0;
     }
@@ -92,5 +180,14 @@ class CompilerTest {
 
         // Compare
         return compare(outputPath, ansPath);
+    }
+
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+
+    private static void printColoredText(String text, String colorCode) {
+        System.out.println(colorCode + text + ANSI_RESET);
     }
 }

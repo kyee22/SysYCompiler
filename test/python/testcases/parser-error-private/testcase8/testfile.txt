@@ -11,7 +11,7 @@ void f2() {
 
 void f4() {
     int a[2];
-    f3(a);
+    //f3(a);
 }
 
 int main() {

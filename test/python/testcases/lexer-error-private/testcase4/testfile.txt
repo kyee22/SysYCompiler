@@ -2,6 +2,32 @@
 
 
 
+/****/
+
+///////
+
+
+
+/***
+**/
+
+/*
+*
+*/
+
+int /***/ isLeapYear /* */   /*  **/ (int a)/*** */
+{
+	if (0 == a % 4 && a % 100 != 0
+	    || 0 == a % 400)
+	{
+		return 1;
+	}
+	else
+	{
+		int x = 1 + 2;
+	}
+	return 0;
+}
 
 
 int SimpleCond1(int num) {

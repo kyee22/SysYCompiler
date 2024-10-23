@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Compiler {
-    public static final int LAB = 3;
+    public static int LAB = 3;
     private static final String INPUT_PATH = "testfile.txt";
     private static final String LEXER_OUTPUT_PATH = "lexer.txt";
     private static final String ERR_PATH = "error.txt";
@@ -70,7 +70,7 @@ public class Compiler {
                 break;
             case 3:
                 List<String> records = new ArrayList<>();
-                SymbolTable.symbolTables.stream().forEach(e -> records.addAll(e.getRecords()));
+                semanticCheckVisitor.getSymbolTables().stream().forEach(e -> records.addAll(e.getRecords()));
                 FileUtils.writeListToFile(records, SEMANTIC_CHECK_OUTPUT_PATH);
                 break;
             case 4:

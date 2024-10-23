@@ -24,18 +24,15 @@ public class SymbolTable<T> {
     private SymbolTable<T> parent;
     private List<SymbolTable<T>> children = new ArrayList();
     private int id;
-    public static List<SymbolTable> symbolTables = new ArrayList<>();
 
-    public SymbolTable() {
-        symbolTables.add(this);
-        this.id = symbolTables.size();
+    public SymbolTable(int id) {
+        this.id = id;
         this.level = 1;
         this.parent = null;
     }
 
-    public SymbolTable(SymbolTable<T> parent) {
-        symbolTables.add(this);
-        this.id = symbolTables.size();
+    public SymbolTable(int id, SymbolTable<T> parent) {
+        this.id = id;
         this.parent = parent;
         this.level = this.parent.level + 1;
         this.parent.addChild(this);

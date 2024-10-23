@@ -28,7 +28,7 @@ void func2() {					// 24
 int main() {
 	const int a=1,b = 100;
 	int a = b*2;					// 30
-	int r = func2(); // 改编者注: func2 重定义的那个不应该覆盖符号表原有的项?(?)
+	int r = func2(b, b); // 改编者注: func2 重定义的那个不应该覆盖符号表原有的项?(?)
 	int func2[2] = {1,2};
 	func2[0] = r;
 	if(r == 10) {

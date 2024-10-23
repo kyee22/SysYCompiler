@@ -33,15 +33,21 @@ public class SemanticCheckVisitor extends BaseContextVisitor<Type> {
 
     private boolean isVoidReturn = false;
     private Stack<Boolean> loopStack = new Stack<>();
+    public List<SymbolTable> symbolTables = new ArrayList<>();
     private List<ErrorListener> errorListeners = new ArrayList<>();
-    private SymbolTable<Type> curScope = new SymbolTable();
+    private SymbolTable<Type> curScope = new SymbolTable(symbolTables.size()  + 1);
     private Type declType = null;
     private List<Type> paramTypesQueue = new ArrayList<>();
+
+    public SemanticCheckVisitor() {
+        symbolTables.add(curScope);
+    }
 
     @Override
     public Type visit(BlockContext ctx) {
         if (!(ctx.getParent() instanceof FuncDefContext) && !(ctx.getParent() instanceof MainFuncDefContext)) {
-            curScope = new SymbolTable(curScope);
+            curScope = new SymbolTable(symbolTables.size()  + 1, curScope);
+            symbolTables.add(curScope);
         }
 
         Type r = super.visit(ctx);
@@ -115,7 +121,8 @@ public class SemanticCheckVisitor extends BaseContextVisitor<Type> {
         isVoidReturn = funcType.VOIDTK() != null;
 
         // 准备好内层作用域
-        SymbolTable<Type> innerScope = new SymbolTable(curScope);
+        SymbolTable<Type> innerScope = new SymbolTable(symbolTables.size()  + 1, curScope);
+        symbolTables.add(innerScope);
         // 先进入到内层作用域
         curScope = innerScope;
         paramTypesQueue.clear();
@@ -151,7 +158,8 @@ public class SemanticCheckVisitor extends BaseContextVisitor<Type> {
     public Type visit(MainFuncDefContext ctx) {
         isVoidReturn = false;
 
-        curScope = new SymbolTable(curScope);
+        curScope = new SymbolTable(symbolTables.size()  + 1, curScope);
+        symbolTables.add(curScope);
         paramTypesQueue.clear();
 
         Type r = super.visit(ctx);
@@ -416,5 +424,9 @@ public class SemanticCheckVisitor extends BaseContextVisitor<Type> {
         for (ErrorListener listener : errorListeners) {
             listener.onError(lineno, colno, errorType);  // notify all listeners
         }
+    }
+
+    public List<SymbolTable> getSymbolTables() {
+        return symbolTables;
     }
 }

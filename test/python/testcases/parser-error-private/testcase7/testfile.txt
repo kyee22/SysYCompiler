@@ -19,7 +19,7 @@ int main() {
 	int arr5[4, arr6[4];	// 19
 	arr6[2] = 10;
 	const int arr7[2] = {1,2}, arr8[3 = {1,2,3};		// 21
-	arr5[0] = func1(arr2[0, 1);	// 22
+	arr5[0] = func1(arr2, arr2[0);	// 22
 	arr5[1] = func1(arr5, 5+arr4[1);	// 23
 	arr5[2] = (5+arr1[0] * (5-arr1[1) % 100); 	// 24
 	return 0;
