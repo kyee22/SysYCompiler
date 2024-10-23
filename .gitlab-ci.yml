@@ -1,4 +1,8 @@
-image: bellsoft/liberica:17-jdk-alpine
+image: adoptium/openjdk:12-jdk-hotspot
+
+before_script:
+  - apt-get update && apt-get install -y openjdk-12-jdk
+  - export JAVA_HOME=/usr/lib/jvm/default-java
 
 stages:
   - test
