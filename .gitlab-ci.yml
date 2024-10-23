@@ -1,7 +1,7 @@
-image: adoptium/openjdk:12-jdk-hotspot
+image: adoptium/openjdk:17-jdk-hotspot
 
 before_script:
-  - apt-get update && apt-get install -y openjdk-12-jdk
+  - apt-get update && apt-get install -y openjdk-17-jdk
   - export JAVA_HOME=/usr/lib/jvm/default-java
 
 stages:
