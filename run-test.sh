@@ -7,6 +7,9 @@ cd lab/Compiler
 LIB_DIR="lib"
 CLASSPATH=".:src:$(ls lib/*.jar | tr ' ' ':')"
 
+# 输出类路径以验证
+echo "Classpath: $CLASSPATH"
+
 
 # 使用find命令来查找所有Java文件并编译它们
 find . -name "*.java" | xargs -n 1 javac -encoding UTF-8 -cp "$CLASSPATH" -d .
