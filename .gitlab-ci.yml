@@ -17,5 +17,7 @@ unit_tests:
     - cp -r ./lib lab/Compiler/lib
     - wget https://repo1.maven.org/maven2/org/junit/platform/junit-platform-launcher/1.8.1/junit-platform-launcher-1.8.1.jar
     - mv junit-platform-launcher-1.8.1.jar lab/Compiler/lib
+    - wget https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.8.1/junit-platform-console-standalone-1.8.1.jar
+    - mv junit-platform-console-standalone-1.8.1.jar lab/Compiler/lib
     - chmod +x run-test.sh
     - ./run-test.sh
