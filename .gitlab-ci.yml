@@ -3,28 +3,24 @@ image: adoptium/openjdk:17-jdk-hotspot
 before_script:
   - apt-get update && apt-get install -y openjdk-17-jdk
   - export JAVA_HOME=/usr/lib/jvm/default-java
+  - echo "Building project..."
+  - mkdir -p lab/Compiler
+  - cp -r ./src lab/Compiler/src
+  - cp -r ./test lab/Compiler/test
+  - cp -r ./lib lab/Compiler/lib
+  - wget https://repo1.maven.org/maven2/org/junit/platform/junit-platform-launcher/1.8.1/junit-platform-launcher-1.8.1.jar
+  - mv junit-platform-launcher-1.8.1.jar lab/Compiler/lib
+  - wget https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.8.1/junit-platform-console-standalone-1.8.1.jar
+  - mv junit-platform-console-standalone-1.8.1.jar lab/Compiler/lib
+  - chmod +x run-build.sh
+  - ./run-build.sh
+
 
 stages:
-  - build
   - unit_test
   - lexer_test
   - parser_test
   - semantic_check_test
-
-build:
-  stage: build
-  script:
-    - echo "Building project..."
-    - mkdir -p lab/Compiler
-    - cp -r ./src lab/Compiler/src
-    - cp -r ./test lab/Compiler/test
-    - cp -r ./lib lab/Compiler/lib
-    - wget https://repo1.maven.org/maven2/org/junit/platform/junit-platform-launcher/1.8.1/junit-platform-launcher-1.8.1.jar
-    - mv junit-platform-launcher-1.8.1.jar lab/Compiler/lib
-    - wget https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.8.1/junit-platform-console-standalone-1.8.1.jar
-    - mv junit-platform-console-standalone-1.8.1.jar lab/Compiler/lib
-    - chmod +x run-build.sh
-    - ./run-build.sh
 
 
 llvm_api_test:
