@@ -1,11 +1,7 @@
-image: adoptium/openjdk:latest
+image: bellsoft/liberica:17-jdk-alpine
 
 stages:
   - test
-
-services:
-  - name: adoptium/openjdk:latest
-    alias: jdk
 
 unit_tests:
   stage: test
