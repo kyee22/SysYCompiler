@@ -3,6 +3,10 @@ image: adoptium/openjdk:latest
 stages:
   - test
 
+services:
+  - name: adoptium/openjdk:latest
+    alias: jdk
+
 unit_tests:
   stage: test
   script:
