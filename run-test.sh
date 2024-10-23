@@ -12,7 +12,9 @@ find . -name "*.java" | xargs -n 1 javac -encoding UTF-8 -cp "$CLASSPATH" -d .
 
 # 运行JUnit测试
 # 对于JUnit 5，使用以下命令
-java -cp "$CLASSPATH" org.junit.platform.console.ConsoleLauncher --scan-class-path --select-class test.java.CompilerTest
-
+java -cp "$CLASSPATH" \
+    org.junit.platform.launcher.Launcher \
+    --scan-class-path \
+    --select-class test.java.CompilerTest
 # 如果使用JUnit 4，可以使用以下命令
 # java -cp "$CLASSPATH" org.junit.runner.TextUI test.java.CompilerTest
