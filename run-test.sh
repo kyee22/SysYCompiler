@@ -19,5 +19,4 @@ find . -name "*.java" | xargs -n 1 javac -encoding UTF-8 -cp "$CLASSPATH" -d .
 java -cp "$CLASSPATH" \
     org.junit.platform.console.ConsoleLauncher \
     --class-path "$CLASSPATH" \
-    --scan-class-path \
-    --select-class test.java.CompilerTest
+    --scan-classpath
