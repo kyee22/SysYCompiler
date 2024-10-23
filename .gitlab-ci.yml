@@ -6,6 +6,7 @@ stages:
 unit_tests:
   stage: test
   script:
+    - java -version # 添加此行以检查 Java 版本
     - mkdir -p lab/Compiler/src/frontend/core lab/Compiler/src/utils lab/Compiler/test/java
     - cp -r ./src/frontend/core/* lab/Compiler/src/frontend/core/
     - cp -r ./src/utils/* lab/Compiler/src/utils/
