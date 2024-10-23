@@ -1,4 +1,4 @@
-image: adoptium/openjdk:17-jdk-hotspot-bullseye
+image: adoptium/openjdk:latest
 
 stages:
   - test
