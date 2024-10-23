@@ -6,12 +6,11 @@ stages:
 unit_tests:
   stage: test
   script:
-    - apt-get update && apt-get install -y --no-install-recommends default-jdk-headless
     - mkdir -p lab/Compiler/src/frontend/core lab/Compiler/src/utils lab/Compiler/test/java
     - cp -r ./src/frontend/core/* lab/Compiler/src/frontend/core/
     - cp -r ./src/utils/* lab/Compiler/src/utils/
     - cp ./test/java/CompilerTest.java lab/Compiler/test/java/
-    - javac --release 17 -encoding UTF-8 lab/Compiler/src/frontend/core/*.java
-    - javac --release 17 -encoding UTF-8 lab/Compiler/src/utils/*.java
-    - javac --release 17 -encoding UTF-8 lab/Compiler/test/java/CompilerTest.java
+    - javac -encoding UTF-8 lab/Compiler/src/frontend/core/*.java
+    - javac -encoding UTF-8 lab/Compiler/src/utils/*.java
+    - javac -encoding UTF-8 lab/Compiler/test/java/CompilerTest.java
     - java -cp lab/Compiler/test/java:lab/Compiler/src/frontend/core:lab/Compiler/src/utils org.junit.runner.JUnitCore CompilerTest
