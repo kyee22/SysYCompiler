@@ -1,0 +1,19 @@
+image: openjdk:11-jdk-alpine
+
+stages:
+  - test
+
+unit_tests:
+  stage: test
+  script:
+    - apk add --no-cache bash make
+    - export JAVA_HOME=/usr/lib/jvm/default-java
+    - export PATH=$JAVA_HOME/bin:$PATH
+    - mkdir -p lab/Compiler/src/frontend/core lab/Compiler/src/utils lab/Compiler/test/java
+    - cp -r ./src/frontend/core/* lab/Compiler/src/frontend/core/
+    - cp -r ./src/utils/* lab/Compiler/src/utils/
+    - cp ./test/java/CompilerTest.java lab/Compiler/test/java/
+    - javac lab/Compiler/src/frontend/core/*.java
+    - javac lab/Compiler/src/utils/*.java
+    - javac lab/Compiler/test/java/CompilerTest.java
+    - java -cp lab/Compiler/test/java:lab/Compiler/src/frontend/core:lab/Compiler/src/utils org.junit.runner.JUnitCore CompilerTest

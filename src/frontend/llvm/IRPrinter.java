@@ -100,6 +100,8 @@ public class IRPrinter {
                 return "getelementptr";
             case ZEXT:
                 return "zext";
+            case SEXT:
+                return "sext";
             case FPTOSI:
                 return "fptosi";
             case SITOFP:
@@ -127,6 +129,34 @@ public class IRPrinter {
             instrIr.append(printAsOp(inst.getOperand(1), true));
         }
 
+        return instrIr.toString();
+    }
+
+    public static String printCmpInts(Instruction inst) {
+        StringBuilder instrIr = new StringBuilder();
+        String cmpType;
+        if (inst.isCmp()) {
+            cmpType = "icmp";
+        } else if (inst.isFCmp()) {
+            cmpType = "fcmp";
+        } else {
+            throw new IllegalArgumentException("Unexpected case");
+        }
+
+        instrIr.append("%");
+        instrIr.append(inst.getName());
+        instrIr.append(" = " + cmpType + " ");
+        instrIr.append(inst.getInstrOpName());
+        instrIr.append(" ");
+        instrIr.append(inst.getOperand(0).getType().print());
+        instrIr.append(" ");
+        instrIr.append(printAsOp(inst.getOperand(0), false));
+        instrIr.append(", ");
+        if (inst.getOperand(0).getType().equals(inst.getOperand(1).getType())) {
+            instrIr.append(printAsOp(inst.getOperand(1), false));
+        } else {
+            instrIr.append(printAsOp(inst.getOperand(1), true));
+        }
         return instrIr.toString();
     }
 }

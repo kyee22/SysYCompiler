@@ -18,7 +18,7 @@ import frontend.llvm.value.Value;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User extends Value {
+public abstract class User extends Value {
     private List<Value> operands;
 
     public User(Type type, String name) {

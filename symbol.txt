@@ -1,9 +1,2 @@
-1 a ConstInt
-1 b ConstInt
-1 c ConstChar
-1 d ConstCharArray
-1 aa Int
-1 bb Int
-1 cc Int
-1 dd Int
-1 fun VoidFunc
+1 i Int
+1 c Char

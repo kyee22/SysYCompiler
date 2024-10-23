@@ -13,7 +13,6 @@
 package frontend.llvm.value.user.instr;
 
 import frontend.llvm.IRPrinter;
-import frontend.llvm.Module;
 import frontend.llvm.value.BasicBlock;
 import frontend.llvm.value.Value;
 
@@ -43,6 +42,7 @@ public class FBinaryInst extends Instruction {
         return new FBinaryInst(OpID.FDIV, v1, v2, parent);
     }
 
+    @Override
     public String print() {
         return IRPrinter.printBinaryInst(this);
     }

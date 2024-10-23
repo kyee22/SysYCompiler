@@ -43,5 +43,8 @@ class StringUtilsTest {
         assertEquals(10, resolveNumOfPlaceHoders("Input: %d, %c, %d, %c, %d, %d, %d, %d, %c, %d\n"));
         assertEquals(1, resolveNumOfPlaceHoders("%d %x %y"));
         assertEquals(5, resolveNumOfPlaceHoders("Start %d %c middle %d end %d %c."));
+        assertEquals(0, resolveNumOfPlaceHoders("%%"));
+        assertEquals(0, resolveNumOfPlaceHoders("%f%lf%u%lld%llu"));
+
     }
 }

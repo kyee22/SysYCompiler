@@ -80,6 +80,9 @@ public class Lexer {
             }
             stream.ungetc();
             String text = builder.toString();
+            //if (keywords.containsKey(text.toLowerCase())) {
+            //    return makeToken(keywords.get(text.toLowerCase()), text.toLowerCase(), lineno, colno);
+            //}
             TokenType type = keywords.containsKey(text) ? keywords.get(text) : IDENFR;
             return makeToken(type, text, lineno, colno);
         } else if (Character.isDigit(ch)) {

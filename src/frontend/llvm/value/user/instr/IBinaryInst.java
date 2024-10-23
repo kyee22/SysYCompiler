@@ -44,7 +44,7 @@ public class IBinaryInst extends Instruction {
         return new IBinaryInst(OpID.SDIV, v1, v2, parent);
     }
 
-    //@Override
+    @Override
     public String print() {
         return IRPrinter.printBinaryInst(this);
     }

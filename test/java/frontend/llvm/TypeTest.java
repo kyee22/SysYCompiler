@@ -40,6 +40,7 @@ class TypeTest {
     private Type p1, p2, p3, p4, p5, p6, p7;
     private Type arr1, arr2, arr3, arr4, arr5, arr6, arr7;
     private Type f1, f2, f3, f4, f5, f6, f7;
+    private Type complex1,complex2,complex3,complex4;
 
     @BeforeEach
     public void setUp() {
@@ -82,6 +83,20 @@ class TypeTest {
          f5 = module.getFunctionType(voidTy, List.of(int32PtrTy, i32Ty, int32PtrTy, another_i32Ty));
          f6 = module.getFunctionType(i32Ty, List.of(int32PtrTy));
          f7 = module.getFunctionType(i1Ty, List.of(int32PtrTy, int32PtrTy));
+
+         complex1 = module.getFunctionType(i32Ty, List.of(another_i32Ty, floatPtrTy, another_float32Ty));
+         complex2 = module.getFunctionType(another_i32Ty, List.of(i32Ty, another_floatPtrTy, float32Ty));
+
+         Type tmp1 = module.getArrayType(i32Ty, 5);
+         Type tmp2 = module.getArrayType(another_i32Ty, 5);
+         Type tmp3 = module.getArrayType(tmp2, 10);
+         Type tmp4 = module.getArrayType(tmp1, 10);
+         Type tmp5 = module.getPointerType(tmp3);
+         Type tmp6 = module.getPointerType(tmp4);
+         Type tmp7 = module.getPointerType(tmp5);
+         Type tmp8 = module.getPointerType(tmp6);
+         complex3 = module.getFunctionType(float32Ty, List.of(int32PtrTy, tmp5, tmp8));
+         complex4 = module.getFunctionType(another_float32Ty, List.of(module.getPointerType(module.getInt32Type()), tmp6, tmp7));
     }
 
 
@@ -125,6 +140,9 @@ class TypeTest {
         assertEquals(8, p5.getSize());
         assertEquals(8, p6.getSize());
         assertEquals(8, p7.getSize());
+
+        assertTrue(complex1 == complex2);
+        assertTrue(complex3 == complex4);
     }
 
     @Test

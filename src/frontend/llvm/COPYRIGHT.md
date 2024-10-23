@@ -8,3 +8,6 @@
 
 Light IR：https://cscourse.ustc.edu.cn/vdir/Gitlab/compiler_staff/2024ustc-jianmu-compiler/-/tree/main/src/lightir
 
+Light IR Spec @USTC 2024: https://ustc-compiler-2024.github.io/homepage/lab2/LightIR%20C%2B%2B/
+
+Light IR Spec @USTC 2023: https://ustc-compiler-principles.github.io/2023/common/LightIR/

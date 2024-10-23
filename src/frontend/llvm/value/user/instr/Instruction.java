@@ -37,7 +37,7 @@ public abstract class Instruction extends User {
             // Float compare operators
             FGE, FGT, FLE, FLT, FEQ, FNE,
             // Other operators
-            PHI, CALL, GETELEMENTPTR, ZEXT, // zero extend
+            PHI, CALL, GETELEMENTPTR, ZEXT, SEXT, // zero extend
             FPTOSI, SITOFP
     }
 
@@ -46,8 +46,16 @@ public abstract class Instruction extends User {
         this.opId = id;
         this.parent = parent;
         if (parent != null) {
-            parent.addInstruction(this);
+            parent.addInstr(this);
         }
+    }
+
+    public BasicBlock getParent() {
+        return parent;
+    }
+
+    public void setParent(BasicBlock parent) {
+        this.parent = parent;
     }
 
     public Function getFunction() {
@@ -58,9 +66,8 @@ public abstract class Instruction extends User {
         return parent.getModule();
     }
 
-    public String getInstrOpName() {
-        return IRPrinter.printInstrOpName(opId);
-    }
+    public OpID getInstrType() {return opId;}
+    public String getInstrOpName() {return IRPrinter.printInstrOpName(opId);}
 
     public boolean isVoid() {
         return (opId == OpID.RET || opId == OpID.BR || opId == OpID.STORE
@@ -88,6 +95,7 @@ public abstract class Instruction extends User {
     public boolean isCall() { return opId == OpID.CALL; }
     public boolean isGEP() { return opId == OpID.GETELEMENTPTR; }
     public boolean isZExt() { return opId == OpID.ZEXT; }
+    public boolean isSExt() {return opId == OpID.SEXT; }
 
     public boolean isBinary() {
         return (isAdd() || isSub() || isMul() || isDiv()

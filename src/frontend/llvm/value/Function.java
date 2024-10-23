@@ -34,7 +34,6 @@ public class Function extends Value {
         parent.addFunction(this);
         this.parent = parent;
         for (int i = 0; i < type.getNumberOfArgs(); ++i) {
-            // todo： 参数到底叫什么
             arguments.add(new Argument(type.getParamType(i), "", this, i));
         }
     }
@@ -69,7 +68,12 @@ public class Function extends Value {
 
     public void removeBasicBlock(BasicBlock bb) {
         basicBlocks.remove(bb);
-        //todo prev,succ
+        for (BasicBlock succ : bb.getSuccBasicBlocks()) {
+            succ.removePrevBasicBlock(bb);
+        }
+        for (BasicBlock pred : bb.getPrevBasicBlocks()) {
+            pred.removeSuccBasicBlock(bb);
+        }
     }
 
     public BasicBlock getEntryBlock() {
@@ -103,7 +107,7 @@ public class Function extends Value {
                 bb.setName("label" + seqNum);
                 seq.put(bb, seqNum);
             }
-            for (Instruction instr : bb.getInstructions()) {
+            for (Instruction instr : bb.getInstrs()) {
                 if (!instr.isVoid() && !seq.containsKey(instr)) {
                     int seqNum = seq.size() + seqCnt;
                     instr.setName("op" + seqNum);
