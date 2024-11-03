@@ -55,4 +55,20 @@ public class InitValContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public List<ExpContext> exp() {
+        return exp;
+    }
+
+    public ExpContext exp(int index) {
+        return exp.get(index);
+    }
+
+    public TerminalContext LBRACE() {
+        return LBRACE_;
+    }
+
+    public TerminalContext STRCON() {
+        return STRCON_;
+    }
 }

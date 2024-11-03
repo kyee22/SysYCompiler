@@ -61,4 +61,19 @@ public class IfStmtContext extends Context {
         return visitor.visit(this);
     }
 
+    public TerminalContext ELSETK() {
+        return ELSETK_;
+    }
+
+    public CondContext cond() {
+        return cond;
+    }
+
+    public StmtContext ifStmt() {
+        return ifStmt;
+    }
+
+    public StmtContext elseStmt() {
+        return elseStmt;
+    }
 }

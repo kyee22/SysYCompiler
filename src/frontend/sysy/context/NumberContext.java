@@ -37,4 +37,6 @@ public class NumberContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public TerminalContext INTCON() {return INTCON_;}
 }

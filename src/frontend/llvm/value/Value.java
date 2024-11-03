@@ -73,7 +73,7 @@ public abstract class Value {
         }
     }
 
-    //public abstract String print();// TODO: 所有的子类print实现之后
+    public abstract String print();
 
     public <T extends Value> T as(Class<T> clazz) {
         return clazz.cast(this);

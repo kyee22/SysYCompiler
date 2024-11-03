@@ -57,4 +57,8 @@ public class LValContext extends Context {
     public TerminalContext LBRACK() {
         return LBRACK_;
     }
+
+    public ExpContext exp() {
+        return exp;
+    }
 }

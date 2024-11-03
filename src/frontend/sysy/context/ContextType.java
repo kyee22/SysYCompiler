@@ -33,5 +33,4 @@ public enum ContextType {
     MulExp, AddExp, RelExp, EqExp, LAndExp, LOrExp,
     ConstExp
     ;
-
 }

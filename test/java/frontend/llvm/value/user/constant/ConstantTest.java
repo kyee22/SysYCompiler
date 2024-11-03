@@ -32,9 +32,9 @@ class ConstantTest {
     @BeforeEach
     void setUp() {
         module = new Module();
-        const_i32 = ConstantInt.get(2024, module);
-        another_const_i32 = ConstantInt.get(1189, module);
-        const_i1 = ConstantInt.get(true, module);
+        const_i32 = ConstantInt.getInt(2024, module);
+        another_const_i32 = ConstantInt.getInt(1189, module);
+        const_i1 = ConstantInt.getBool(true, module);
         const_float = ConstantFP.get(114.514f, module);
         const_zero = ConstantZero.get(module.getInt32Type());
         const_arr = ConstantArray.get(module.getArrayType(module.getInt32Type(), 2), List.of(const_i32, another_const_i32));

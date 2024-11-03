@@ -1,0 +1,7 @@
+Moca move otter 1 from queue A to queue C
+Moca move otter 2 from queue A to queue B
+Moca move otter 1 from queue C to queue B
+Moca move otter 3 from queue A to queue C
+Moca move otter 1 from queue B to queue A
+Moca move otter 2 from queue B to queue C
+Moca move otter 1 from queue A to queue C

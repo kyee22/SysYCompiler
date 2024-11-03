@@ -13,6 +13,7 @@
 package frontend.llvm.value.user.instr;
 
 import frontend.llvm.IRPrinter;
+import frontend.llvm.value.Argument;
 import frontend.llvm.value.BasicBlock;
 import frontend.llvm.value.Value;
 

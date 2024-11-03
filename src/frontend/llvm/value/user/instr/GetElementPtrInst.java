@@ -45,7 +45,7 @@ public class GetElementPtrInst extends Instruction {
 
         Type ty = ptr.getType().getPointerElementType();
         if (!(ty.isArrayType() || ty.isIntegerType() || ty.isFloatType())) {
-            throw new IllegalArgumentException("GetElementPtrInst ptr is wrong type");
+            throw new IllegalArgumentException("GetElementPtrInst ptr is wrong type: " + ty.print());
         }
 
         if (ty.isArrayType()) {
@@ -81,7 +81,9 @@ public class GetElementPtrInst extends Instruction {
             if (i > 0) {
                 instrIr.append(", ");
             }
-            instrIr.append(getOperand(i).getType().print()).append(" ").append(IRPrinter.printAsOp(getOperand(i), false));
+            instrIr.append(getOperand(i).getType().print())
+                    .append(" ")
+                    .append(IRPrinter.printAsOp(getOperand(i), false));
         }
         return instrIr.toString();
     }

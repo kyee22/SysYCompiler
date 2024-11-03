@@ -46,6 +46,7 @@ public class GlobalVariable extends User {
         return isConst;
     }
 
+    @Override
     public String print() {
         StringBuilder sb = new StringBuilder();
         sb.append(IRPrinter.printAsOp(this, false));

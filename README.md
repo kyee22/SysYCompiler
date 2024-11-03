@@ -6,85 +6,59 @@ Lab assignments for *Compiling Techniques* @ Beihang University, Fall 2024
 
 TODO
 
-## Python Scripts
+## Test
 
-### Lab 0: Grammar Understanding
+### Test Cases
 
-*   **submit assignments:**
+Test cases for local testing are located under `test/python/testcases`:
 
-    run
+-   Public test case directories have suffixes `-public`.
+-   Manually constructed test case directories have suffixes `-private`.
 
-    ```bash
-    $ cd pytest/testcases/grammar-understaing-private/
-    $ python3 submit.py
-    Successfully created txt_files.zip containing 18 .txt files.
-    ```
+### Test Drivers
 
-    a `.zip` file containing all the required `.txt` files will be created in `pytest/testcases/grammar-understaing-private/`.
+#### Lexer & Parser & Semantic Check Test
 
-*   **test SysY file:**
+-   Several redundant Python test scripts are located in the `test/python/` directory.
 
-    run
+-   Later, Java versions of JUnit tests were written and are located in the `test/java/` directory.
 
-    ```bash
-    $ cd pytest/testcases/grammar-understaing-private/
-    $ python3 test.py testfile{x}.txt
-    ```
+-   Example
 
-    Some tedious staff will be made to execute `testfile{x}.txt` via `gcc`, with standard input redirected to `input{x}.txt` & standard output redirected to `output{x}.txt`. (`x` = 1, 2, ..., 6)
+    ![image-20241103185931810](docs/img/test-sc.png)
 
-### Lab 1: Lexer
+#### IR Gen Test
 
-*   **submit assignments:**
+*   Testing the generated LLVM IR requires tools such as `clang`, `lli`, and `llvm-link`. For convenience, testing is performed on a Linux environment rather than a Windows platform.
 
-    run
+*   To run the tests, use the following command:
 
     ```bash
-    $ python3 submit/submit.py                                
-    压缩完成，压缩包保存到: submit/src_files.zip
+    python3 test/python/code-gen-test.py {test_case_path} {IR_runtime_output_path}
     ```
 
-    a `.zip` file meeting the following requirement will be created in `submit/`.
-
-    ```
-    .
-    ├── Compiler.java
-    ├── config.json
-    └── frontend
-             └── Lexer.java
-    ```
-
-*   **local lexer test:**
+*   Example
 
     ```bash
-    $ python3 pytest/lexer-test.py                     
-    [       OK ] TEST A.testcase1 (0.45 s)
-    [       OK ] TEST A.testcase2 (0.45 s)
-    [       OK ] TEST A.testcase3 (0.45 s)
-    ......omitted ......
-    [       OK ] TEST C.testcase15 (0.46 s)
-    [       OK ] TEST C.testcase16 (0.51 s)
+    $ python3 test/python/code-gen-test.py test/python/testcases/code-gen-public/A output.txt
+    Run test cases in test/python/testcases/code-gen-public/A ...
+    [       OK ] TEST testcase1
+    [       OK ] TEST testcase10
+    [       OK ] TEST testcase11
+    [       OK ] TEST testcase2
+    [       OK ] TEST testcase3
+    [       OK ] TEST testcase4
+    [       OK ] TEST testcase5
+    [       OK ] TEST testcase6
+    [       OK ] TEST testcase7
+    [       OK ] TEST testcase8
+    [       OK ] TEST testcase9
     
-    [==========] 33 tests from 1 test suite ran. (14.64 s total)
-    [  PASSED  ] 33 tests.
-    
-    ✅  Congratulations!
-    ```
-
-*   **local lexer error handling test:**
-
-    ```bash
-    $ python3 pytest/lexer-err-test.py                 
-    [       OK ] TEST testcase1 (0.37 s)
-    [       OK ] TEST testcase2 (0.24 s)
-    [       OK ] TEST testcase3 (0.63 s)
-    [       OK ] TEST testcase4 (0.55 s)
-    
-    [==========] 4 tests from 1 test suite ran. (1.84 s total)
-    [  PASSED  ] 4 tests.
-    
-    ✅  Congratulations!
+    [  PASSED  ] 11 tests.
+    All tests passed.
     ```
 
     
+
+
 

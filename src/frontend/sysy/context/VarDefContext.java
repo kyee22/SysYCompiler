@@ -63,4 +63,12 @@ public class VarDefContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public ConstExpContext constExp() {
+        return constExp;
+    }
+
+    public InitValContext initVal() {
+        return initVal;
+    }
 }

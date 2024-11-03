@@ -21,42 +21,59 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Compiler {
-    public static int LAB = 3;
+    public static int LAB = 4;
     private static final String INPUT_PATH = "testfile.txt";
     private static final String LEXER_OUTPUT_PATH = "lexer.txt";
     private static final String ERR_PATH = "error.txt";
     private static final String PARSER_OUTPUT_PATH = "parser.txt";
     private static final String SEMANTIC_CHECK_OUTPUT_PATH = "symbol.txt";
-    private static final String IR_PATH = "";   // todo
+    private static final String IR_PATH = "llvm_ir.txt";
     private static final String ASM_PATH = "";  // todo
 
-    public static void main(String[] args)  {
+    private static ErrorListener errorListener;
+    private static Lexer lexer;
+    private static Parser parser;
+    private static Context ast;
+    private static SemanticCheckVisitor semanticCheckVisitor;
+    private static IRGenVisitor irGenVisitor;
+
+    private static void pipeline() {
         /*      Error Handling is through the whole pipeline        */
-        ErrorListener errorListener = new ErrorReporter();
+        errorListener = new ErrorReporter();
 
         /*      STEP 0: Source File ---> Char Stream        */
         ((ErrorReporter) errorListener).read(INPUT_PATH);
         Charstream stream = Charstream.fromFile(INPUT_PATH);
 
         /*      STEP 1: Char Stream ---> Tokens        */
-        Lexer lexer = new Lexer(stream);
+        lexer = new Lexer(stream);
         lexer.addErrorListener(errorListener);
         lexer.engine();
 
-        /*      STEP 2: Tokens ---> AST        */
-        Parser parser = new Parser(lexer.getTokens());
+        ///*      STEP 2: Tokens ---> AST        */
+        parser = new Parser(lexer.getTokens());
         parser.addErrorListener(errorListener);
         parser.engine();
-        Context ast = parser.getAst();
+        ast = parser.getAst();
 
         /*      STEP 3: Semantic Check        */
-        SemanticCheckVisitor semanticCheckVisitor = new SemanticCheckVisitor();
+        semanticCheckVisitor = new SemanticCheckVisitor();
         semanticCheckVisitor.addErrorListener(errorListener);
         ast.accept(semanticCheckVisitor);
 
+        irGenVisitor = new IRGenVisitor();
+        if (errorListener.hasErrors()) {
+            return;
+        }
+
         /*      STEP 4: IR Gen        */
-        IRGenVisitor irGenVisitor = new IRGenVisitor();
         ast.accept(irGenVisitor);
+    }
+
+    private static void output() {
+        if (errorListener.hasErrors()) {
+            errorListener.flushErrors(ERR_PATH);
+        }
 
         /*      Switch on output interface for corresponding lab    */
         switch (LAB) {
@@ -74,17 +91,16 @@ public class Compiler {
                 FileUtils.writeListToFile(records, SEMANTIC_CHECK_OUTPUT_PATH);
                 break;
             case 4:
-                // todo
+                List<String> ir = List.of(irGenVisitor.getModule().print());
+                FileUtils.writeListToFile(ir, IR_PATH);
                 break;
             default:
                 break;
         }
+    }
 
-        if (errorListener.hasErrors()) {
-            //System.out.println("Errors detected");
-            errorListener.flushErrors(ERR_PATH);
-        }
-
-        //((ErrorReporter) errorListener).hint();
+    public static void main(String[] args)  {
+        pipeline();
+        output();
     }
 }

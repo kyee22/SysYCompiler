@@ -27,23 +27,25 @@ public class Module {
     private Type voidTy = new Type(Type.TypeID.VoidTyID, this);
     private Type labelTy = new Type(Type.TypeID.LabelTyID, this);
     private IntegerType int1Ty = new IntegerType(1, this);
+    private IntegerType int8Ty = new IntegerType(8, this);
     private IntegerType int32Ty = new IntegerType(32, this);
     private FloatType float32Ty = new FloatType(this);
-
 
     private Map<Type, PointerType> pointerTyCache = new HashMap<>();
     private Map<Type, Map<Integer, ArrayType>> arrayTyCache = new HashMap<>();
     private Map<Type, Map<List<Type>, FunctionType>> functionTyCache = new HashMap<>();
 
-    //private Map<Pai>
     // todo: hash code, equals, pair
 
+    /******************************** api about type ********************************/
     public Type getVoidType() {return voidTy;}
     public Type getLabelType() {return labelTy;}
     public IntegerType getInt1Type() {return int1Ty;}
+    public IntegerType getInt8Type() {return int8Ty;}
     public IntegerType getInt32Type() {return int32Ty;}
     public FloatType getFloatType() {return float32Ty;}
     public PointerType getInt32PointerType() {return getPointerType(int32Ty);}
+    public PointerType getInt8PointerType() {return getPointerType(int8Ty);}
     public PointerType getFloatPointerType() {return getPointerType(float32Ty);}
 
     public PointerType getPointerType(Type elementType) {
@@ -73,19 +75,40 @@ public class Module {
         return functionTyCache.get(returnType).get(argumentTypes);
     }
 
-    public void addGlobalVariable(GlobalVariable globalVariable) {
-        globalList.add(globalVariable);
+    /******************************** api about global variables ********************************/
+    public void addGlobalVariable(GlobalVariable globalVariable) {globalList.add(globalVariable);}
+    public List<GlobalVariable> getGlobalVariables() {return globalList;}
+
+    /******************************** api about functions ********************************/
+    public void addFunction(Function function) {functions.add(function);}
+    public List<Function> getFunctions() {return functions;}
+
+    /******************************** api about output ********************************/
+    public void setPrintName() {
+        for (Function function : functions) {
+            function.setInstrName();
+        }
     }
 
-    public List<GlobalVariable> getGlobalVariables() {
-        return globalList;
-    }
-
-    public void addFunction(Function function) {
-        functions.add(function);
-    }
-
-    public List<Function> getFunctions() {
-        return functions;
+    public String print() {
+        setPrintName();
+        StringBuilder sb = new StringBuilder();
+        for (Function function: functions) {
+            if (function.isDeclaration()) {
+                sb.append(function.print());
+            }
+        }
+        sb.append("\n");
+        for (GlobalVariable globalVariablel: globalList) {
+            sb.append(globalVariablel.print())
+              .append("\n");
+        }
+        sb.append("\n");
+        for (Function function: functions) {
+            if (!function.isDeclaration()) {
+                sb.append(function.print()).append("\n\n");
+            }
+        }
+        return sb.toString();
     }
 }

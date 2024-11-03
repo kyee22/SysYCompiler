@@ -35,7 +35,7 @@ public class CallInstr extends Instruction {
         FunctionType functionType = (FunctionType) function.getType();
         for (int i = 0; i < arguments.size(); i++) {
             if (functionType.getParamType(i) != arguments.get(i).getType()) {
-                throw new IllegalArgumentException("arguments mismatch");
+                throw new IllegalArgumentException("arguments mismatch. expected " + functionType.getParamType(i).print() + " but got " + arguments.get(i).getType().print());
             }
             addOperand(arguments.get(i));
         }

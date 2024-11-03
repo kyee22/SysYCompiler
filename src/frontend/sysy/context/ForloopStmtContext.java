@@ -32,9 +32,10 @@ public class ForloopStmtContext extends Context {
         if (context instanceof CondContext) {
             cond = (CondContext) context;
         } else if (context instanceof ForStmtContext) {
-            if (forStmt1 == null) {
+            if (SEMICN_1 == null) {
                 forStmt1 = (ForStmtContext) context;
-            } else {
+            }
+            if (SEMICN_2 != null) {
                 forStmt2 = (ForStmtContext) context;
             }
         } else if (context instanceof StmtContext) {
@@ -67,5 +68,21 @@ public class ForloopStmtContext extends Context {
     @Override
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
+    }
+
+    public ForStmtContext forStmt1() {
+        return forStmt1;
+    }
+
+    public ForStmtContext forStmt2() {
+        return forStmt2;
+    }
+
+    public CondContext cond() {
+        return cond;
+    }
+
+    public StmtContext stmt() {
+        return stmt;
     }
 }

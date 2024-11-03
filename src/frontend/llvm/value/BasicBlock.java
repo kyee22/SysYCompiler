@@ -49,7 +49,13 @@ public class BasicBlock extends Value {
     public List<BasicBlock> getSuccBasicBlocks() {return succBasicBlocks;}
 
     /******************************** api about Instruction ********************************/
-    public void addInstr(Instruction instruction) {instructions.add(instruction);}
+    public void addInstr(Instruction instruction) {
+        // 这里做了修改, 当已经有 ret/br 时就不新加指令了
+        // 这种情况是存在的: 当出现 break/continue 时后面的指令就 unreachable 了
+        if (!isTerminated()) {
+            instructions.add(instruction);
+        }
+    }
     public void addInstrBegin(Instruction instruction) {instructions.add(0, instruction);}
     public void remoteInstr(Instruction instruction) {instructions.remove(instruction);}
     public List<Instruction> getInstrs() {return instructions;}
@@ -78,6 +84,7 @@ public class BasicBlock extends Value {
         return instructions.get(getNumOfInstr() - 1);
     }
 
+    @Override
     public String print() {
         StringBuilder sb = new StringBuilder();
         sb.append(getName()).append(':');

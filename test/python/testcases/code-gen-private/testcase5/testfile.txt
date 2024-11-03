@@ -1,0 +1,57 @@
+//
+
+int P = 1000000007;
+
+int max(int a, int b) {
+    if (a < b) {
+        return b;
+    }
+    return a;
+}
+
+int qpow(int base, int exp) {
+    int result = 1;
+    for (;exp > 0; ) {
+        if (exp % 2 == 1) {
+            result = (result % P * base % P) % P;
+        }
+        base = (base % P * base % P) % P;
+        exp = exp / 2;
+    }
+    return result;
+}
+
+
+
+int max_product(int n) {
+    if (n <= 3) {
+        return n % P;
+    }
+
+    int quotient = n / 3;
+    int remainder = n % 3;
+
+    if (remainder == 0) {
+        return qpow(3, quotient) % P;
+    } else if (remainder == 1) {
+        return (qpow(3, quotient - 1) % P * 4 % P) % P;
+    } else { // remainder == 2
+        return (qpow(3, quotient) % P * 2 % P) % P;
+    }
+    return 0;
+}
+
+
+int main() {
+    int t;
+    t = getint();
+
+    int n;
+
+    for (;t ; t = t - 1) {
+        n = getint();
+        printf("%d\n", max_product(n));
+    }
+    return 0;
+
+}

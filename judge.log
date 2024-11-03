@@ -1,0 +1,271 @@
+Input file input.txt exists.
+LLVM IR file llvm_ir.txt exists.
+Library file test/resources/llvm_ir_io/lib.ll exists.
+Linking llvm_ir.txt and test/resources/llvm_ir_io/lib.ll...
+Successfully linked llvm_ir.txt and test/resources/llvm_ir_io/lib.ll into llvm_program.
+Executing the program with input from input.txt...
+================= 🌟 Exit Code 🌟 ==================
+0
+================= 📝 Std Input 📝 ==================
+
+================= 🍟 Std Output 🍟 =================
+21373457
+And success!
+Or pass!
+Test1 Success!
+1024
+1024
+1024
+1024
+1024
+1024
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Program executed successfully. Output redirected to output.txt.
+Program execution completed.
+Input file input.txt exists.
+LLVM IR file llvm_ir.txt exists.
+Library file test/resources/llvm_ir_io/lib.ll exists.
+Linking llvm_ir.txt and test/resources/llvm_ir_io/lib.ll...
+Successfully linked llvm_ir.txt and test/resources/llvm_ir_io/lib.ll into llvm_program.
+Executing the program with input from input.txt...
+================= 🌟 Exit Code 🌟 ==================
+0
+================= 📝 Std Input 📝 ==================
+1
+c
+================= 🍟 Std Output 🍟 =================
+22230605
+num1 is greater than num2.
+num1 is less than num2.
+num1 is equal to num2.
+The letter is c
+end
+end
+end
+end
+end
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Program executed successfully. Output redirected to output.txt.
+Program execution completed.
+Input file input.txt exists.
+LLVM IR file llvm_ir.txt exists.
+Library file test/resources/llvm_ir_io/lib.ll exists.
+Linking llvm_ir.txt and test/resources/llvm_ir_io/lib.ll...
+Successfully linked llvm_ir.txt and test/resources/llvm_ir_io/lib.ll into llvm_program.
+Executing the program with input from input.txt...
+================= 🌟 Exit Code 🌟 ==================
+0
+================= 📝 Std Input 📝 ==================
+1
+1
+================= 🍟 Std Output 🍟 =================
+22371236
+test_stmt_getint_getchar_printfsuccess
+test_Eqexp success!
+test_Lval_exp success!
+test_add_exp_success!
+test_mul_exp success!
+test_primary_exp success!
+test_rel_exp success!
+test_unary_exp success!
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Program executed successfully. Output redirected to output.txt.
+Program execution completed.
+Input file input.txt exists.
+LLVM IR file llvm_ir.txt exists.
+Library file test/resources/llvm_ir_io/lib.ll exists.
+Linking llvm_ir.txt and test/resources/llvm_ir_io/lib.ll...
+Successfully linked llvm_ir.txt and test/resources/llvm_ir_io/lib.ll into llvm_program.
+Executing the program with input from input.txt...
+================= 🌟 Exit Code 🌟 ==================
+0
+================= 📝 Std Input 📝 ==================
+4
+2
+1
+
+================= 🍟 Std Output 🍟 =================
+0
+1
+2
+2
+1
+2
+19182620
+19182620
+19182620
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Program executed successfully. Output redirected to output.txt.
+Program execution completed.
+Input file input.txt exists.
+LLVM IR file llvm_ir.txt exists.
+Library file test/resources/llvm_ir_io/lib.ll exists.
+Linking llvm_ir.txt and test/resources/llvm_ir_io/lib.ll...
+Successfully linked llvm_ir.txt and test/resources/llvm_ir_io/lib.ll into llvm_program.
+Executing the program with input from input.txt...
+================= 🌟 Exit Code 🌟 ==================
+0
+================= 📝 Std Input 📝 ==================
+
+================= 🍟 Std Output 🍟 =================
+
++ is error!
++ is error!
++ is error!
++ is error!
+Break is error!
+a1+b1 is 3
+a2+b2 is -2
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Program executed successfully. Output redirected to output.txt.
+Program execution completed.
+Input file input.txt exists.
+LLVM IR file llvm_ir.txt exists.
+Library file test/resources/llvm_ir_io/lib.ll exists.
+Linking llvm_ir.txt and test/resources/llvm_ir_io/lib.ll...
+Successfully linked llvm_ir.txt and test/resources/llvm_ir_io/lib.ll into llvm_program.
+Executing the program with input from input.txt...
+================= 🌟 Exit Code 🌟 ==================
+0
+================= 📝 Std Input 📝 ==================
+c1
+
+================= 🍟 Std Output 🍟 =================
+22371491
+0
+failed
+0
+failed
+1
+pass
+1
+pass
+1
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Program executed successfully. Output redirected to output.txt.
+Program execution completed.
+Input file input.txt exists.
+LLVM IR file llvm_ir.txt exists.
+Library file test/resources/llvm_ir_io/lib.ll exists.
+Linking llvm_ir.txt and test/resources/llvm_ir_io/lib.ll...
+Successfully linked llvm_ir.txt and test/resources/llvm_ir_io/lib.ll into llvm_program.
+Executing the program with input from input.txt...
+================= 🌟 Exit Code 🌟 ==================
+0
+================= 📝 Std Input 📝 ==================
+3
+4
+5
+m
+================= 🍟 Std Output 🍟 =================
+22371298
+Fibonacci Array 3 : 2  4 : 3  5 : 5
+1
+a
+a
+a
+a
+a
+a
+a
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Program executed successfully. Output redirected to output.txt.
+Program execution completed.
+Input file input.txt exists.
+LLVM IR file llvm_ir.txt exists.
+Library file test/resources/llvm_ir_io/lib.ll exists.
+Linking llvm_ir.txt and test/resources/llvm_ir_io/lib.ll...
+Successfully linked llvm_ir.txt and test/resources/llvm_ir_io/lib.ll into llvm_program.
+Executing the program with input from input.txt...
+================= 🌟 Exit Code 🌟 ==================
+0
+================= 📝 Std Input 📝 ==================
+5
+s
+================= 🍟 Std Output 🍟 =================
+22373040
+Input integer: 5
+Input character: s
+i is 4 or 9!
+j is 32!
+i is 4 or 9!
+j is 32!
+Sum of array elements: 6
+q
+Test finished!
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Program executed successfully. Output redirected to output.txt.
+Program execution completed.
+Input file input.txt exists.
+LLVM IR file llvm_ir.txt exists.
+Library file test/resources/llvm_ir_io/lib.ll exists.
+Linking llvm_ir.txt and test/resources/llvm_ir_io/lib.ll...
+Successfully linked llvm_ir.txt and test/resources/llvm_ir_io/lib.ll into llvm_program.
+Executing the program with input from input.txt...
+================= 🌟 Exit Code 🌟 ==================
+0
+================= 📝 Std Input 📝 ==================
+1
+b
+================= 🍟 Std Output 🍟 =================
+21374067
+-11
+i: 0
+i: 1
+i: 2
+i: 3
+i: 4
+i: 5
+x
+120
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Program executed successfully. Output redirected to output.txt.
+Program execution completed.
+Input file input.txt exists.
+LLVM IR file llvm_ir.txt exists.
+Library file test/resources/llvm_ir_io/lib.ll exists.
+Linking llvm_ir.txt and test/resources/llvm_ir_io/lib.ll...
+Successfully linked llvm_ir.txt and test/resources/llvm_ir_io/lib.ll into llvm_program.
+Executing the program with input from input.txt...
+================= 🌟 Exit Code 🌟 ==================
+0
+================= 📝 Std Input 📝 ==================
+
+================= 🍟 Std Output 🍟 =================
+21376218
+9
+Finish test1
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Program executed successfully. Output redirected to output.txt.
+Program execution completed.
+Input file input.txt exists.
+LLVM IR file llvm_ir.txt exists.
+Library file test/resources/llvm_ir_io/lib.ll exists.
+Linking llvm_ir.txt and test/resources/llvm_ir_io/lib.ll...
+Successfully linked llvm_ir.txt and test/resources/llvm_ir_io/lib.ll into llvm_program.
+Executing the program with input from input.txt...
+================= 🌟 Exit Code 🌟 ==================
+0
+================= 📝 Std Input 📝 ==================
+1
+12
+
+================= 🍟 Std Output 🍟 =================
+4
+6
+judgeB 2,3 = -1
+Hello 12
+31
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Program executed successfully. Output redirected to output.txt.
+Program execution completed.

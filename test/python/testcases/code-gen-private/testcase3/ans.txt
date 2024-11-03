@@ -1,0 +1,4 @@
+!1 should be 0: Correct
+!0 should be 1: Correct
+!5 should be 0: Correct
+!0 should be 1: Correct

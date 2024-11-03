@@ -46,4 +46,12 @@ public class LOrExpContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public List<LAndExpContext> lAndExp() {
+        return lAndExp;
+    }
+
+    public LAndExpContext lAndExp(int index) {
+        return lAndExp.get(index);
+    }
 }

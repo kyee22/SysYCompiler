@@ -34,6 +34,17 @@ public class CastInst extends Instruction {
                     throw new IllegalArgumentException("operand bit size is not smaller than destination type bit size");
                 }
                 break;
+            case TRUNCT:
+                if (!val.getType().isIntegerType()) {
+                    throw new IllegalArgumentException("ExtInst requires integer type");
+                }
+                if (!destType.isIntegerType()) {
+                    throw new IllegalArgumentException("ExtInst requires integer type");
+                }
+                if (((IntegerType) val.getType()).getNumBits() <= ((IntegerType) destType).getNumBits()) {
+                    throw new IllegalArgumentException("operand bit size is not bigger than destination type bit size");
+                }
+                break;
             case FPTOSI:
                 //todo
                 break;
@@ -46,37 +57,19 @@ public class CastInst extends Instruction {
         addOperand(val);
     }
 
-    public static CastInst createZext(Value val, Type destType, BasicBlock bb) {
-        return new CastInst(OpID.ZEXT, val, destType, bb);
-    }
+    public static CastInst createZext(Value val, Type destType, BasicBlock bb) {return new CastInst(OpID.ZEXT, val, destType, bb);}
+    public static CastInst createZextToInt8(Value val, BasicBlock bb) {return new CastInst(OpID.ZEXT, val, bb.getModule().getInt8Type(), bb);}
+    public static CastInst createZextToInt32(Value val, BasicBlock bb) {return new CastInst(OpID.ZEXT, val, bb.getModule().getInt32Type(), bb);}
+    public static CastInst createSext(Value val, Type destType, BasicBlock bb) {return new CastInst(OpID.SEXT, val, destType, bb);}
+    public static CastInst createSextToInt32(Value val, BasicBlock bb) {return new CastInst(OpID.SEXT, val, bb.getModule().getInt32Type(), bb);}
+    public static CastInst createTrunc(Value val, Type destType, BasicBlock bb) {return new CastInst(OpID.TRUNCT, val, destType, bb);}
+    public static CastInst createTruncToInt8(Value val, BasicBlock bb) {return new CastInst(OpID.TRUNCT, val, bb.getModule().getInt8Type(), bb);}
+    public static CastInst createTruncToInt1(Value val, BasicBlock bb) {return new CastInst(OpID.TRUNCT, val, bb.getModule().getInt1Type(), bb);}
+    public static CastInst createFptosi(Value val, Type destType, BasicBlock bb) {return new CastInst(OpID.FPTOSI, val, destType, bb);}
+    public static CastInst createFptosiToInt32(Value val, BasicBlock bb) {return new CastInst(OpID.FPTOSI, val, bb.getModule().getInt32Type(), bb);}
+    public static CastInst createSitofp(Value val, Type destType, BasicBlock bb) {return new CastInst(OpID.SITOFP, val, destType, bb);}
 
-    public static CastInst createZextToInt32(Value val, BasicBlock bb) {
-        return new CastInst(OpID.ZEXT, val, bb.getModule().getInt32Type(), bb);
-    }
-
-    public static CastInst createSext(Value val, Type destType, BasicBlock bb) {
-        return new CastInst(OpID.SEXT, val, destType, bb);
-    }
-
-    public static CastInst createSextToInt32(Value val, BasicBlock bb) {
-        return new CastInst(OpID.SEXT, val, bb.getModule().getInt32Type(), bb);
-    }
-
-    public static CastInst createFptosi(Value val, Type destType, BasicBlock bb) {
-        return new CastInst(OpID.FPTOSI, val, destType, bb);
-    }
-
-    public static CastInst createFptosiToInt32(Value val, BasicBlock bb) {
-        return new CastInst(OpID.FPTOSI, val, bb.getModule().getInt32Type(), bb);
-    }
-
-    public static CastInst createSitofp(Value val, Type destType, BasicBlock bb) {
-        return new CastInst(OpID.SITOFP, val, destType, bb);
-    }
-
-    public Type getDestType() {
-        return getType();
-    }
+    public Type getDestType() {return getType();}
 
     @Override
     public String print() {

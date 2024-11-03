@@ -17,7 +17,7 @@ import static utils.AssertUtils.ASSERT;
 
 public class UnaryOpContext extends Context {
     private TerminalContext PLUS_ = null;
-    private TerminalContext MINUS_ = null;
+    private TerminalContext MINU_ = null;
     private TerminalContext NOT_ = null;
 
 
@@ -27,7 +27,7 @@ public class UnaryOpContext extends Context {
         if (ctx.getToken().is(PLUS)) {
             PLUS_ = ctx;
         } else if (ctx.getToken().is(MINU)) {
-            MINUS_ = ctx;
+            MINU_ = ctx;
         } else if (ctx.getToken().is(NOT)) {
             NOT_ = ctx;
         } else {
@@ -44,4 +44,7 @@ public class UnaryOpContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public TerminalContext PLUS() {return PLUS_;}
+    public TerminalContext MINUS() {return MINU_;}
 }

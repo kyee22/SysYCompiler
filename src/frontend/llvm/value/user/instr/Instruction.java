@@ -27,7 +27,7 @@ public abstract class Instruction extends User {
             // Terminator Instructions
             RET, BR,
             // Standard binary operators
-            ADD, SUB, MUL, SDIV,
+            ADD, SUB, MUL, SDIV, SREM,
             // float binary operators
             FADD, FSUB, FMUL, FDIV,
             // Memory operators
@@ -37,7 +37,7 @@ public abstract class Instruction extends User {
             // Float compare operators
             FGE, FGT, FLE, FLT, FEQ, FNE,
             // Other operators
-            PHI, CALL, GETELEMENTPTR, ZEXT, SEXT, // zero extend
+            PHI, CALL, GETELEMENTPTR, ZEXT, SEXT, TRUNCT,// zero extend
             FPTOSI, SITOFP
     }
 
@@ -84,6 +84,7 @@ public abstract class Instruction extends User {
     public boolean isSub() { return opId == OpID.SUB; }
     public boolean isMul() { return opId == OpID.MUL; }
     public boolean isDiv() { return opId == OpID.SDIV; }
+    public boolean isRem() { return opId == OpID.SREM; }
     public boolean isFAdd() { return opId == OpID.FADD; }
     public boolean isFSub() { return opId == OpID.FSUB; }
     public boolean isFMul() { return opId == OpID.FMUL; }
@@ -98,14 +99,12 @@ public abstract class Instruction extends User {
     public boolean isSExt() {return opId == OpID.SEXT; }
 
     public boolean isBinary() {
-        return (isAdd() || isSub() || isMul() || isDiv()
+        return (isAdd() || isSub() || isMul() || isDiv() || isRem()
                 || isFAdd() || isFSub() || isFMul() || isFDiv()) && (getNumOperand() == 2);
     }
 
     public boolean isTerminator() {
         return isBr() || isRet();
     }
-
-    public abstract String print();
 }
 

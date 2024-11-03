@@ -25,17 +25,25 @@ public class SymbolTable<T> {
     private List<SymbolTable<T>> children = new ArrayList();
     private int id;
 
-    public SymbolTable(int id) {
-        this.id = id;
+    public SymbolTable() {
         this.level = 1;
         this.parent = null;
+        this.id = 114514;
+    }
+
+    public SymbolTable(int id) {
+        this();
+        this.id = id;
+    }
+
+    public SymbolTable(SymbolTable<T> parent) {
+        this();
+        this.parent = parent;
     }
 
     public SymbolTable(int id, SymbolTable<T> parent) {
+        this(parent);
         this.id = id;
-        this.parent = parent;
-        this.level = this.parent.level + 1;
-        this.parent.addChild(this);
     }
 
 

@@ -46,4 +46,20 @@ public class EqExpContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public List<RelExpContext> relExp() {
+        return relExp;
+    }
+
+    public RelExpContext relExp(int index) {
+        return relExp.get(index);
+    }
+
+    public List<TerminalContext> OP(){
+        return OP_;
+    }
+
+    public TerminalContext OP(int idx) {
+        return OP_.get(idx);
+    }
 }

@@ -46,4 +46,12 @@ public class LAndExpContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public List<EqExpContext> eqExp() {
+        return eqExp;
+    }
+
+    public EqExpContext eqExp(int index) {
+        return eqExp.get(index);
+    }
 }

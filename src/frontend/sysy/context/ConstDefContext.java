@@ -63,4 +63,12 @@ public class ConstDefContext extends Context {
     public TerminalContext LBRACK() {
         return LBRACK_;
     }
+
+    public ConstExpContext constExp() {
+        return constExp;
+    }
+
+    public ConstInitValContext constInitVal() {
+        return constInitVal;
+    }
 }

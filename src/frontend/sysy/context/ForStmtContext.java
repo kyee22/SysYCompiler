@@ -51,4 +51,8 @@ public class ForStmtContext extends Context {
     public LValContext lVal() {
         return lVal;
     }
+
+    public ExpContext exp() {
+        return exp;
+    }
 }

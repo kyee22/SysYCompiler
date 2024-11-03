@@ -55,4 +55,10 @@ public class ConstInitValContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public TerminalContext LBRACE() {return LBRACE_;}
+    public TerminalContext RBRACE() {return RBRACE_;}
+    public TerminalContext STRCON() {return STRCON_;}
+    public List<ConstExpContext> constExp() {return constExp;}
+    public ConstExpContext constExp(int index) {return constExp.get(index);}
 }

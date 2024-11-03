@@ -1,0 +1,48 @@
+22371092
+============================================
+> TEST output const char[]
+22371092
+%&assjeb34f
+============================================
+> TEST load from char[]
+4
+============================================
+> TEST store into char[]
+4
+============================================
+> TEST output partially initialized char[]
+0 0 0
+============================================
+> TEST output char[] with help of `strlen()`
+1a323BC(DE}fg*HijKlmn
+============================================
+> TEST `str_to_lower()`
+1a323bc(de}fg*hijklmn
+============================================
+> TEST `strlen()`
+4
+============================================
+> TEST output chars from partially initialized char[]
+97 66 99 0 0
+============================================
+> TEST `memset()`
+107 107 107 107 107
+k k k k k
+============================================
+> TEST `memcpy()`
+I love Compiler!
+SysY is a subset of C language
+============================================
+> TEST `bubbleSort()`
+64 34 25 12 22 11 90
+11 12 22 25 34 64 90
+64 34 25 12 22 11 90 64 34 25 12 22 11 90
+11 11 12 12 22 22 25 25 34 34 64 64 90 90
+============================================
+> TEST `getchar()` and `str_to_lower()`
+112a:-)ks^u{bsm,!/\fubcxcvc
+1a2b3dasndx7fh8bc7csb7$fmaniada:ax{s}sc>c?cs@scdv   3r % >>p
+i told him some things never last forever / sometimes they do but not forever
+and now i see for real / i think i really do / but never for forever
+as i can see the world around me / i feel it deep within my bones
+i feel it here within my soul / my poor lost soul / it makes me so hysterical

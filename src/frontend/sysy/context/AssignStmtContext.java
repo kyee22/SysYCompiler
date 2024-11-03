@@ -55,4 +55,8 @@ public class AssignStmtContext extends Context {
     public LValContext lVal() {
         return lVal;
     }
+
+    public ExpContext exp() {
+        return exp;
+    }
 }

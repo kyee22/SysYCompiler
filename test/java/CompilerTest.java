@@ -158,6 +158,8 @@ class CompilerTest {
             } else {
                 printColoredText("[   FAILED ] TEST " + testcase.getFileName(), ANSI_RED);
                 ++numFail;
+                System.exit(1);
+
             }
         }
         printColoredText("", ANSI_PURPLE);

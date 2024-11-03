@@ -25,6 +25,7 @@ public class Argument extends Value {
         this.argno = argno;
     }
 
+    @Override
     public String print() {
         return IRPrinter.printAsOp(this, true);
     }

@@ -1,0 +1,36 @@
+int main() {
+    // 使用整数表示布尔值
+    int test1 = 1;  // 表示 true
+    int test2 = 0;  // 表示 false
+
+    // 测试 ! 操作符对布尔值的影响
+    if (!test1 == 0) {
+        printf("!1 should be 0: Correct\n");
+    } else {
+        printf("!1 should be 0: Incorrect\n");
+    }
+
+    if (!test2 == 1) {
+        printf("!0 should be 1: Correct\n");
+    } else {
+        printf("!0 should be 1: Incorrect\n");
+    }
+
+    // 测试 ! 操作符对整数值的影响
+    char num1 = 5;  // 非零值
+    char num2 = 0;  // 零值
+
+    if (!num1 == 0) {
+        printf("!5 should be 0: Correct\n");
+    } else {
+        printf("!5 should be 0: Incorrect\n");
+    }
+
+    if (!num2 == 1) {
+        printf("!0 should be 1: Correct\n");
+    } else {
+        printf("!0 should be 1: Incorrect\n");
+    }
+
+    return 0;
+}

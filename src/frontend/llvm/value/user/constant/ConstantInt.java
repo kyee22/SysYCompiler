@@ -23,6 +23,7 @@ public class ConstantInt extends Constant {
     private final int value;
     private static Map<Module, Map<Integer, ConstantInt>> intCache = new HashMap<>();
     private static Map<Module, Map<Boolean, ConstantInt>> boolCache = new HashMap<>();
+    private static Map<Module, Map<Integer, ConstantInt>> charCache = new HashMap<>();
 
     private ConstantInt(Type type, int value) {
         super(type, "");
@@ -47,14 +48,21 @@ public class ConstantInt extends Constant {
         return "";
     }
 
-    public static ConstantInt get(int val, Module module) {
+    public static ConstantInt getInt(int val, Module module) {
         if (!intCache.containsKey(module)) {
             intCache.put(module, new HashMap<>());
         }
         return intCache.get(module).computeIfAbsent(val, k -> new ConstantInt(module.getInt32Type(), val));
     }
 
-    public static ConstantInt get(boolean val, Module module) {
+    public static ConstantInt getChar(int val, Module module) {
+        if (!charCache.containsKey(module)) {
+            charCache.put(module, new HashMap<>());
+        }
+        return charCache.get(module).computeIfAbsent(val, k -> new ConstantInt(module.getInt8Type(), val));
+    }
+
+    public static ConstantInt getBool(boolean val, Module module) {
         if (!boolCache.containsKey(module)) {
             boolCache.put(module, new HashMap<>());
         }

@@ -47,4 +47,20 @@ public class RelExpContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public List<AddExpContext> addExp() {
+        return addExp;
+    }
+
+    public AddExpContext addExp(int idx) {
+        return addExp.get(idx);
+    }
+
+    public List<TerminalContext> OP(){
+        return OP_;
+    }
+
+    public TerminalContext OP(int idx) {
+        return OP_.get(idx);
+    }
 }

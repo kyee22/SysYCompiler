@@ -37,4 +37,6 @@ public class CharacterContext extends Context {
     public <T> T accept(ContextVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public TerminalContext CHRCON() {return CHRCON_;}
 }

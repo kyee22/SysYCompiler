@@ -29,14 +29,15 @@ import java.util.*;
 import java.util.function.Function;
 
 public class Parser {
-    /*
-     *  The idea of designing parse rule in declarative-programming instead
-     *  of objective-oriented-programming takes great inspiration from
-     *  https://github.com/Toby-Shi-cloud/SysY-Compiler-2023
+    /*                        Acknowledgement
      *
-     *  Compared to OOP, which focus on Object, functional programming which
-     *  focus on Function, helps generate functions from functions to support
-     *  declarative programming.
+     *    The idea of designing parse rule in declarative-programming instead
+     *    of objective-oriented-programming takes great inspiration from
+     *    https://github.com/Toby-Shi-cloud/SysY-Compiler-2023
+     *
+     *    Compared to OOP, which focus on Object, functional programming which
+     *    focus on Function, helps generate functions from functions to support
+     *    declarative programming.
      */
 
     private final List<Token> tokens;

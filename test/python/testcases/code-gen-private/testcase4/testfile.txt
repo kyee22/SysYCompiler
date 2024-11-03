@@ -1,0 +1,41 @@
+//
+// Created by Arren on 2024-10-31.
+//
+
+
+int get(int tl_x, int tl_y, int target_x, int target_y, int len) {
+    if (len == 1) {
+        return 1;
+    }
+    int mid_x = tl_x + (len / 2), mid_y = tl_y + (len / 2);
+    if (tl_x <= target_x && target_x < mid_x && tl_y <= target_y && target_y < mid_y) {
+        return get(tl_x, tl_y, target_x, target_y, len / 2);
+    } else if (tl_x <= target_x && target_x < mid_x && target_y >= mid_y) {
+        return get(tl_x, mid_y, target_x, target_y, len / 2);
+    } else if (target_x >= mid_x && tl_y <= target_y && target_y < mid_y) {
+        return get(mid_x, tl_y, target_x, target_y, len / 2);
+    } else {
+        return -get(mid_x, mid_y, target_x, target_y, len / 2);
+    }
+    return 0;
+}
+
+int main() {
+    int n;
+    n = getint();
+    int len = 1;
+    int i, j;
+    for (i = 0; i < n; i = i + 1) {
+        len = len * 2;
+    }
+    for (i = 0; i < len; i = i + 1) {
+        for (j = 0; j < len; j = j + 1) {
+            printf("%d", get(0, 0, i, j, len));
+            if (j < len - 1) {
+                printf(" ");
+            }
+        }
+        printf("\n");
+    }
+    return 0;
+}

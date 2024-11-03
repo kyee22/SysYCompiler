@@ -38,33 +38,13 @@ public class Function extends Value {
         }
     }
 
-    public static Function create(FunctionType type, String name, Module parent) {
-        return new Function(type, name, parent);
-    }
-
-    public FunctionType getFunctionType() {
-        return (FunctionType) getType();
-    }
-
-    public Type getReturnType() {
-        return getFunctionType().getReturnType();
-    }
-
-    public void addBasicBlock(BasicBlock bb) {
-        basicBlocks.add(bb);
-    }
-
-    public int getNumArgs() {
-        return arguments.size();
-    }
-
-    public int getNumBasicBlocks() {
-        return basicBlocks.size();
-    }
-
-    public Module getParent() {
-        return parent;
-    }
+    public static Function create(FunctionType type, String name, Module parent) {return new Function(type, name, parent);}
+    public FunctionType getFunctionType() {return (FunctionType) getType();}
+    public Type getReturnType() {return getFunctionType().getReturnType();}
+    public void addBasicBlock(BasicBlock bb) {basicBlocks.add(bb);}
+    public int getNumArgs() {return arguments.size();}
+    public int getNumBasicBlocks() {return basicBlocks.size();}
+    public Module getParent() {return parent;}
 
     public void removeBasicBlock(BasicBlock bb) {
         basicBlocks.remove(bb);
@@ -76,21 +56,10 @@ public class Function extends Value {
         }
     }
 
-    public BasicBlock getEntryBlock() {
-        return basicBlocks.isEmpty() ? null : basicBlocks.get(0);
-    }
-
-    public List<BasicBlock> getBasicBlocks() {
-        return basicBlocks;
-    }
-
-    public List<Argument> getArguments() {
-        return arguments;
-    }
-
-    public boolean isDeclaration() {
-        return basicBlocks.isEmpty();
-    }
+    public BasicBlock getEntryBlock() {return basicBlocks.isEmpty() ? null : basicBlocks.get(0);}
+    public List<BasicBlock> getBasicBlocks() {return basicBlocks;}
+    public List<Argument> getArguments() {return arguments;}
+    public boolean isDeclaration() {return basicBlocks.isEmpty();}
 
     public void setInstrName() {
         Map<Value, Integer> seq = new HashMap<>();
@@ -118,7 +87,7 @@ public class Function extends Value {
         seqCnt += seq.size();
     }
 
-    //@Override
+    @Override
     public String print() {
         setInstrName();
         StringBuilder funcIr = new StringBuilder();
@@ -157,7 +126,7 @@ public class Function extends Value {
         } else {
             funcIr.append(" {\n");
             for (BasicBlock bb : basicBlocks) {
-                funcIr.append(bb.print());
+                funcIr.append(bb.print()).append("\n");
             }
             funcIr.append("}");
         }

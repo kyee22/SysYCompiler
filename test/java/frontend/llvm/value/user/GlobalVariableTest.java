@@ -34,8 +34,8 @@ class GlobalVariableTest {
     void setUp() {
         module = new Module();
         assertEquals(0, module.getGlobalVariables().size());
-        g1 = GlobalVariable.create("global1", module, module.getInt32Type(), true, ConstantInt.get(2024, module));
-        g2 = GlobalVariable.create("global2", module, module.getInt32Type(), false, ConstantInt.get(1989, module));
+        g1 = GlobalVariable.create("global1", module, module.getInt32Type(), true, ConstantInt.getInt(2024, module));
+        g2 = GlobalVariable.create("global2", module, module.getInt32Type(), false, ConstantInt.getInt(1989, module));
         ArrayType arrayType = module.getArrayType(module.getInt32Type(), 2);
         ConstantArray constantArray = ConstantArray.get(arrayType, List.of(g1.getInit(), g1.getInit()));
         g3 = GlobalVariable.create("global3", module, arrayType, false, constantArray);

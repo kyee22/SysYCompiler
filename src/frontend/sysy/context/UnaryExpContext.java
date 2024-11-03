@@ -74,5 +74,9 @@ public class UnaryExpContext extends Context {
     public UnaryExpContext unaryExp() {
         return unaryExp;
     }
+
+    public UnaryOpContext unaryOp() {
+        return unaryOp;
+    }
 }
 

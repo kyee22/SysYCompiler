@@ -1,0 +1,25 @@
+const int a = 1;
+const int b = 3;
+const int c = '5';
+int d;
+
+int e[10];
+const int f[8] = {2024, 11, 1, 'a'};
+const int g[5] = {1, 2, 3, 4, 5};
+
+const char h = '1';
+const char i = '\n';
+char j;
+const char k = 256 + 15;
+char s[10];
+const char m[10 + 20] = {'h', 'e', 'l', 'l', 'o', 800};
+const char q[5] = "buaa";
+
+int main() {
+    const int a = 2;
+    const char b = 2024 + 256 * (-99 + 7 - 3);
+    const char x[5] = {0, 1, 2999, 'a'};
+
+    const char info[20] = "great!";
+    return '0';
+}

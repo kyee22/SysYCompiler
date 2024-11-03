@@ -44,6 +44,7 @@ public class Type {
     public boolean isPointerType() { return tid == TypeID.PointerTyID; }
     public boolean isFloatType() { return tid == TypeID.FloatTyID; }
     public boolean isInt32Type() {return isIntegerType() && ((IntegerType) this).getNumBits() == 32;}
+    public boolean isInt8Type() {return isIntegerType() && ((IntegerType) this).getNumBits() == 8;}
     public boolean isInt1Type() {return isIntegerType() && ((IntegerType) this).getNumBits() == 1;}
 
     public Type getPointerElementType() {
@@ -67,7 +68,7 @@ public class Type {
     public int getSize() {
         switch (getTypeId()) {
             case IntegerTyID:
-                if (isInt1Type()) {
+                if (isInt1Type() || isInt8Type()) {
                     return 1;
                 } else if (isInt32Type()) {
                     return 4;

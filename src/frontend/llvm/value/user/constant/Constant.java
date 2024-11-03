@@ -19,6 +19,4 @@ public abstract class Constant extends User {
     public Constant(Type type, String name) {
         super(type, name);
     }
-
-    public abstract String print();
 }

@@ -27,5 +27,7 @@ public class IntegerType extends Type {
     @Override
     public boolean isInt32Type() { return numBits == 32; }
     @Override
+    public boolean isInt8Type() { return numBits == 8; }
+    @Override
     public boolean isInt1Type() { return numBits == 1; }
 }

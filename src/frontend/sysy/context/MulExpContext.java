@@ -54,4 +54,12 @@ public class MulExpContext extends Context {
     public UnaryExpContext unaryExp(int index) {
         return unaryExp.get(index);
     }
+
+    public List<TerminalContext> OP() {
+        return OP_;
+    }
+
+    public TerminalContext OP(int index) {
+        return OP_.get(index);
+    }
 }

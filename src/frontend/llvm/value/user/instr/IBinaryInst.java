@@ -28,21 +28,11 @@ public class IBinaryInst extends Instruction {
         addOperand(v2);
     }
 
-    public static IBinaryInst createAdd(Value v1, Value v2, BasicBlock parent) {
-        return new IBinaryInst(OpID.ADD, v1, v2, parent);
-    }
-
-    public static IBinaryInst createSub(Value v1, Value v2, BasicBlock parent) {
-        return new IBinaryInst(OpID.SUB, v1, v2, parent);
-    }
-
-    public static IBinaryInst createMul(Value v1, Value v2, BasicBlock parent) {
-        return new IBinaryInst(OpID.MUL, v1, v2, parent);
-    }
-
-    public static IBinaryInst createSdiv(Value v1, Value v2, BasicBlock parent) {
-        return new IBinaryInst(OpID.SDIV, v1, v2, parent);
-    }
+    public static IBinaryInst createAdd(Value v1, Value v2, BasicBlock parent) {return new IBinaryInst(OpID.ADD, v1, v2, parent);}
+    public static IBinaryInst createSub(Value v1, Value v2, BasicBlock parent) {return new IBinaryInst(OpID.SUB, v1, v2, parent);}
+    public static IBinaryInst createMul(Value v1, Value v2, BasicBlock parent) {return new IBinaryInst(OpID.MUL, v1, v2, parent);}
+    public static IBinaryInst createSdiv(Value v1, Value v2, BasicBlock parent) {return new IBinaryInst(OpID.SDIV, v1, v2, parent);}
+    public static IBinaryInst createSrem(Value v1, Value v2, BasicBlock parent) {return new IBinaryInst(OpID.SREM, v1, v2, parent);}
 
     @Override
     public String print() {

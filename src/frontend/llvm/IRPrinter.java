@@ -54,6 +54,8 @@ public class IRPrinter {
                 return "mul";
             case SDIV:
                 return "sdiv";
+            case SREM:
+                return "srem";
             case FADD:
                 return "fadd";
             case FSUB:
@@ -102,6 +104,8 @@ public class IRPrinter {
                 return "zext";
             case SEXT:
                 return "sext";
+            case TRUNCT:
+                return "trunc";
             case FPTOSI:
                 return "fptosi";
             case SITOFP:

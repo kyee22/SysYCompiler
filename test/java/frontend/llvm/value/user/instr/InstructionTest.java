@@ -51,8 +51,8 @@ class InstructionTest {
         FunctionType functionType = module.getFunctionType(module.getVoidType(), List.of());
         function = Function.create(functionType, "foo", module);
         bb = BasicBlock.create(module, "hello", function);
-        ConstantInt v1 = ConstantInt.get(110, module);
-        ConstantInt v2 = ConstantInt.get(120, module);
+        ConstantInt v1 = ConstantInt.getInt(110, module);
+        ConstantInt v2 = ConstantInt.getInt(120, module);
         add = IBinaryInst.createAdd(v1, v2, bb);
         sub = IBinaryInst.createSub(add, v2, bb);
         mul = IBinaryInst.createMul(add, sub, bb);
@@ -85,9 +85,9 @@ class InstructionTest {
         ArrayType arr3dTy = module.getArrayType(arr2dTy, 5);
 
         alloca1 = AllocaInst.createAlloca(arr3dTy, bb);
-        gpt1 = GetElementPtrInst.createGep(alloca1, List.of(ConstantInt.get(0, module), ConstantInt.get(1, module), ConstantInt.get(2, module), ConstantInt.get(3,module)), bb);
-        gpt2 = GetElementPtrInst.createGep(alloca1, List.of(ConstantInt.get(0, module), ConstantInt.get(1, module)), bb);
-        gpt3 = GetElementPtrInst.createGep(alloca1, List.of(ConstantInt.get(0, module), add, sub), bb);
+        gpt1 = GetElementPtrInst.createGep(alloca1, List.of(ConstantInt.getInt(0, module), ConstantInt.getInt(1, module), ConstantInt.getInt(2, module), ConstantInt.getInt(3,module)), bb);
+        gpt2 = GetElementPtrInst.createGep(alloca1, List.of(ConstantInt.getInt(0, module), ConstantInt.getInt(1, module)), bb);
+        gpt3 = GetElementPtrInst.createGep(alloca1, List.of(ConstantInt.getInt(0, module), add, sub), bb);
     }
 
 
