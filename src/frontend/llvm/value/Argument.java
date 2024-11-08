@@ -29,4 +29,8 @@ public class Argument extends Value {
     public String print() {
         return IRPrinter.printAsOp(this, true);
     }
+
+    public int getArgno() {
+        return argno;
+    }
 }

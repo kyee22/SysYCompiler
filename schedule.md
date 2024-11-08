@@ -4,10 +4,13 @@
 
 *   Lexer: :heavy_check_mark:
 *   Parser: :heavy_check_mark:
-    *   潜在 bug :question:
-*   Semantic Check : :heavy_check_mark:
-    *   潜在 bug :question:
-    *   符号表项更换 :grey_question: 
+*   Semantic Check : :heavy_check_mark: 
+*   IR Gen :heavy_check_mark: <font color=green>*(Nov 3, 2024)*</font>
+*   Code Gen :heavy_check_mark:  <font color=green>*(Nov 8, 2024)*</font>
+
+## Optimization
+
+
 
 ## Rountine
 

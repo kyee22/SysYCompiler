@@ -54,4 +54,7 @@ public class FCmpInst extends Instruction {
     public String print() {
         return IRPrinter.printCmpInts(this);
     }
+
+    @Override
+    public <T> T accept(InstVisitor<T> visitor) {return visitor.visit(this);}
 }

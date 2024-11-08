@@ -10,6 +10,7 @@
  * This file is part of SysYCompiler.
  */
 
+import backend.core.ASMGenerator;
 import frontend.core.*;
 import frontend.sysy.context.Context;
 import frontend.error.ErrorListener;
@@ -21,14 +22,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Compiler {
-    public static int LAB = 4;
+    public static int LAB = 5;
     private static final String INPUT_PATH = "testfile.txt";
     private static final String LEXER_OUTPUT_PATH = "lexer.txt";
     private static final String ERR_PATH = "error.txt";
     private static final String PARSER_OUTPUT_PATH = "parser.txt";
     private static final String SEMANTIC_CHECK_OUTPUT_PATH = "symbol.txt";
     private static final String IR_PATH = "llvm_ir.txt";
-    private static final String ASM_PATH = "";  // todo
+    private static final String ASM_PATH = "mips.txt";
 
     private static ErrorListener errorListener;
     private static Lexer lexer;
@@ -36,6 +37,7 @@ public class Compiler {
     private static Context ast;
     private static SemanticCheckVisitor semanticCheckVisitor;
     private static IRGenVisitor irGenVisitor;
+    private static ASMGenerator asmGenerator;
 
     private static void pipeline() {
         /*      Error Handling is through the whole pipeline        */
@@ -61,13 +63,18 @@ public class Compiler {
         semanticCheckVisitor.addErrorListener(errorListener);
         ast.accept(semanticCheckVisitor);
 
-        irGenVisitor = new IRGenVisitor();
         if (errorListener.hasErrors()) {
+            System.out.println("Error detected! See " + ERR_PATH + " for details.");
             return;
         }
 
         /*      STEP 4: IR Gen        */
+        irGenVisitor = new IRGenVisitor();
         ast.accept(irGenVisitor);
+
+        /*      STEP 5: Code Gen        */
+        asmGenerator = new ASMGenerator();
+        asmGenerator.genFrom(irGenVisitor.getModule());
     }
 
     private static void output() {
@@ -91,8 +98,10 @@ public class Compiler {
                 FileUtils.writeListToFile(records, SEMANTIC_CHECK_OUTPUT_PATH);
                 break;
             case 4:
-                List<String> ir = List.of(irGenVisitor.getModule().print());
-                FileUtils.writeListToFile(ir, IR_PATH);
+                irGenVisitor.dump(IR_PATH);
+                break;
+            case 5:
+                asmGenerator.dump(ASM_PATH);
                 break;
             default:
                 break;

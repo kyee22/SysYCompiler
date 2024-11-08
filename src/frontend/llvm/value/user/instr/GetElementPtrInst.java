@@ -87,4 +87,7 @@ public class GetElementPtrInst extends Instruction {
         }
         return instrIr.toString();
     }
+
+    @Override
+    public <T> T accept(InstVisitor<T> visitor) {return visitor.visit(this);}
 }

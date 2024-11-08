@@ -1,0 +1,77 @@
+//
+// Created by Arren on 2024/10/9.
+//
+
+
+int n, ans = 0;
+int tick = 0;
+
+
+int qpow(int a, int n, int mod) // 这只是一个快速幂，你可以不用管它
+{
+    int ans = 1;
+    int base = a;
+    for (;n > 0;)
+    {
+        if (n % 2 == 1)
+        {
+            ans = ans * base % mod;
+        }
+        base = base * base % mod;
+        n = n / 2;
+    }
+    return ans;
+}
+
+/* 如果通过素性测试，那么下面这个函数返回1，否则返回0 */
+int Miller_Rabin_check(int a, int n) // a是基底，n是你拿来进行素性测试的数
+{
+    tick = tick + 1;
+    int u = n - 1;
+    for (; u % 2 == 0; )
+    {
+        u = u / 2;
+    }
+    int v = qpow(a, u, n);
+    if (v == 1)
+        return 1;
+    for (; u <= n - 1; )
+    {
+        if (v == n - 1)
+            return 1;
+        if (v == 1)
+            return 0;
+        v = 1 * v * v % n;
+        u = u * 2;
+    }
+    return 0;
+}
+
+int isprime(int n)
+{
+    if (n == 1) {
+        return 0;
+    }
+    if (n == 2 || n == 7 || n == 61) // 作为基底的这三个数需要特殊处理
+        return 1;
+    /* 补全你的代码 */
+
+    if (Miller_Rabin_check(2, n) && Miller_Rabin_check(7, n) && Miller_Rabin_check(61, n)) {
+        return 1;
+    }
+    return 0;
+}
+
+
+int main() {
+    int i = 1;
+    for (; i < 10000; i = i + 1) {
+        if (isprime(i)) {
+            printf("%d is prime!", i);
+        } else {
+            printf("%d is NOT prime!",i);
+        }
+        printf("(Miller_Rabin_check called %d times so far)\n", tick);
+    }
+    return 0;
+}

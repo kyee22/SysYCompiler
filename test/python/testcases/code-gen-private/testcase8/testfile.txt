@@ -1,4 +1,5 @@
 const char student_id[30] = "22371092", magic_str[20] = "%&assjeb34f";
+char _student_id[30] = "22371092", _magic_str[20] = "%&assjeb34f";
 
 int is_lower(char ch) {
     if (ch < 'a') {
@@ -85,12 +86,12 @@ int main() {
     printf("22371092\n");
     printf("============================================\n");
     printf("> TEST output const char[]\n");
-    for (i = 0; i < strlen(student_id); i = i + 1){
-        printf("%c", student_id[i]);
+    for (i = 0; i < strlen(_student_id); i = i + 1){
+        printf("%c", _student_id[i]);
     }
     printf("\n");
-    for (i = 0; i < strlen(magic_str); i = i + 1){
-        printf("%c", magic_str[i]);
+    for (i = 0; i < strlen(_magic_str); i = i + 1){
+        printf("%c", _magic_str[i]);
     }
     printf("\n");
 

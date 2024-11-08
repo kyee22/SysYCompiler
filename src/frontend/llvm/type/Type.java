@@ -17,13 +17,8 @@ import frontend.llvm.Module;
 
 public class Type {
     public enum TypeID {
-        VoidTyID,
-        LabelTyID,
-        IntegerTyID,
-        FunctionTyID,
-        ArrayTyID,
-        PointerTyID,
-        FloatTyID
+        VoidTyID,       LabelTyID,      IntegerTyID,    FunctionTyID,
+        ArrayTyID,      PointerTyID,    FloatTyID
     };
 
     protected TypeID tid;

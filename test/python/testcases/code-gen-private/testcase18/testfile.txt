@@ -1,0 +1,59 @@
+int func3(int x, int y, int z) {
+    return x * 2 + y * z - z;
+}
+
+int func2(int x, int y) {
+    int result = func3(x, y, x * y);
+    return result * x + 5 * y;
+}
+
+// 最高层的函数
+int func1(int x) {
+    int result = func2(x, x / 2);
+    return result - 3;
+}
+
+int main() {
+    int a, b, c;
+    a = getint();
+    b = getint();
+    c = getint();
+
+    int res = func3(
+            func1(a),
+            func2(
+                    func3(
+                            c,
+                            func3(
+                                    -a,
+                                    +b,
+                                    +-+-c
+                            ),
+                            a
+                    ),
+                    func2(
+                            a,
+                            -func1(a + c - b)
+                    )
+            ),
+            func1(
+                    func2(
+                            func3(
+                                    +-2024,
+                                    +-func2(
+                                            -+2021,
+                                            -+-+12
+                                    ),
+                                    +-func1(b + a)
+                            ),
+                            func2(
+                                    func1(a),
+                                    func1(-c)
+                            )
+                    )
+            )
+    );
+
+    printf("%d", res);
+    return 0;
+}

@@ -1,0 +1,92 @@
+zero|
+one|
+two|
+three|
+four|
+five|
+six|
+seven|
+eight|
+nine|
+ten|
+eleven|
+twelve|
+thirteen|
+fourteen|
+fifteen|
+sixteen|
+seventeen|
+eighteen|
+nineteen|
+twenty|
+twenty-one|
+twenty-two|
+thirty|
+thirty-one|
+forty|
+forty-two|
+fifty|
+fifty-three|
+sixty|
+sixty-four|
+seventy|
+seventy-five|
+eighty|
+eighty-six|
+ninety|
+ninety-seven|
+one hundred|
+one hundred and one|
+one hundred and ten|
+one hundred and eleven|
+one hundred and twenty|
+one hundred and twenty-one|
+two hundred|
+two hundred and one|
+nine hundred and ninety-nine|
+one thousand |
+one thousand one|
+one thousand ten|
+one thousand eleven|
+one thousand one hundred|
+one thousand one hundred and one|
+one thousand one hundred and ten|
+one thousand one hundred and eleven|
+nine thousand nine hundred and ninety-nine|
+ten thousand |
+ten thousand one|
+ninety-nine thousand nine hundred and ninety-nine|
+one hundred thousand |
+nine hundred and ninety-nine thousand nine hundred and ninety-nine|
+one million |
+one million one|
+nine million nine hundred and ninety-nine thousand nine hundred and ninety-nine|
+ten million |
+ninety-nine million nine hundred and ninety-nine thousand nine hundred and ninety-nine|
+one hundred million |
+nine hundred and ninety-nine million nine hundred and ninety-nine thousand nine hundred and ninety-nine|
+minus one|
+minus ten|
+minus twenty-one|
+minus one hundred|
+minus one thousand |
+minus ten thousand |
+minus ninety-nine thousand nine hundred and ninety-nine|
+minus one hundred thousand |
+minus nine hundred and ninety-nine thousand nine hundred and ninety-nine|
+minus one million |
+minus nine million nine hundred and ninety-nine thousand nine hundred and ninety-nine|
+minus ten million |
+minus ninety-nine million nine hundred and ninety-nine thousand nine hundred and ninety-nine|
+minus one hundred million |
+minus nine hundred and ninety-nine million nine hundred and ninety-nine thousand nine hundred and ninety-nine|
+one hundred and twenty-three|
+one thousand two hundred and thirty-four|
+twelve thousand three hundred and forty-five|
+one hundred and twenty-three thousand four hundred and fifty-six|
+one million two hundred and thirty-four thousand five hundred and sixty-seven|
+twelve million three hundred and forty-five thousand six hundred and seventy-eight|
+one hundred and twenty-three million four hundred and fifty-six thousand seven hundred and eighty-nine|
+two billion one hundred and forty-seven million four hundred and eighty-three thousand six hundred and forty-seven|
+one billion |
+two billion |

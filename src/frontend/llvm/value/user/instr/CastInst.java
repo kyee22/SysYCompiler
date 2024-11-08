@@ -81,4 +81,7 @@ public class CastInst extends Instruction {
                 .append(" to ").append(getDestType().print());
         return instrIr.toString();
     }
+
+    @Override
+    public <T> T accept(InstVisitor<T> visitor) {return visitor.visit(this);}
 }

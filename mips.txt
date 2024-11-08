@@ -1,0 +1,83 @@
+# Copyright (C) 2024 Yixuan Kuang <kyee22@buaa.edu.cn>
+
+.data
+	b: .word 0
+	arr: .word 0, 0, 0, 0, 0
+	.str0: .byte 10, 0
+	.str1: .byte 37, 67, 0
+
+.text
+
+prologue_main:
+	subiu $sp, $sp, 100
+	sw $ra, 36($sp)
+	sw $s7, 32($sp)
+	sw $s6, 28($sp)
+	sw $s5, 24($sp)
+	sw $s4, 20($sp)
+	sw $s3, 16($sp)
+	sw $s2, 12($sp)
+	sw $s1, 8($sp)
+	sw $s0, 4($sp)
+
+label0_at_main:
+	# %op1 = load i32, i32* @b
+	la $t1, b
+	lw $t0, 0($t1)
+	sw $t0, 96($sp)
+
+	# %op2 = add i32 %op1, 2
+	lw $t1, 96($sp)
+	ori $t2, $zero, 2
+	addu $t0, $t1, $t2
+	sw $t0, 92($sp)
+
+	# call void @putint(i32 %op2)
+	lw $t0, 92($sp)
+	move $a0, $t0
+	li $v0, 1
+	syscall
+
+	# %op3 = getelementptr [2 x i8], [2 x i8]* @.str0, i32 0, i32 0
+
+	# call void @putstr(i8* %op3)
+	la $t0, .str0
+	move $a0, $t0
+	li $v0, 4
+	syscall
+
+	# %op4 = alloca i32
+	addiu $t0, $sp, 84
+	sw $t0, 88($sp)
+
+	# %op5 = alloca [3 x i32]
+	addiu $t0, $sp, 68
+	sw $t0, 80($sp)
+
+	# %op6 = getelementptr [3 x i8], [3 x i8]* @.str1, i32 0, i32 0
+
+	# call void @putstr(i8* %op6)
+	la $t0, .str1
+	move $a0, $t0
+	li $v0, 4
+	syscall
+
+	# ret i32 0
+	ori $t0, $zero, 0
+	move $v0, $t0
+	j epilogue_main
+
+
+epilogue_main:
+	lw $s0, 4($sp)
+	lw $s1, 8($sp)
+	lw $s2, 12($sp)
+	lw $s3, 16($sp)
+	lw $s4, 20($sp)
+	lw $s5, 24($sp)
+	lw $s6, 28($sp)
+	lw $s7, 32($sp)
+	lw $ra, 36($sp)
+	addiu $sp, $sp, 100
+	li $v0, 10
+	syscall

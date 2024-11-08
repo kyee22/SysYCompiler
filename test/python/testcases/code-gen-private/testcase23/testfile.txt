@@ -1,0 +1,30 @@
+//
+// Created by 14765 on 24-10-18.
+int arr[1000000];
+
+
+int main() {
+
+    int t = 0, n = 0;
+    t = getint();
+    int i = t, j;
+    for (; i > 0; i = i - 1) {
+        n = getint();
+        for ( j = 0; j < n; j = j + 1) {
+            arr[j] = getint();
+        }
+        int temp = 0;
+        for (j = 0; j < n - 1; j = j + 1) {
+            if (arr[n - 1] < arr[j]) {
+                temp = 1;
+                printf("No\n");
+                break;
+            }
+        }
+        if (temp == 0) {
+            printf("Yes\n");
+        }
+    }
+
+    return 0;
+}

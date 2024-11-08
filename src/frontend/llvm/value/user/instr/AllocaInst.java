@@ -33,7 +33,7 @@ public class AllocaInst extends Instruction {
         return new AllocaInst(ty, bb);
     }
 
-    private Type getAllocaType() {
+    public Type getAllocaType() {
         return getType().getPointerElementType();
     }
 
@@ -50,4 +50,7 @@ public class AllocaInst extends Instruction {
 
         return instrIr.toString();
     }
+
+    @Override
+    public <T> T accept(InstVisitor<T> visitor) {return visitor.visit(this);}
 }

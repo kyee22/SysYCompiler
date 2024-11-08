@@ -51,4 +51,6 @@ public class LoadInst extends Instruction {
         return instrIr.toString();
     }
 
+    @Override
+    public <T> T accept(InstVisitor<T> visitor) {return visitor.visit(this);}
 }

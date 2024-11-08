@@ -1,24 +1,9 @@
-int i = 10 * (20 - 6;
-char c = 'a';
-
+int b = 0;
+const int arr[5] = {};
 int main() {
-    i = getint()
-    10 + i
-    c = getchar()
-    i = getint(
-      
-    /******************/  
-      
-    ;
-    c = getchar(;
-
-    for (;;) {
-        break
-        {
-          for (;;) 
-              continue
-        }
-    }
-    
+    printf("%d\n",b+2);
+    const int b = 2;
+    int arr[3];
+    printf("%C");
     return 0;
 }

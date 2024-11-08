@@ -88,4 +88,7 @@ public class BranchInst extends Instruction {
     public boolean isCondBr() {
         return getNumOperand() == 3;
     }
+
+    @Override
+    public <T> T accept(InstVisitor<T> visitor) {return visitor.visit(this);}
 }

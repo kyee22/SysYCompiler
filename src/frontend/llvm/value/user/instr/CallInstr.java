@@ -76,4 +76,7 @@ public class CallInstr extends Instruction {
         instIr.append(")");
         return instIr.toString();
     }
+
+    @Override
+    public <T> T accept(InstVisitor<T> visitor) {return visitor.visit(this);}
 }

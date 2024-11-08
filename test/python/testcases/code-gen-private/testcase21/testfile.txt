@@ -1,0 +1,66 @@
+
+
+int n, tot, len;
+int arr1[100];
+int arr2[100];
+
+
+void init() {
+    int x = 1;
+    int i;
+    for (i = 1; i <= len; i = i + 1) {
+        arr1[i] = x;
+        x = x + 1;
+    }
+    for (i = len; i >= 1; i = i - 1) {
+        arr2[i] = x;    x = x + 1;
+    }
+    if (n % 2 == 1) {
+        arr2[1] = 0;
+    }
+}
+
+void output() {
+    int i;
+    for (i = 1; i <= len; i = i + 1) {
+        if (arr1[i] && arr2[i]) {
+            printf("%d-%d\n", arr1[i], arr2[i]);
+        }
+    }
+}
+
+void rotate() {
+    int hold = arr2[1];
+    int i;
+    for (i = 1; i < len; i = i + 1) {
+        arr2[i] = arr2[i + 1];
+    }
+    arr2[len] = arr1[len];
+    for (i = len; i >= 3; i = i - 1) {
+        arr1[i] = arr1[i - 1];
+    }
+    arr1[2] = hold;
+}
+
+int main() {
+    n = getint();
+
+    // 6 -> 5
+    // 7 -> 7
+    tot = n - 1 + (n % 2);
+
+    // 6 -> 3
+    // 7 -> 4
+    len = (n + 1) / 2;
+    int i = 1;
+    for (; i <= tot; i = i + 1) {
+        printf("Round %d\n", i);
+        if (i == 1) {
+            init();
+        } else {
+            rotate();
+        }
+        output();
+    }
+    return 0;
+}

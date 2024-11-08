@@ -46,4 +46,7 @@ public class FBinaryInst extends Instruction {
     public String print() {
         return IRPrinter.printBinaryInst(this);
     }
+
+    @Override
+    public <T> T accept(InstVisitor<T> visitor) {return visitor.visit(this);}
 }

@@ -61,4 +61,7 @@ public class ReturnInst extends Instruction {
         }
         return instIr.toString();
     }
+
+    @Override
+    public <T> T accept(InstVisitor<T> visitor) {return visitor.visit(this);}
 }

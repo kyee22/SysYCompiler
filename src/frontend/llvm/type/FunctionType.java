@@ -46,11 +46,8 @@ public class FunctionType extends Type {
     }
 
     public int getNumberOfArgs() { return argumentTypes.size(); }
-
     public Type getParamType(int index) { return argumentTypes.get(index); }
-
     public Type getReturnType() { return returnType; }
-
     public List<Type> getArgumentTypes() { return argumentTypes; }
 }
 

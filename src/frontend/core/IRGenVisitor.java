@@ -27,19 +27,27 @@ import static frontend.sysy.token.TokenType.*;
 import frontend.llvm.value.user.constant.ConstantZero;
 import frontend.sysy.context.*;
 import frontend.sysy.token.TokenType;
+import utils.FileUtils;
 import utils.StringUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class IRGenVisitor extends BaseContextVisitor<Value> {
     private Module module = new Module();
     private IRBuilder builder = new IRBuilder(module, null);
-    private int symbolTableId = 0;
-    private SymbolTable<Value> curScope = new SymbolTable<>(++symbolTableId);
+    private SymbolTable<Value> curScope = new SymbolTable<>();
     private Map<String, Value> stringLiteralPool = new HashMap<>();
 
     private Stack<BasicBlock> continueTargets = new Stack<>();
     private Stack<BasicBlock> breakTargets = new Stack<>();
+    
+    /******************* 预处理常量 *******************/
+    private ConstantInt i32Zero = ConstantInt.getInt(0, module);
+    private IntegerType i32Ty = module.getInt32Type();
+    private IntegerType i8Ty = module.getInt8Type();
+    private IntegerType i1Ty = module.getInt1Type();
 
     /******************* VarDef ConstDef FuncFParam 的综合属性 *******************/
     private Type baseType = null;
@@ -64,7 +72,7 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
 
     @Override
     public Value visit(BTypeContext ctx) {
-        baseType = ctx.INTTK() != null ? module.getInt32Type() : module.getInt8Type();
+        baseType = ctx.INTTK() != null ? i32Ty : i8Ty;
         return null;
     }
 
@@ -72,8 +80,8 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
     public Value visit(VarDefContext ctx) {
         defType = baseType;
         if (ctx.LBRACK() != null) {
-            if (visit(ctx.constExp()) instanceof ConstantInt len) {
-                defType = module.getArrayType(defType, len.getValue());
+            if (visit(ctx.constExp()) instanceof ConstantInt lenInt) {
+                defType = module.getArrayType(defType, lenInt.getValue());
             } else {
                 throw new RuntimeException("Array length is not compile-time constant");
             }
@@ -117,8 +125,8 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
     public Value visit(ConstDefContext ctx) {
         defType = baseType;
         if (ctx.LBRACK() != null) {
-            if (visit(ctx.constExp()) instanceof ConstantInt len) {
-                defType = module.getArrayType(defType, len.getValue());
+            if (visit(ctx.constExp()) instanceof ConstantInt lenInt) {
+                defType = module.getArrayType(defType, lenInt.getValue());
             } else {
                 throw new RuntimeException("Array length is not compile-time constant");
             }
@@ -148,7 +156,10 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
         } else {
             value = builder.createAlloca(defType);
             defAddr = value;
-            visit(ctx.constInitVal());
+            Value r = visit(ctx.constInitVal());
+            if (ctx.constInitVal().LBRACE() == null && ctx.constInitVal().STRCON() == null) {
+                value = r;
+            }
         }
         curScope.define(name, value);
         return null;
@@ -159,19 +170,16 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
         if (curScope.getParent() != null) {
             if (ctx.LBRACE() != null) {
                 ArrayType arrayType = (ArrayType) defType;
-                int i = 0;
-                for (; i < ctx.exp().size(); ++i) {
-                    Value val = icast(arrayType.getElementType(), visit(ctx.exp(i)));
+                int numberOfElements = arrayType.getNumberOfElements();
+                int expSize = ctx.exp().size();
+
+                for (int i = 0; i < numberOfElements; ++i) {
+                    Value val = i < expSize
+                            ? icast(arrayType.getElementType(), visit(ctx.exp(i)))
+                            : makeDefaultInit(arrayType.getElementType());
+
                     Value addr = builder.createGetElementPtr(defAddr,
-                            List.of(ConstantInt.getInt(0, module),
-                                    ConstantInt.getInt(i, module)));
-                    builder.createStore(val, addr);
-                }
-                for (; i < arrayType.getNumberOfElements(); ++i) {
-                    Value val = makeDefaultInit(arrayType.getElementType());
-                    Value addr = builder.createGetElementPtr(defAddr,
-                            List.of(ConstantInt.getInt(0, module),
-                                    ConstantInt.getInt(i, module)));
+                            List.of(i32Zero, ConstantInt.getInt(i, module)));
                     builder.createStore(val, addr);
                 }
             } else if (ctx.STRCON() != null) {
@@ -189,26 +197,22 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
         if (curScope.getParent() != null) {
             if (ctx.LBRACE() != null) {
                 ArrayType arrayType = (ArrayType) defType;
-                int i = 0;
-                for (; i < ctx.constExp().size(); ++i) {
-                    Value val = icast(arrayType.getElementType(), visit(ctx.constExp(i)));
+                int numberOfElements = arrayType.getNumberOfElements();
+                int constExpSize = ctx.constExp().size();
+
+                for (int i = 0; i < numberOfElements; ++i) {
+                    Value val = i < constExpSize
+                            ? icast(arrayType.getElementType(), visit(ctx.constExp(i)))
+                            : makeDefaultInit(arrayType.getElementType());
+
                     Value addr = builder.createGetElementPtr(defAddr,
-                            List.of(ConstantInt.getInt(0, module),
-                                    ConstantInt.getInt(i, module)));
-                    builder.createStore(val, addr);
-                }
-                for (; i < arrayType.getNumberOfElements(); ++i) {
-                    Value val = makeDefaultInit(arrayType.getElementType());
-                    Value addr = builder.createGetElementPtr(defAddr,
-                            List.of(ConstantInt.getInt(0, module),
-                                    ConstantInt.getInt(i, module)));
+                            List.of(i32Zero, ConstantInt.getInt(i, module)));
                     builder.createStore(val, addr);
                 }
             } else if (ctx.STRCON() != null) {
                 makeLocalString((ArrayType) defType, ctx.STRCON().getToken().getText(), defAddr);
             } else {
-                Value value = icast(defType, visit(ctx.constExp(0)));
-                builder.createStore(value, defAddr);
+                return icast(defType, visit(ctx.constExp(0)));
             }
         }
         return null;
@@ -242,9 +246,13 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
         String name = ctx.IDENFR().getToken().getText();
         Value addr = curScope.globalResolve(name);
 
+        if (addr instanceof ConstantInt) {
+            return addr;
+        }
+
         Value offset = null;
         if (ctx.LBRACK() != null) {
-            offset = icast(module.getInt32Type(), visit(ctx.exp()));
+            offset = icast(i32Ty, visit(ctx.exp()));
         }
 
         if (addr instanceof GlobalVariable globalVar && globalVar.isConst()) {
@@ -263,7 +271,7 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
             Type elemTy = ((PointerType) addr.getType()).getElementType();
             if (elemTy.isArrayType()) {
                 addr = builder.createGetElementPtr(addr,
-                        List.of(ConstantInt.getInt(0, module), offset));
+                        List.of(i32Zero, offset));
             } else {
                 addr = builder.createLoad(addr);
                 addr = builder.createGetElementPtr(addr, List.of(offset));
@@ -289,8 +297,7 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
             // 否则返回的是地址
             Type elemTy = ((PointerType) val.getType()).getElementType();
             if (elemTy.isArrayType()) { // 1: 数组名 evaluate 为首元素地址
-                return builder.createGetElementPtr(val,
-                        List.of(ConstantInt.getInt(0, module), ConstantInt.getInt(0, module)));
+                return builder.createGetElementPtr(val, List.of(i32Zero, i32Zero));
             } else {                    // 2: 基本值 evaluate 为某个具体的值
                 return builder.createLoad(val);
             }
@@ -307,10 +314,9 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
             if (ctx.unaryOp().PLUS() != null) { // PLUS 则直接返回
                 return value;
             } else if (ctx.unaryOp().MINUS() != null) { // MINU 则返回 0 - value 的结果
-                return doArithmetic(ConstantInt.getInt(0, module), value, MINU);
+                return eval(i32Zero, value, MINU);
             } else {
-                value = icast(module.getInt32Type(), value);
-                return builder.createEq(value, ConstantInt.getInt(0, module));
+                return eval(i32Zero, value, EQL);
             }
         } else {
             Function function = (Function) curScope.globalResolve(ctx.IDENFR().getToken().getText());
@@ -338,8 +344,8 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
     @Override
     public Value visit(MulExpContext ctx) {
         Value value = visit(ctx.unaryExp(0));
-        for (int i = 1; i < ctx.unaryExp().size(); i++) {
-            value = doArithmetic(value, visit(ctx.unaryExp(i)), ctx.OP(i - 1).getToken().getType());
+        for (int i = 1; i < ctx.unaryExp().size(); ++i) {
+            value = eval(value, visit(ctx.unaryExp(i)), ctx.OP(i - 1).getToken().getType());
         }
         return value;
     }
@@ -347,8 +353,8 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
     @Override
     public Value visit(AddExpContext ctx) {
         Value value = visit(ctx.mulExp(0));
-        for (int i = 1; i < ctx.mulExp().size(); i++) {
-            value = doArithmetic(value, visit(ctx.mulExp(i)), ctx.OP(i - 1).getToken().getType());
+        for (int i = 1; i < ctx.mulExp().size(); ++i) {
+            value = eval(value, visit(ctx.mulExp(i)), ctx.OP(i - 1).getToken().getType());
         }
         return value;
     }
@@ -356,8 +362,8 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
     @Override
     public Value visit(RelExpContext ctx) {
         Value value = visit(ctx.addExp(0));
-        for (int i = 1; i < ctx.addExp().size(); i++) {
-            value = doArithmetic(value, visit(ctx.addExp(i)), ctx.OP(i - 1).getToken().getType());
+        for (int i = 1; i < ctx.addExp().size(); ++i) {
+            value = eval(value, visit(ctx.addExp(i)), ctx.OP(i - 1).getToken().getType());
         }
         return value;
     }
@@ -366,11 +372,10 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
     public Value visit(EqExpContext ctx) {
         builder.setInsertPoint(genBlock);
         Value value = visit(ctx.relExp(0));
-        for (int i = 1; i < ctx.relExp().size(); i++) {
-            value = doArithmetic(value, visit(ctx.relExp(i)), ctx.OP(i - 1).getToken().getType());
+        for (int i = 1; i < ctx.relExp().size(); ++i) {
+            value = eval(value, visit(ctx.relExp(i)), ctx.OP(i - 1).getToken().getType());
         }
-        value = icast(module.getInt32Type(), value);
-        Value cond = builder.createNe(value, ConstantInt.getInt(0, module));
+        Value cond = icast(i1Ty, eval(value, i32Zero, NEQ));
         builder.createCondBr(cond, trueBlock, falseBlock);
         return null;
     }
@@ -485,7 +490,6 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
     /******************************* BEGIN func defs *******************************/
     @Override
     public Value visit(MainFuncDefContext ctx) {
-        Type i32Ty = module.getInt32Type();
         FunctionType funcTy = FunctionType.get(i32Ty, List.of());
         Function func = Function.create(funcTy, "main", module);
         BasicBlock bb = BasicBlock.create(module, "", func);
@@ -511,7 +515,7 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
         builder.setInsertPoint(bb);
 
         curScope = new SymbolTable(curScope);
-        for (int i = 0; i < paramTypes.size(); i++) {
+        for (int i = 0; i < paramTypes.size(); ++i) {
             Value addr = builder.createAlloca(paramTypes.get(i));
             builder.createStore(function.getArguments().get(i), addr);
             curScope.define(paramNames.get(i), addr);
@@ -541,9 +545,9 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
         if (ctx.VOIDTK() != null) {
             retType = module.getVoidType();
         } else if (ctx.INTTK() != null) {
-            retType = module.getInt32Type();
+            retType = i32Ty;
         } else if (ctx.CHARTK() != null) {
-            retType = module.getInt8Type();
+            retType = i8Ty;
         } else {
             throw new RuntimeException("Unsupported function type");
         }
@@ -555,9 +559,7 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
         if (!(ctx.getParent() instanceof FuncDefContext) && !(ctx.getParent() instanceof MainFuncDefContext)) {
             curScope = new SymbolTable(curScope);
         }
-
         Value r = super.visit(ctx);
-
         curScope = curScope.getParent();
         return r;
     }
@@ -571,16 +573,20 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
         int i = 0;
         String strcon = ctx.STRCON().getToken().getText();
         for (String str : StringUtils.splitFormatString(strcon.substring(1, strcon.length() - 1))) {
-            if (str.isEmpty()) {
-                ;
-            } else if (str.equals("%d")) {
-                builder.createCall(putint, List.of(icast(module.getInt32Type(), visit(ctx.exp(i++)))));
-            } else if (str.equals("%c")) {
-                builder.createCall(putch, List.of(icast(module.getInt32Type(), visit(ctx.exp(i++)))));
-            } else {
-                Value addr = fromStringLiteralPool("\"" + str + "\"");
-                addr = builder.createGetElementPtr(addr, List.of(ConstantInt.getInt(0, module), ConstantInt.getInt(0, module)));
-                builder.createCall(putstr, List.of(addr));
+            switch (str) {
+                case "%d":
+                    builder.createCall(putint, List.of(icast(i32Ty, visit(ctx.exp(i++)))));
+                    break;
+                case "%c":
+                    builder.createCall(putch, List.of(icast(i32Ty, visit(ctx.exp(i++)))));
+                    break;
+                default:
+                    if (!str.isEmpty()) {
+                        Value addr = fromStringLiteralPool("\"" + str + "\"");
+                        addr = builder.createGetElementPtr(addr, List.of(i32Zero, i32Zero));
+                        builder.createCall(putstr, List.of(addr));
+                    }
+                    break;
             }
         }
         return null;
@@ -626,70 +632,44 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
 
 
     /******************************* BEGIN helper functions *******************************/
-    private Value doArithmetic(Value value1, Value value2, TokenType opTy) {
-        if (!value1.getType().isInt32Type()) {
-            value1 = icast(module.getInt32Type(), value1);
-        }
-        if (!value2.getType().isInt32Type()) {
-            value2 = icast(module.getInt32Type(), value2);
-        }
+    private Value eval(Value value1, Value value2, TokenType opTy) {
+        // 作为右值运算的操作数必须整值提升
+        value1 = icast(i32Ty, value1);
+        value2 = icast(i32Ty, value2);
 
         // 编译时完成常量运算
-        if (value1 instanceof ConstantInt v1 && value2 instanceof ConstantInt v2) {
-            switch (opTy) {
-                case PLUS:
-                    return ConstantInt.getInt(v1.getValue() + v2.getValue(), module);
-                case MINU:
-                    return ConstantInt.getInt(v1.getValue() - v2.getValue(), module);
-                case MULT:
-                    return ConstantInt.getInt(v1.getValue() * v2.getValue(), module);
-                case DIV:
-                    return ConstantInt.getInt(v1.getValue() / v2.getValue(), module);
-                case MOD:
-                    return ConstantInt.getInt(v1.getValue() % v2.getValue(), module);
-                case LSS:
-                    return ConstantInt.getInt(v1.getValue() < v2.getValue() ? 1 : 0, module);
-                case LEQ:
-                    return ConstantInt.getInt(v1.getValue() <= v2.getValue() ? 1 : 0, module);
-                case GRE:
-                    return ConstantInt.getInt(v1.getValue() > v2.getValue() ? 1 : 0, module);
-                case GEQ:
-                    return ConstantInt.getInt(v1.getValue() >= v2.getValue() ? 1 : 0, module);
-                case EQL:
-                    return ConstantInt.getInt(v1.getValue() == v2.getValue() ? 1 : 0, module);
-                case NEQ:
-                    return ConstantInt.getInt(v1.getValue() != v2.getValue() ? 1 : 0, module);
-                default:
-                    throw new RuntimeException("Unknown op type: " + opTy);
-            }
+        if (value1 instanceof ConstantInt c1 && value2 instanceof ConstantInt c2) {
+            int result = switch (opTy) {
+                case PLUS   -> c1.getValue() +  c2.getValue();
+                case MINU   -> c1.getValue() -  c2.getValue();
+                case MULT   -> c1.getValue() *  c2.getValue();
+                case DIV    -> c1.getValue() /  c2.getValue();
+                case MOD    -> c1.getValue() %  c2.getValue();
+                case LSS    -> c1.getValue() <  c2.getValue() ? 1 : 0;
+                case LEQ    -> c1.getValue() <= c2.getValue() ? 1 : 0;
+                case GRE    -> c1.getValue() >  c2.getValue() ? 1 : 0;
+                case GEQ    -> c1.getValue() >= c2.getValue() ? 1 : 0;
+                case EQL    -> c1.getValue() == c2.getValue() ? 1 : 0;
+                case NEQ    -> c1.getValue() != c2.getValue() ? 1 : 0;
+                default -> throw new RuntimeException("Unknown op type: " + opTy);
+            };
+            return ConstantInt.getInt(result, module);
         }
-
-        switch (opTy) {
-            case PLUS:
-                return builder.createAdd(value1, value2);
-            case MINU:
-                return builder.createSub(value1, value2);
-            case MULT:
-                return builder.createMul(value1, value2);
-            case DIV:
-                return builder.createSdiv(value1, value2);
-            case MOD:
-                return builder.createSrem(value1, value2);
-            case LSS:
-                return builder.createLt(value1, value2);
-            case LEQ:
-                return builder.createLe(value1, value2);
-            case GRE:
-                return builder.createGt(value1, value2);
-            case GEQ:
-                return builder.createGe(value1, value2);
-            case EQL:
-                return builder.createEq(value1, value2);
-            case NEQ:
-                return builder.createNe(value1, value2);
-            default:
-                throw new RuntimeException("Unknown op type: " + opTy);
-        }
+        
+        return switch (opTy) {
+            case PLUS  -> builder.createAdd(value1, value2);
+            case MINU  -> builder.createSub(value1, value2);
+            case MULT  -> builder.createMul(value1, value2);
+            case DIV   -> builder.createSdiv(value1, value2);
+            case MOD   -> builder.createSrem(value1, value2);
+            case LSS   -> builder.createLt(value1, value2);
+            case LEQ   -> builder.createLe(value1, value2);
+            case GRE   -> builder.createGt(value1, value2);
+            case GEQ   -> builder.createGe(value1, value2);
+            case EQL   -> builder.createEq(value1, value2);
+            case NEQ   -> builder.createNe(value1, value2);
+            default    -> { throw new RuntimeException("Unknown op type: " + opTy); }
+        };
     }
 
     private Constant makeDefaultInit(Type type) {
@@ -698,14 +678,13 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
             return ConstantInt.getChar(0, module);
         }
         if (type.isInt32Type()) {
-            return ConstantInt.getInt(0, module);
+            return i32Zero;
         }
         if (type.isArrayType()) {
             ArrayType arrayType = (ArrayType) type;
-            List<Constant> elems = new ArrayList();
-            for (int i = 0; i < arrayType.getNumberOfElements(); ++i) {
-                elems.add(makeDefaultInit(arrayType.getElementType()));
-            }
+            List<Constant> elems = IntStream.range(0, arrayType.getNumberOfElements())
+                    .mapToObj(i -> makeDefaultInit(arrayType.getElementType()))
+                    .collect(Collectors.toList());
             return ConstantArray.get(arrayType, elems);
         }
         throw new RuntimeException("Unsupported type: " + type);
@@ -713,25 +692,22 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
 
     private Value icast(Type destType, Value value) {
         if (destType instanceof IntegerType ty1 && value.getType() instanceof IntegerType ty2
-            && ty1.getNumBits() != ty2.getNumBits()) {
-            if (value instanceof ConstantInt) {
-                if (destType.isInt1Type()) {
-                    value =  ConstantInt.getBool(((ConstantInt) value).getValue() != 0, module);
-                } else if (destType.isInt8Type()) {
-                    value =  ConstantInt.getChar(((ConstantInt) value).getValue() & 0xff, module);
-                } else if (destType.isInt32Type()) {
-                    value = ConstantInt.getInt(((ConstantInt) value).getValue(), module);
-                }
+                && ty1.getNumBits() != ty2.getNumBits()) {
+            if (value instanceof ConstantInt constValue) {
+                int val = constValue.getValue();
+                value = destType.isInt1Type()
+                        ? ConstantInt.getBool(val != 0, module)
+                        : destType.isInt8Type()
+                            ? ConstantInt.getChar(val & 0xff, module)
+                            : ConstantInt.getInt(val, module);
             } else {
-                if (destType.isInt1Type()) {
-                    value = builder.createTruncToInt1(value);
-                } else if (destType.isInt8Type() && ty2.getNumBits() > 8) {
-                    value = builder.createTruncToInt8(value);
-                } else if (destType.isInt8Type() && ty2.getNumBits() < 8) {
-                    value = builder.createZextToInt8(value);
-                } else if (destType.isInt32Type()) {
-                    value = builder.createZextToInt32(value);
-                }
+                value = destType.isInt1Type()
+                        ? builder.createTruncToInt1(value)
+                        : destType.isInt8Type()
+                            ? ty2.getNumBits() > 8
+                                ? builder.createTruncToInt8(value)
+                                : builder.createZextToInt8(value)
+                            : builder.createZextToInt32(value);
             }
         }
         return value;
@@ -739,50 +715,41 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
 
     private ConstantArray makeGlobalString(ArrayType arrayType, String str) {
         List<Integer> asciis = StringUtils.resolveAsciis(str);
-        List<Constant> elems = new ArrayList<>();
-        int i = 0;
-        for (; i < asciis.size(); ++i) {
-            elems.add(ConstantInt.getChar(asciis.get(i), module));
-        }
-        for (; i < arrayType.getNumberOfElements(); ++i) {
-            elems.add(makeDefaultInit(arrayType.getElementType()));
-        }
+        int numberOfElements = arrayType.getNumberOfElements();
+
+        List<Constant> elems = IntStream.range(0, numberOfElements)
+                .mapToObj(i -> i < asciis.size() ? ConstantInt.getChar(asciis.get(i), module) : makeDefaultInit(arrayType.getElementType()))
+                .collect(Collectors.toList());
+
         return ConstantArray.get(arrayType, elems);
     }
 
     private Value fromStringLiteralPool(String str) {
-        if (!stringLiteralPool.containsKey(str)) {
-            List<Integer> asciis = StringUtils.resolveAsciis(str);
-            List<Constant> elems = new ArrayList<>();
-            int i = 0;
-            for (; i < asciis.size(); ++i) {
-                elems.add(ConstantInt.getChar(asciis.get(i), module));
-            }
+        return stringLiteralPool.computeIfAbsent(str, s -> {
+            List<Integer> asciis = StringUtils.resolveAsciis(s);
+            List<Constant> elems = IntStream.range(0, asciis.size())
+                    .mapToObj(i -> ConstantInt.getChar(asciis.get(i), module))
+                    .collect(Collectors.toList());
             elems.add(ConstantInt.getChar('\0', module));
-            ArrayType arrayType = module.getArrayType(module.getInt8Type(), asciis.size() + 1);
+
+            ArrayType arrayType = module.getArrayType(i8Ty, asciis.size() + 1);
             Constant init = ConstantArray.get(arrayType, elems);
-            GlobalVariable globalVariable = GlobalVariable.create(".str" + stringLiteralPool.size(), module, arrayType, true, init);
-            stringLiteralPool.put(str, globalVariable);
-        }
-        return stringLiteralPool.get(str);
+            return GlobalVariable.create(".str" + stringLiteralPool.size(), module, arrayType, true, init);
+        });
     }
 
 
     private void makeLocalString(ArrayType arrayType, String str, Value baseAddr) {
-        int i = 0;
         List<Integer> asciis = StringUtils.resolveAsciis(str);
-        for (; i < asciis.size(); ++i) {
-            Value val = ConstantInt.getChar(asciis.get(i), module);
+        int numberOfElements = arrayType.getNumberOfElements();
+
+        for (int i = 0; i < numberOfElements; ++i) {
+            Value val = i < asciis.size()
+                    ? ConstantInt.getChar(asciis.get(i), module)
+                    : makeDefaultInit(arrayType.getElementType());
+
             Value addr = builder.createGetElementPtr(baseAddr,
-                    List.of(ConstantInt.getInt(0, module),
-                            ConstantInt.getInt(i, module)));
-            builder.createStore(val, addr);
-        }
-        for (; i < arrayType.getNumberOfElements(); ++i) {
-            Value val = makeDefaultInit(arrayType.getElementType());
-            Value addr = builder.createGetElementPtr(baseAddr,
-                    List.of(ConstantInt.getInt(0, module),
-                            ConstantInt.getInt(i, module)));
+                    List.of(i32Zero, ConstantInt.getInt(i, module)));
             builder.createStore(val, addr);
         }
     }
@@ -791,11 +758,11 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
     public Module getModule() {return builder.getModule();}
 
     private void loadLibraries() {
-        FunctionType functionType = module.getFunctionType(module.getInt32Type(), List.of());
+        FunctionType functionType = module.getFunctionType(i32Ty, List.of());
         Function getint = Function.create(functionType, "getint", module);
         Function getchar = Function.create(functionType, "getchar", module);
 
-        functionType = module.getFunctionType(module.getVoidType(), List.of(module.getInt32Type()));
+        functionType = module.getFunctionType(module.getVoidType(), List.of(i32Ty));
         Function putint = Function.create(functionType, "putint", module);
         Function putch = Function.create(functionType, "putch", module);
 
@@ -807,5 +774,9 @@ public class IRGenVisitor extends BaseContextVisitor<Value> {
         curScope.define("putint", putint);
         curScope.define("putch", putch);
         curScope.define("putstr", putstr);
+    }
+
+    public void dump(String filePath) {
+        FileUtils.writeStringToFile(filePath, module.print());
     }
 }

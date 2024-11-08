@@ -10,13 +10,17 @@
  * This file is part of SysYCompiler.
  */
 
-package utils;
+package backend.regalloc;
 
-public class ObjUtils {
-    public static boolean any(Object a, Object... others) {
-        for (Object b : others) {
-            if (a.equals(b)) return true;
-        }
-        return false;
+import backend.mips.Register;
+import frontend.llvm.value.Function;
+import frontend.llvm.value.Value;
+
+import java.util.*;
+
+public class BaseRegAllocator implements RegAllocator {
+    @Override
+    public Map<Value, Register> allocate(Function function) {
+        return Map.of();
     }
 }

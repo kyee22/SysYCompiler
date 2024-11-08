@@ -1,0 +1,66 @@
+int n;
+int N, cnt;
+int min_ans, max_ans;
+int visited[100];
+
+int max(int a, int b) {
+    if (a < b) {
+        return b;
+    }
+    return a;
+}
+
+int min(int a, int b) {
+    if (a < b) {
+        return a;
+    }
+    return b;
+}
+
+void search(int n, int sum, int k) {
+    if (n == N && sum % 17 == 0) {
+        cnt = cnt + 1;
+        min_ans = min(min_ans, sum);
+        max_ans = max(max_ans, sum);
+        return;
+    }
+    int i;
+    for (i = 1; i <= N; i = i + 1) {
+        if (!visited[i]) {
+            visited[i] = 1;
+            search(n + 1, sum + i * k, k * 10);
+            visited[i] = 0;
+        }
+    }
+}
+
+int main() {
+    n = getint();
+    int u, i;
+    for (u = 2; u <= n; u = u + 1) {
+        N = u;
+        cnt = 0;
+        min_ans = 2147483647;
+        max_ans = (-2147483647 - 1);
+
+        for (i = 0; i < 12; i = i + 1) {
+            visited[i] = 0;
+        }
+
+        printf(">>>>>> TEST %d <<<<<<\n", N);
+
+        for (i = 1; i <= N; i = i + 1) {
+            if (!visited[i]) {
+                visited[i] = 1;
+                search(1, i, 10);
+                visited[i] = 0;
+            }
+        }
+        printf("%d\n", cnt);
+        if (cnt) {
+            printf("%d\n%d\n", min_ans, max_ans);
+        }
+    }
+
+    return 0;
+}

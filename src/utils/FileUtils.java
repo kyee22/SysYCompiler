@@ -18,6 +18,14 @@ import java.util.Collection;
 import java.util.List;
 
 public class FileUtils {
+    public static void writeStringToFile(String filePath, String content) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static <T> void writeListToFile(List<T> list, String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             int size = list.size();

@@ -106,5 +106,9 @@ public abstract class Instruction extends User {
     public boolean isTerminator() {
         return isBr() || isRet();
     }
+
+    public <T> T accept(InstVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
