@@ -47,15 +47,15 @@ class ASMGeneratorTest {
 
     @Test
     void testNeedsTruncation() {
-        assertFalse(needsTruncation(1, 8));
-        assertFalse(needsTruncation(88, 8));
-        assertFalse(needsTruncation(255, 8));
-        assertTrue(needsTruncation(256, 8));
-        assertTrue(needsTruncation(-1, 8));
-        assertTrue(needsTruncation(-8, 1));
-        assertTrue(needsTruncation(2, 1));
-        assertTrue(needsTruncation(3, 1));
-        assertFalse(needsTruncation(0, 1));
-        assertFalse(needsTruncation(1, 1));
+        assertFalse(requireTruncation(1, 8));
+        assertFalse(requireTruncation(88, 8));
+        assertFalse(requireTruncation(255, 8));
+        assertTrue(requireTruncation(256, 8));
+        assertTrue(requireTruncation(-1, 8));
+        assertTrue(requireTruncation(-8, 1));
+        assertTrue(requireTruncation(2, 1));
+        assertTrue(requireTruncation(3, 1));
+        assertFalse(requireTruncation(0, 1));
+        assertFalse(requireTruncation(1, 1));
     }
 }

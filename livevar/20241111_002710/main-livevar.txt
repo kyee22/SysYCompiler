@@ -1,0 +1,102 @@
+================== main liveVar ================
+label0:
+	@1: %op1 = alloca i32  [op1]
+	@2: store i32 1, i32* %op1  [op1]
+	@3: %op2 = alloca i32  [op1, op2]
+	@4: store i32 0, i32* %op2  [op1, op2]
+	@5: br label %label8  [op1, op2]
+
+label3:
+	@66: %op4 = getelementptr [25 x i8], [25 x i8]* @.str0, i32 0, i32 0  [op2, op4]
+	@67: call void @putstr(i8* %op4)  [op2]
+	@68: br label %label5  [op2]
+
+label5:
+	@16: br label %label22  [op2]
+
+label6:
+	@13: %op7 = getelementptr [27 x i8], [27 x i8]* @.str1, i32 0, i32 0  [op2, op7]
+	@14: call void @putstr(i8* %op7)  [op2]
+	@15: br label %label5  [op2]
+
+label8:
+	@6: %op9 = load i32, i32* %op1  [op9, op2]
+	@7: %op10 = icmp eq i32 0, %op9  [op2, op10]
+	@8: %op11 = zext i1 %op10 to i32  [op11, op2]
+	@9: %op12 = icmp eq i32 %op11, 0  [op12, op2]
+	@10: %op13 = zext i1 %op12 to i32  [op13, op2]
+	@11: %op14 = icmp ne i32 %op13, 0  [op14, op2]
+	@12: br i1 %op14, label %label3, label %label6  [op2]
+
+label15:
+	@24: %op16 = getelementptr [25 x i8], [25 x i8]* @.str2, i32 0, i32 0  [op16]
+	@25: call void @putstr(i8* %op16)  []
+	@26: br label %label17  []
+
+label17:
+	@27: %op18 = alloca i8  [op18]
+	@28: store i8 5, i8* %op18  [op18]
+	@29: %op19 = alloca i8  [op19, op18]
+	@30: store i8 0, i8* %op19  [op19, op18]
+	@31: br label %label34  [op19, op18]
+
+label20:
+	@63: %op21 = getelementptr [27 x i8], [27 x i8]* @.str3, i32 0, i32 0  [op21]
+	@64: call void @putstr(i8* %op21)  []
+	@65: br label %label17  []
+
+label22:
+	@17: %op23 = load i32, i32* %op2  [op23]
+	@18: %op24 = icmp eq i32 0, %op23  [op24]
+	@19: %op25 = zext i1 %op24 to i32  [op25]
+	@20: %op26 = icmp eq i32 %op25, 1  [op26]
+	@21: %op27 = zext i1 %op26 to i32  [op27]
+	@22: %op28 = icmp ne i32 %op27, 0  [op28]
+	@23: br i1 %op28, label %label15, label %label20  []
+
+label29:
+	@60: %op30 = getelementptr [25 x i8], [25 x i8]* @.str4, i32 0, i32 0  [op19, op30]
+	@61: call void @putstr(i8* %op30)  [op19]
+	@62: br label %label31  [op19]
+
+label31:
+	@43: br label %label47  [op19]
+
+label32:
+	@40: %op33 = getelementptr [27 x i8], [27 x i8]* @.str5, i32 0, i32 0  [op19, op33]
+	@41: call void @putstr(i8* %op33)  [op19]
+	@42: br label %label31  [op19]
+
+label34:
+	@32: %op35 = load i8, i8* %op18  [op19, op35]
+	@33: %op36 = zext i8 %op35 to i32  [op19, op36]
+	@34: %op37 = icmp eq i32 0, %op36  [op19, op37]
+	@35: %op38 = zext i1 %op37 to i32  [op38, op19]
+	@36: %op39 = icmp eq i32 %op38, 0  [op19, op39]
+	@37: %op40 = zext i1 %op39 to i32  [op19, op40]
+	@38: %op41 = icmp ne i32 %op40, 0  [op19, op41]
+	@39: br i1 %op41, label %label29, label %label32  [op19]
+
+label42:
+	@52: %op43 = getelementptr [25 x i8], [25 x i8]* @.str2, i32 0, i32 0  [op43]
+	@53: call void @putstr(i8* %op43)  []
+	@54: br label %label44  []
+
+label44:
+	@55: ret i32 0  []
+
+label45:
+	@57: %op46 = getelementptr [27 x i8], [27 x i8]* @.str3, i32 0, i32 0  [op46]
+	@58: call void @putstr(i8* %op46)  []
+	@59: br label %label44  []
+
+label47:
+	@44: %op48 = load i8, i8* %op19  [op48]
+	@45: %op49 = zext i8 %op48 to i32  [op49]
+	@46: %op50 = icmp eq i32 0, %op49  [op50]
+	@47: %op51 = zext i1 %op50 to i32  [op51]
+	@48: %op52 = icmp eq i32 %op51, 1  [op52]
+	@49: %op53 = zext i1 %op52 to i32  [op53]
+	@50: %op54 = icmp ne i32 %op53, 0  [op54]
+	@51: br i1 %op54, label %label42, label %label45  []
+

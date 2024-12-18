@@ -19,8 +19,15 @@ import frontend.llvm.value.Value;
 import java.util.*;
 
 public class BaseRegAllocator implements RegAllocator {
+    protected List<Register> usedSavadRegs = new ArrayList<>();
+
     @Override
     public Map<Value, Register> allocate(Function function) {
         return Map.of();
+    }
+
+    @Override
+    public List<Register> getUsedSavadRegs() {
+        return usedSavadRegs;
     }
 }

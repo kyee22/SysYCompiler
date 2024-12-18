@@ -41,79 +41,46 @@ public class IRPrinter {
     }
 
     public static String printInstrOpName(OpID id) {
-        switch (id) {
-            case RET:
-                return "ret";
-            case BR:
-                return "br";
-            case ADD:
-                return "add";
-            case SUB:
-                return "sub";
-            case MUL:
-                return "mul";
-            case SDIV:
-                return "sdiv";
-            case SREM:
-                return "srem";
-            case FADD:
-                return "fadd";
-            case FSUB:
-                return "fsub";
-            case FMUL:
-                return "fmul";
-            case FDIV:
-                return "fdiv";
-            case ALLOCA:
-                return "alloca";
-            case LOAD:
-                return "load";
-            case STORE:
-                return "store";
-            case GE:
-                return "sge";
-            case GT:
-                return "sgt";
-            case LE:
-                return "sle";
-            case LT:
-                return "slt";
-            case EQ:
-                return "eq";
-            case NE:
-                return "ne";
-            case FGE:
-                return "uge";
-            case FGT:
-                return "ugt";
-            case FLE:
-                return "ule";
-            case FLT:
-                return "ult";
-            case FEQ:
-                return "ueq";
-            case FNE:
-                return "une";
-            case PHI:
-                return "phi";
-            case CALL:
-                return "call";
-            case GETELEMENTPTR:
-                return "getelementptr";
-            case ZEXT:
-                return "zext";
-            case SEXT:
-                return "sext";
-            case TRUNCT:
-                return "trunc";
-            case FPTOSI:
-                return "fptosi";
-            case SITOFP:
-                return "sitofp";
-            default:
-                throw new IllegalArgumentException("Must be bug");
-        }
+        return switch (id) {
+            case RET -> "ret";
+            case BR -> "br";
+            case ADD -> "add";
+            case SUB -> "sub";
+            case MUL -> "mul";
+            case SDIV -> "sdiv";
+            case SREM -> "srem";
+            case FADD -> "fadd";
+            case FSUB -> "fsub";
+            case FMUL -> "fmul";
+            case FDIV -> "fdiv";
+            case ALLOCA -> "alloca";
+            case LOAD -> "load";
+            case STORE -> "store";
+            case GE -> "sge";
+            case GT -> "sgt";
+            case LE -> "sle";
+            case LT -> "slt";
+            case EQ -> "eq";
+            case NE -> "ne";
+            case FGE -> "uge";
+            case FGT -> "ugt";
+            case FLE -> "ule";
+            case FLT -> "ult";
+            case FEQ -> "ueq";
+            case FNE -> "une";
+            case PHI -> "phi";
+            case CALL -> "call";
+            case GETELEMENTPTR -> "getelementptr";
+            case ZEXT -> "zext";
+            case SEXT -> "sext";
+            case TRUNCT -> "trunc";
+            case FPTOSI -> "fptosi";
+            case SITOFP -> "sitofp";
+            case PSEUDO_MOVE -> "mv";
+            default -> throw new IllegalArgumentException("Must be bug");
+        };
     }
+
 
     public static String printBinaryInst(Instruction inst) {
         StringBuilder instrIr = new StringBuilder();

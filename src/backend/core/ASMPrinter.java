@@ -20,9 +20,6 @@ import frontend.llvm.value.user.constant.ConstantArray;
 import frontend.llvm.value.user.constant.ConstantInt;
 import frontend.llvm.value.user.constant.ConstantZero;
 
-import static backend.mips.Instruction.INST_LW;
-import static backend.mips.Instruction.INST_SW;
-
 public class ASMPrinter {
 
     public static String print(GlobalVariable globalVar) {
@@ -71,22 +68,22 @@ public class ASMPrinter {
     }
 
     public static String printOp1(Object op, Object op1) {
-        return "\t" + op.toString() + " " + op1.toString() + "\n";
+        return String.format("\t%-8s%s\n", op.toString(), op1.toString());
     }
 
     public static String printOp2(Object op, Object op1, Object op2) {
-        return "\t" + op.toString() + " " + op1.toString() + ", " + op2.toString() + "\n";
+        return String.format("\t%-8s%s, %s\n", op.toString(), op1.toString(), op2.toString());
     }
 
     public static String printOp3(Object op, Object op1, Object op2, Object op3) {
-        return "\t" + op.toString() + " " + op1.toString() + ", " + op2.toString() + ", " + op3.toString() + "\n";
+        return String.format("\t%-8s%s, %s, %s\n", op.toString(), op1.toString(), op2.toString(), op3.toString());
     }
 
     public static String printLoad(Object op, Object dest, Object base, Object offset) {
-        return "\t" + op.toString() + " " + dest.toString() + ", " + offset.toString() + "(" + base.toString() + ")\n";
+        return String.format("\t%-8s%s, %s(%s)\n", op.toString(), dest.toString(), offset.toString(), base.toString());
     }
 
     public static String printStore(Object op, Object src, Object base, Object offset) {
-        return "\t" + op.toString() + " " + src.toString() + ", " + offset.toString() + "(" + base.toString() + ")\n";
+        return String.format("\t%-8s%s, %s(%s)\n", op.toString(), src.toString(), offset.toString(), base.toString());
     }
 }

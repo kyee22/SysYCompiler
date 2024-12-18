@@ -39,6 +39,7 @@ public class CallInstr extends Instruction {
             }
             addOperand(arguments.get(i));
         }
+        parent.getParent().setNonLeaf();
     }
 
     public static CallInstr createCall(Function function, List<Value> arguments, BasicBlock parent) {

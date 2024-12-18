@@ -1,0 +1,92 @@
+================== do_cpl_fa24_e1_d liveVar ================
+label0:
+	%op1 = alloca i32  [op1]
+	%op2 = alloca i32  [op1, op2]
+	%op3 = alloca i32  [op1, op2, op3]
+	%op4 = alloca i32  [op1, op2, op4, op3]
+	%op5 = call i32 @getint()  [op1, op2, op4, op3, op5]
+	store i32 %op5, i32* %op4  [op1, op2, op3, op4]
+	%op6 = call i32 @getint()  [op1, op2, op3, op4, op6]
+	store i32 %op6, i32* %op3  [op1, op2, op4, op3]
+	br label %label10  [op1, op2, op4, op3]
+
+label7:
+	%op8 = getelementptr [11 x i8], [11 x i8]* @.str5, i32 0, i32 0  [op8]
+	call void @putstr(i8* %op8)  []
+	ret void  []
+
+label9:
+	br label %label32  [op1, op2, op4, op3]
+
+label10:
+	%op11 = load i32, i32* %op4  [op1, op2, op3, op4, op11]
+	%op12 = mul i32 4, %op11  [op1, op2, op3, op4, op12]
+	%op13 = load i32, i32* %op3  [op1, op2, op4, op3, op13, op12]
+	%op14 = sub i32 %op12, %op13  [op1, op2, op4, op3, op14]
+	%op15 = srem i32 %op14, 2  [op1, op2, op4, op3, op15]
+	%op16 = icmp ne i32 %op15, 0  [op1, op2, op4, op3, op16]
+	%op17 = zext i1 %op16 to i32  [op1, op2, op4, op3, op17]
+	%op18 = icmp ne i32 %op17, 0  [op1, op2, op4, op3, op18]
+	br i1 %op18, label %label7, label %label9  [op1, op2, op4, op3]
+
+label19:
+	%op20 = getelementptr [11 x i8], [11 x i8]* @.str5, i32 0, i32 0  [op20]
+	call void @putstr(i8* %op20)  []
+	ret void  []
+
+label21:
+	%op22 = load i32, i32* %op4  [op1, op2, op22, op3, op4]
+	%op23 = mul i32 4, %op22  [op1, op2, op3, op4, op23]
+	%op24 = load i32, i32* %op3  [op1, op24, op2, op4, op3, op23]
+	%op25 = sub i32 %op23, %op24  [op1, op2, op25, op4, op3]
+	%op26 = sdiv i32 %op25, 2  [op26, op1, op2, op4, op3]
+	store i32 %op26, i32* %op1  [op1, op2, op4, op3]
+	%op27 = load i32, i32* %op3  [op1, op2, op4, op27]
+	%op28 = load i32, i32* %op4  [op1, op28, op2, op27]
+	%op29 = mul i32 2, %op28  [op29, op1, op2, op27]
+	%op30 = sub i32 %op27, %op29  [op1, op2, op30]
+	%op31 = sdiv i32 %op30, 2  [op1, op2, op31]
+	store i32 %op31, i32* %op2  [op1, op2]
+	br label %label48  [op1, op2]
+
+label32:
+	%op33 = load i32, i32* %op3  [op1, op2, op4, op3, op33]
+	%op34 = load i32, i32* %op4  [op1, op2, op34, op3, op4, op33]
+	%op35 = mul i32 2, %op34  [op1, op2, op3, op4, op35, op33]
+	%op36 = sub i32 %op33, %op35  [op1, op2, op3, op4, op36]
+	%op37 = srem i32 %op36, 2  [op37, op1, op2, op3, op4]
+	%op38 = icmp ne i32 %op37, 0  [op38, op1, op2, op3, op4]
+	%op39 = zext i1 %op38 to i32  [op1, op39, op2, op3, op4]
+	%op40 = icmp ne i32 %op39, 0  [op1, op2, op3, op4, op40]
+	br i1 %op40, label %label19, label %label21  [op1, op2, op3, op4]
+
+label41:
+	%op42 = getelementptr [11 x i8], [11 x i8]* @.str5, i32 0, i32 0  [op42]
+	call void @putstr(i8* %op42)  []
+	ret void  []
+
+label43:
+	%op44 = load i32, i32* %op1  [op2, op44]
+	call void @putint(i32 %op44)  [op2]
+	%op45 = getelementptr [2 x i8], [2 x i8]* @.str6, i32 0, i32 0  [op2, op45]
+	call void @putstr(i8* %op45)  [op2]
+	%op46 = load i32, i32* %op2  [op46]
+	call void @putint(i32 %op46)  []
+	%op47 = getelementptr [2 x i8], [2 x i8]* @.str2, i32 0, i32 0  [op47]
+	call void @putstr(i8* %op47)  []
+	ret void  []
+
+label48:
+	%op49 = load i32, i32* %op1  [op1, op2, op49]
+	%op50 = icmp slt i32 %op49, 0  [op50, op1, op2]
+	%op51 = zext i1 %op50 to i32  [op51, op1, op2]
+	%op52 = icmp ne i32 %op51, 0  [op1, op2, op52]
+	br i1 %op52, label %label41, label %label53  [op1, op2]
+
+label53:
+	%op54 = load i32, i32* %op2  [op1, op2, op54]
+	%op55 = icmp slt i32 %op54, 0  [op1, op2, op55]
+	%op56 = zext i1 %op55 to i32  [op1, op2, op56]
+	%op57 = icmp ne i32 %op56, 0  [op1, op2, op57]
+	br i1 %op57, label %label41, label %label43  [op1, op2]
+

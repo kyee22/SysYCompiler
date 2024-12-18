@@ -66,4 +66,9 @@ public enum Register {
         }
         throw new IllegalArgumentException("Unknown register: " + name);
     }
+
+    public boolean isSaved() {
+        return this == REG_S0 || this == REG_S1 || this == REG_S2 || this == REG_S3 || this == REG_S4
+                 || this == REG_S5 || this == REG_S6 || this == REG_S7;
+    }
 }

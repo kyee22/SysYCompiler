@@ -52,6 +52,7 @@ public enum Instruction {
     INST_ANDI("andi"),
 
     INST_SLL("sll"),
+    INST_SRA("sra"),
 
     INST_XOR("xor"),      // 按位异或
     INST_NOR("nor"),      // 按位非或

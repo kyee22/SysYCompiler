@@ -13,6 +13,7 @@
 package backend.mips;
 
 import backend.regalloc.BaseRegAllocator;
+import backend.regalloc.LinearScanRegAllocator;
 import backend.regalloc.RegAllocator;
 import frontend.llvm.value.BasicBlock;
 import frontend.llvm.value.Function;
@@ -21,7 +22,6 @@ import frontend.llvm.value.user.instr.AllocaInst;
 import frontend.llvm.value.user.instr.CallInstr;
 import frontend.llvm.value.user.instr.Instruction;
 
-import java.sql.Ref;
 import java.util.*;
 
 import static backend.mips.Register.*;
@@ -32,10 +32,11 @@ public class Manager {
     private int saveOffset;
     private int raOffset;
     private int localOffset;
-    private RegAllocator regAllocator = new BaseRegAllocator();
+    private RegAllocator regAllocator = new LinearScanRegAllocator();
     private Map<Value, Register> regMap;
 
     public static final int WORD_SIZE = 4;
+    public static final int BYTE_SIZE = 1;
 
     public static final Register[]SAVED_REGS = new Register[]{REG_S0, REG_S1, REG_S2, REG_S3, REG_S4, REG_S5, REG_S6, REG_S7};
     public static final Register[]ARG_REGS = new Register[]{REG_A0, REG_A1, REG_A2, REG_A3};
@@ -74,6 +75,10 @@ public class Manager {
         return reservedTmpRegsPool.pop();
     }
 
+    public List<Register> getUsedSavadRegs() {
+        return regAllocator.getUsedSavadRegs();
+    }
+
     public void allocFrame(Function function) {
         List<Value> vRegs = new ArrayList<>();
         int allocaSize = 0;
@@ -83,8 +88,8 @@ public class Manager {
 
         for (BasicBlock bb : function.getBasicBlocks()) {
             for (Instruction inst : bb.getInstrs()) {
-                if (!inst.isVoid() || !regMap.containsKey(inst)) {
-                    vRegs.add(inst);
+                if (inst.getDef().isPresent() && !regMap.containsKey(inst.getDef().get())) {
+                    vRegs.add(inst.getDef().get());
                 }
                 if (inst instanceof AllocaInst allocaInst) {
                     allocaSize += roundUpTo4(allocaInst.getAllocaType().getSize());
@@ -94,11 +99,48 @@ public class Manager {
                 }
             }
         }
+        /*
+                    +-----------------+ <-------- offset = frameSize
+                    |     Previous    |
+                    |   Stack Frame   |
+                    ~~~~~~~~~~~~~~~~~~~
+                    |  local data m-1 |
+                    ·-----------------·
+                    |       ...       |
+                    ·-----------------·
+                    |   local data 0  |
+                    +-----------------+ <-------- localOffset
+                    |      empty      |
+                    ·-----------------·
+                    |  return address |
+                    +-----------------+ <-------- raOffset
+                    |  saved reg k-1  |
+                    ·-----------------·
+                    |       ...       |
+                    ·-----------------·
+                    |   saved reg 0   |
+                    +-----------------+ <-------- saveOffset
+                    |     arg n-1     |
+                    ·-----------------·
+                    |       ...       |
+                    ·-----------------·
+                    |      arg 4      |
+                    ·-----------------·
+                    |     (arg 3)     |
+                    ·-----------------·
+                    |     (arg 2)     |
+                    ·-----------------·
+                    |     (arg 1)     |
+                    ·-----------------·
+                    |     (arg 0)     |
+                    ~~~~~~~~~~~~~~~~~~~ <------- offset = 0
+         */
 
         saveOffset = argsSize;
-        raOffset = saveOffset + 8 * WORD_SIZE; // 先将所有 $s 保存
+        raOffset = saveOffset + regAllocator.getUsedSavadRegs().size() * WORD_SIZE;
+        // localOffset - raOffset = 8
         localOffset = raOffset + 8;
-
+        // frameSize - localOffset = (1) size of alloca and (2) size of unallocated virtual registers
         frameSize = localOffset + vRegs.size() * WORD_SIZE + allocaSize;
         allocTop = frameSize;
     }

@@ -14,9 +14,11 @@ package frontend.llvm.value;
 
 import frontend.llvm.type.Type;
 import frontend.llvm.value.user.User;
+import frontend.llvm.value.user.instr.CallInstr;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
 public abstract class Value {
@@ -60,7 +62,10 @@ public abstract class Value {
 
     public void replaceAllUseWith(Value newVal) {
         if (this == newVal) return;
-        for (Use use : useList) {
+        // 太神奇了, 这个潜在的 bug, 遍历到第 1 个时把第 1 个删去了,
+        // 所有第 2 个接着成为了第 1 个, 但因此就遍历一次就结束了,
+        // 第 2 个(现在是第 1 个现在根本就没操作到), 加一个 copyOf 复制引用就好了
+        for (Use use : List.copyOf(useList)) {
             use.getUser().setOperand(use.getArgNo(), newVal);
         }
     }

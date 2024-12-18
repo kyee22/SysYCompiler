@@ -1,0 +1,36 @@
+================== rand liveVar ================
+label0:
+	@1: %op1 = load i32, i32* @staticvalue  [op1]
+	@2: %op2 = getelementptr [3 x i32], [3 x i32]* @seed, i32 0, i32 0  [op2, op1]
+	@3: %op3 = load i32, i32* %op2  [op3, op1]
+	@4: %op4 = mul i32 %op1, %op3  [op4]
+	@5: %op5 = getelementptr [3 x i32], [3 x i32]* @seed, i32 0, i32 1  [op5, op4]
+	@6: %op6 = load i32, i32* %op5  [op6, op4]
+	@7: %op7 = add i32 %op4, %op6  [op7]
+	@8: store i32 %op7, i32* @staticvalue  []
+	@9: %op8 = load i32, i32* @staticvalue  [op8]
+	@10: %op9 = getelementptr [3 x i32], [3 x i32]* @seed, i32 0, i32 2  [op9, op8]
+	@11: %op10 = load i32, i32* %op9  [op10, op8]
+	@12: %op11 = srem i32 %op8, %op10  [op11]
+	@13: store i32 %op11, i32* @staticvalue  []
+	@14: br label %label19  []
+
+label12:
+	@23: %op13 = getelementptr [3 x i32], [3 x i32]* @seed, i32 0, i32 2  [op13]
+	@24: %op14 = load i32, i32* %op13  [op14]
+	@25: %op15 = load i32, i32* @staticvalue  [op15, op14]
+	@26: %op16 = add i32 %op14, %op15  [op16]
+	@27: store i32 %op16, i32* @staticvalue  []
+	@28: br label %label17  []
+
+label17:
+	@20: %op18 = load i32, i32* @staticvalue  [op18]
+	@21: ret i32 %op18  []
+
+label19:
+	@15: %op20 = load i32, i32* @staticvalue  [op20]
+	@16: %op21 = icmp slt i32 %op20, 0  [op21]
+	@17: %op22 = zext i1 %op21 to i32  [op22]
+	@18: %op23 = icmp ne i32 %op22, 0  [op23]
+	@19: br i1 %op23, label %label12, label %label17  []
+

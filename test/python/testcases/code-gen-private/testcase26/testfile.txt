@@ -1,0 +1,278 @@
+//
+// Created by Arren on 2024/10/4.
+//
+
+/**
+    题目是这样的：
+
+    [第 1 题] 这道题的答案是：
+    A. A
+    B. B
+    C. C
+    D. D
+
+    [第 2 题] 第 5 题的答案是：
+    A. C
+    B. D
+    C. A
+    D. B
+
+    [第 3 题] 以下选项中哪一题的答案与其他三项不同：
+    A. 第 3 题
+    B. 第 6 题
+    C. 第 2 题
+    D. 第 4 题
+
+    [第 4 题] 以下选项中哪两题的答案相同：
+    A. 第 1,5 题
+    B. 第 2,7 题
+    C. 第 1,9 题
+    D. 第 6,10 题
+
+    [第 5 题] 以下选项中哪一题的答案与本题相同：
+    A. 第 8 题
+    B. 第 4 题
+    C. 第 9 题
+    D. 第 7 题
+
+    [第 6 题] 以下选项中哪两题的答案与第 8 题相同：
+    A. 第 2,4 题
+    B. 第 1,6 题
+    C. 第 3,10 题
+    D. 第 5,9 题
+
+    [第 7 题] 在此十道题中，被选中次数最少的选项字母为：
+    A. C
+    B. B
+    C. A
+    D. D
+
+    [第 8 题] 以下选项中哪一题的答案与第 1 题的答案在字母表中不相邻：
+    A. 第 7 题
+    B. 第 5 题
+    C. 第 2 题
+    D. 第 10 题
+
+    [第 9 题] 已知 第 1 题和第 6 题的答案相同 与 第 X 题和第 5 题的答案相同 的真假性相反，那么 X 为：
+    A. 6
+    B. 10
+    C. 2
+    D. 9
+
+    [第 10 题] 在此 10 道题中，ABCD 四个字母出现次数最多与最少者的差为：
+    A. 3
+    B. 2
+    C. 4
+    D. 1
+**/
+
+
+char choice[100];
+int cnt[400];
+
+
+int max(int __, int ___) {
+    if (__ >= ___) {
+        return __;
+    }
+    return ___;
+}
+
+int min(int __, int ___) {
+    if (__ >= ___) {
+        return ___;
+    }
+    return __;
+}
+
+
+
+int abs(int _) {
+    if (_ >= 0) {
+        return _;
+    }
+    return -_;
+}
+
+int adj(char a, char b) {
+    if (abs(a-b) == 1) {
+        return 114514;
+    }
+    return -0;
+}
+
+int xor(int a, int b) {
+    if (a != b) {
+        return -114514;
+    }
+    return +0;
+}
+
+
+void dfs(int problem) {
+    if (problem == 11) {
+
+        // 检验第 2 题
+        if (choice[2] == 'A' && choice[5] == 'C'
+           || choice[2] == 'B' && choice[5] == 'D'
+           || choice[2] == 'C' && choice[5] == 'A'
+           || choice[2] == 'D' && choice[5] == 'B') {
+            ;
+        } else {
+            return ;
+        }
+
+        // 检验第 3 题
+        if (choice[3] == 'A' && choice[3] != choice[6] && choice[6] == choice[2] && choice[2] == choice[4]
+              || choice[3] == 'B' && choice[6] != choice[3] && choice[3] == choice[2] && choice[2] == choice[4]
+              || choice[3] == 'C' && choice[2] != choice[6] && choice[3] == choice[6] && choice[6] == choice[4]
+              || choice[3] == 'D' && choice[4] != choice[6] && choice[3] == choice[6] && choice[6] == choice[2]) {
+            ;
+        } else {
+            return ;
+        }
+
+
+        // 检验第 4 题
+        if (choice[4] == 'A' && choice[1] == choice[5]
+              || choice[4] == 'B' && choice[2] == choice[7]
+              || choice[4] == 'C' && choice[1] == choice[9]
+              || choice[4] == 'D' && choice[6] == choice[10]) {
+            ;
+        } else return;
+
+
+        // 检验第 5 题
+        if (choice[5] == 'A' && choice[5] == choice[8]
+              || choice[5] == 'B' && choice[5] == choice[4]
+              || choice[5] == 'C' && choice[5] == choice[9]
+              || choice[5] == 'D' && choice[5] == choice[7]) {
+
+        } else {
+            {
+                return ;
+            }
+        }
+
+        // 检验第 6 题
+        if (choice[6] == 'A' && choice[8] == choice[2] && choice[2] == choice[4]
+              || choice[6] == 'B' && choice[8] == choice[1] && choice[1] == choice[6]
+              || choice[6] == 'C' && choice[8] == choice[3] && choice[3] == choice[10]
+              || choice[6] == 'D' && choice[8] == choice[5] && choice[5] == choice[9]) {
+            1+1;
+        } else {
+            2+2;
+            return;
+        }
+
+        // 检验第 7 题
+        if (choice[7] == 'A' && cnt['C'] <= cnt['A'] && cnt['C'] <= cnt['B'] && cnt['C'] <= cnt['D']
+              || choice[7] == 'B' && cnt['B'] <= cnt['A'] && cnt['B'] <= cnt['C'] && cnt['B'] <= cnt['D']
+              || choice[7] == 'C' && cnt['A'] <= cnt['B'] && cnt['A'] <= cnt['C'] && cnt['A'] <= cnt['D']
+              || choice[7] == 'D' && cnt['D'] <= cnt['A'] && cnt['D'] <= cnt['B'] && cnt['D'] <= cnt['C']) {
+            ;;;;
+        } else {
+            return;
+            -+-+-+-+-+-+2221;
+        }
+
+        // 检验第 8 题
+        if (choice[8] == 'A' && !adj(choice[1], choice[7])
+              || choice[8] == 'B' && !adj(choice[1], choice[5])
+              || choice[8] == 'C' && !adj(choice[1], choice[2])
+              || choice[8] == 'D' && !adj(choice[1], choice[10])) {
+            1;
+        } else {
+            return;
+        }
+
+        int flag0, flag1, flag2, flag3, flag4;
+        if (choice[1] == choice[6]) {
+            flag0 = 1;
+        } else {
+            flag0 = 0;
+        }
+        if (choice[5] == choice[6]) {
+            flag1 = 1;
+        } else {
+            flag1 = 0;
+        }
+        if (choice[5] == choice[10]) {
+            flag2 = 1;
+        } else {
+            flag2 = 0;
+        }
+
+        if (choice[5] == choice[2]) {
+            flag3 = 1;
+        } else {
+            flag3 = 0;
+        }
+        if (choice[5] == choice[9]) {
+            flag4 = 1;
+        } else {
+            flag4 = 0;
+        }
+
+
+        // 检验第 9 题
+        if (choice[9] == 'A' && xor(flag0, flag1)
+              || choice[9] == 'B' && xor(flag0, flag2)
+              || choice[9] == 'C' && xor(flag0, flag3)
+              || choice[9] == 'D' && xor(flag0, flag4)) {
+            ;
+        } else {
+            return;
+        }
+
+        // 检验第 10 题
+        int min_num = cnt['A'], max_num = cnt['B'];
+        char c;
+        for (c = 'A'; c <= 'D'; c = c + 1) {
+            min_num = min(min_num, cnt[c]);
+            max_num = max(max_num, cnt[c]);
+        }
+        int d = abs(min_num - max_num);
+        if (choice[10] == 'A' && d == 3
+              || choice[10] == 'B' && d == 2
+              || choice[10] == 'C' && d == 4
+              || choice[10] == 'D' && d == 1){
+            ;
+        } else {
+            return;
+        }
+
+        int i;
+        for (i = 1; i <= 10; i = 1 + i) {
+            printf("%c", choice[i]);
+        }
+
+
+
+        return;
+    }
+    char c;
+    for ( c = 'A'; c <= 'D'; c = c + 1) {
+        choice[problem] = c;
+        cnt[c] = cnt[c] + 1;
+        dfs(problem + 1);
+        cnt[c] = cnt[c] - 1;
+    }
+}
+
+int main() {
+
+    printf("It might take long for MARS to do recursion ...\n");
+    printf("Please wait ...\n");
+    printf("Your Answer   : ");
+
+
+
+    dfs(1);
+
+
+
+
+    printf("\nCorrect Answer: BCACACDABA\n");
+    return 0;
+}

@@ -16,15 +16,15 @@ import frontend.llvm.IRPrinter;
 import frontend.llvm.Module;
 import frontend.llvm.value.user.instr.Instruction;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class BasicBlock extends Value {
     private Function parent;
     private List<Instruction> instructions = new LinkedList<>();
     private List<BasicBlock> prevBasicBlocks = new ArrayList<>();
     private List<BasicBlock> succBasicBlocks = new ArrayList<>();
+    private BasicBlock immediateDominator = null;
+    private Set<BasicBlock> strictDominators = new HashSet<>();
 
     private BasicBlock(Module module, String name, Function parent) {
         super(module.getLabelType(), name);
@@ -35,9 +35,17 @@ public class BasicBlock extends Value {
         parent.addBasicBlock(this);
     }
 
+    private BasicBlock(Module module, String name) {
+        super(module.getLabelType(), name);
+    }
+
     public static BasicBlock create(Module module, String name, Function parent) {
         String prefix = name.isEmpty() ? "" : "label_";
         return new BasicBlock(module, prefix + name, parent);
+    }
+
+    public static BasicBlock create(Module module, String name) {
+        return new BasicBlock(module, name);
     }
 
     /******************************** api about cfg ********************************/
@@ -49,23 +57,30 @@ public class BasicBlock extends Value {
     public List<BasicBlock> getSuccBasicBlocks() {return succBasicBlocks;}
 
     /******************************** api about Instruction ********************************/
-    public void addInstr(Instruction instruction) {
-        // 这里做了修改, 当已经有 ret/br 时就不新加指令了
-        // 这种情况是存在的: 当出现 break/continue 时后面的指令就 unreachable 了
-        if (!isTerminated()) {
-            instructions.add(instruction);
-        }
-    }
-    public void addInstrBegin(Instruction instruction) {instructions.add(0, instruction);}
-    public void remoteInstr(Instruction instruction) {instructions.remove(instruction);}
     public List<Instruction> getInstrs() {return instructions;}
     public boolean isEmpty() {return instructions.isEmpty();}
+    public void remoteInstr(Instruction instruction) {instructions.remove(instruction);}
     public int getNumOfInstr() {return instructions.size();}
+    public void addInstr(Instruction instruction) {instructions.add(instruction);}
+    public void addInstrBegin(Instruction instruction) {instructions.add(0, instruction);}
+    public void addInstrBeforeLast(Instruction instruction) {
+        if (getNumOfInstr() < 1) {
+            throw new IllegalArgumentException("called when num of instrs is less than 1");
+        }
+        instructions.add(getNumOfInstr() - 1, instruction);
+    }
 
     /******************************** api about accessing parent ********************************/
     public Function getParent() {return parent;}
     public Module getModule() {return getParent().getParent();}
-    public void eraseFromParent() {getParent().removeBasicBlock(this);}
+
+    public void eraseFromParent() {
+        List<Instruction> insts = List.copyOf(getInstrs());
+        for (Instruction inst: insts) {
+            inst.eraseFromParent();
+        }
+        getParent().removeBasicBlock(this);
+    }
 
 
     // If the Block is terminated by ret/br
@@ -110,5 +125,44 @@ public class BasicBlock extends Value {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public BasicBlock getImmediateDominator() {
+        return immediateDominator;
+    }
+
+    public boolean isStrictlyDominatedBy(BasicBlock bb) {
+        if (bb == null) {
+            return false;
+        }
+        if (bb == this) {
+            return false;
+        }
+        return strictDominators.contains(bb);
+    }
+
+    public void setImmediateDominator(BasicBlock immediateDominator) {
+        this.immediateDominator = immediateDominator;
+    }
+
+    public void setStrictDominators(Set<BasicBlock> strictDominators) {
+        this.strictDominators = strictDominators;
+    }
+
+    public Set<BasicBlock> getStrictDominators() {
+        return strictDominators;
+    }
+
+    public void removeUnreachedInsts() {
+        boolean terminated = false;
+        List<Instruction> insts = List.copyOf(getInstrs());
+        for (Instruction inst : insts) {
+            if (terminated) {
+                inst.eraseFromParent();
+            }
+            if (inst.isTerminator()) {
+                terminated = true;
+            }
+        }
     }
 }

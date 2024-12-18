@@ -1,0 +1,36 @@
+================== SimpleCond2 liveVar ================
+label1:
+	%op2 = alloca i32  [op2]
+	store i32 %arg0, i32* %op2  [op2]
+	br label %label5  [op2]
+
+label3:
+	ret i32 1  []
+
+label4:
+	ret i32 0  []
+
+label5:
+	%op6 = load i32, i32* %op2  [op6, op2]
+	%op7 = srem i32 %op6, 13  [op2, op7]
+	%op8 = icmp eq i32 %op7, 0  [op2, op8]
+	%op9 = zext i1 %op8 to i32  [op2, op9]
+	%op10 = icmp ne i32 %op9, 0  [op2, op10]
+	br i1 %op10, label %label3, label %label11  [op2]
+
+label11:
+	%op12 = load i32, i32* %op2  [op2, op12]
+	%op13 = srem i32 %op12, 17  [op13, op2]
+	%op14 = icmp eq i32 %op13, 0  [op2, op14]
+	%op15 = zext i1 %op14 to i32  [op2, op15]
+	%op16 = icmp ne i32 %op15, 0  [op2, op16]
+	br i1 %op16, label %label17, label %label4  [op2]
+
+label17:
+	%op18 = load i32, i32* %op2  [op18]
+	%op19 = srem i32 %op18, 19  [op19]
+	%op20 = icmp ne i32 %op19, 0  [op20]
+	%op21 = zext i1 %op20 to i32  [op21]
+	%op22 = icmp ne i32 %op21, 0  [op22]
+	br i1 %op22, label %label3, label %label4  []
+

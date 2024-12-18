@@ -24,13 +24,10 @@ import frontend.llvm.value.Value;
 import frontend.llvm.value.user.GlobalVariable;
 import frontend.llvm.value.user.constant.ConstantInt;
 import frontend.llvm.value.user.instr.*;
+import frontend.llvm.value.user.instr.pinstr.MoveInst;
 import utils.FileUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 import static backend.core.ASMBuilder.*;
 import static backend.mips.Manager.*;
@@ -43,37 +40,31 @@ public class ASMGenerator {
     private Map<Value, Integer> memMap = new HashMap<>();
     private Manager manager = new Manager();
     private InstGenerator instGenerator = new InstGenerator();
-
-    // todo 立即数过大?
+    private Function curFunction = null;
 
     public void genFrom(Module module) {
         builder.init();
 
+        /*----------------- build DATA segment -----------------*/
         builder.setSegment(SEG_DATA);
         for (GlobalVariable globalVar : module.getGlobalVariables()) {
             builder.buildGloabalVar(globalVar);
             glbMap.put(globalVar, globalVar.getName());
         }
 
+        /*----------------- build TEXT segment -----------------*/
         builder.setSegment(SEG_TEXT);
 
         List<Function> functions = new ArrayList<>();
-        for (Function function : module.getFunctions()) {
-            if ("main".equals(function.getName())) {
-                functions.add(function);
-                break;
-            }
-        }
-        for (Function function : module.getFunctions()) {
-            if (!"main".equals(function.getName())) {
-                functions.add(function);
-            }
-        }
+        module.getFunctions().stream()
+                .sorted(Comparator.comparing(f -> !"main".equals(f.getName())))
+                .forEach(functions::add);
 
         for (Function function : functions) {
             if (function.isDeclaration()) {
                 continue;
             }
+            curFunction = function;
             prologue(function);
             function.setInstrName();
             for (BasicBlock bb : function.getBasicBlocks()) {
@@ -97,21 +88,26 @@ public class ASMGenerator {
         // 记录得到寄存器分配的 Value 映射
         regMap.putAll(manager.getRegMap());
 
-        builder.buildSubiu(REG_SP, REG_SP, manager.getFrameSize());
+        builder.buildAddiu(REG_SP, REG_SP, -manager.getFrameSize());
+
+        if ("main".equals(curFunction.getName())) {
+            return;
+        }
+
         builder.buildSw(REG_RA, REG_SP, manager.getRaOffset());
-        //todo: 后面记得更改
-        //for (int i = SAVED_REGS.length - 1; i >= 0; --i) {
-        //    builder.buildSw(SAVED_REGS[i], REG_SP, manager.getSaveOffset() + i * 4);
-        //}
+        List<Register> usedRegs = manager.getUsedSavadRegs();
+        for (int i = usedRegs.size() - 1; i >= 0; --i) {
+            builder.buildSw(usedRegs.get(i), REG_SP, manager.getSaveOffset() + i * WORD_SIZE);
+        }
     }
 
     private void epilogue(Function function) {
         // 函数尾声
         builder.buildLabel(getFunctionEpilogueLabel(function));
-
-        //for (int i = 0; i < SAVED_REGS.length; ++i) {
-        //    builder.buildLw(SAVED_REGS[i], REG_SP, manager.getSaveOffset() + i * WORD_SIZE);
-        //}
+        List<Register> usedRegs = manager.getUsedSavadRegs();
+        for (int i = 0; i < usedRegs.size(); ++i) {
+            builder.buildLw(usedRegs.get(i), REG_SP, manager.getSaveOffset() + i * WORD_SIZE);
+        }
         builder.buildLw(REG_RA, REG_SP, manager.getRaOffset());
         builder.buildAddiu(REG_SP, REG_SP, manager.getFrameSize());
         if (function.getName().equals("main")) {
@@ -123,6 +119,24 @@ public class ASMGenerator {
     }
 
     private class InstGenerator implements InstVisitor<Void> {
+        @Override
+        public Void visit(MoveInst inst) {
+            // TODO
+            Value source = inst.getOperand(0);
+            Value target = inst.getOperand(1);
+            Register rs = (source instanceof ConstantInt c) ? resolveConstant(c.getValue()) : pull(source);
+            Register rd = pull(target);
+            builder.buildMove(rd, rs);
+            push(rd, target);
+            return null;
+        }
+
+        @Override
+        public Void visit(PhiInst inst) {
+            throw new RuntimeException("MIPS backend does not support generation from phi. " +
+                    "Did you eliminate the phi(s) before generation?");
+        }
+        
         @Override
         public Void visit(LoadInst inst) {
             Register rd = pull(inst);
@@ -168,13 +182,12 @@ public class ASMGenerator {
         @Override
         public Void visit(CallInstr inst) {
             Function callee = (Function) inst.getOperand(0);
-            // todo: 库函数
             for (int i = 1; i < inst.getNumOperand(); ++i) {
                 int argno = i - 1;
                 Register arg = (inst.getOperand(i) instanceof ConstantInt c)
                                 ? resolveConstant(c.getValue())
                                 : pull(inst.getOperand(i));
-                if (argno <= 3) {
+                if (callee.isLeaf() && argno <= 3) {
                     builder.buildMove(ARG_REGS[argno], arg);
                 } else {
                     buildStore(inst.getOperand(i).getType().getSize(), arg, REG_SP, argno * WORD_SIZE);
@@ -209,6 +222,11 @@ public class ASMGenerator {
 
         @Override
         public Void visit(ReturnInst inst) {
+            if ("main".equals(inst.getFunction().getName())) {
+                builder.buildLi(REG_V0, SYS_NO_EXIT);
+                builder.buildSyscall();
+                return null;
+            }
             if (!inst.isVoidReturn()) {
                 Value op =inst.getOperand(0);
                 Register rs = (op instanceof ConstantInt c)
@@ -238,49 +256,51 @@ public class ASMGenerator {
                     ty = ty.getArrayElementType();
                 }
             }
+
+            Register base = pull(ptr), rd = pull(inst);
             if (offsetSizes.isEmpty()) {
-                copyLocation(inst, ptr);
-            } else {
-                Register base = pull(ptr);
-                Register rd = pull(inst), rs, tmpReg = manager.getReservedTmpReg();
-                for (int i = 0; i < offsetSizes.size(); ++i) {
-                    int offsetSize = offsetSizes.get(i);
-                    Value offset = offsets.get(i);
-                    // todo: 如果很多维数组的话可能用很多寄存器
-                    rs = (offset instanceof ConstantInt c)
-                            ? resolveConstant(c.getValue())
-                            : pull(offset);
-                    if (offsetSize == 1) {
-                        tmpReg = rs;
-                    } else if (offsetSize == 4) {
-                        builder.buildSll(tmpReg, rs, 2);
-                    } else {
-                        throw new RuntimeException("Unexpected offset size: " + offsetSize);
-                    }
-                    if (manager.isReservedTmpReg(rs)) {
-                        manager.releaseReservedTmpReg(rs);
-                    }
-                    if (i == 0) {
-                        builder.buildAddu(rd, base, tmpReg);
-                        if (manager.isReservedTmpReg(base)) {
-                            manager.releaseReservedTmpReg(base);
+                builder.buildMove(rd, base);
+                push(rd, inst);
+                return null;
+            }
+
+            for (int i = 0; i < offsetSizes.size(); ++i) {
+                Register tmpReg;
+                if (offsets.get(i) instanceof ConstantInt c) {
+                    tmpReg = resolveConstant(c.getValue() * offsetSizes.get(i));
+                } else {
+                    switch (offsetSizes.get(i)) {
+                        case BYTE_SIZE -> tmpReg = pull(offsets.get(i));
+                        case WORD_SIZE -> {
+                            tmpReg = manager.getReservedTmpReg();
+                            builder.buildSll(tmpReg, pull(offsets.get(i)), 2);
                         }
-                    } else {
-                        builder.buildAddu(rd, rd, tmpReg);
+                        default -> throw new RuntimeException("Unexpected offset size: " + offsetSizes.get(i));
                     }
                 }
-                push(rd, inst);
+                if (i == 0) {
+                    builder.buildAddu(rd, base, tmpReg);
+                    if (manager.isReservedTmpReg(base)) {
+                        manager.releaseReservedTmpReg(base);
+                    }
+                } else {
+                    builder.buildAddu(rd, rd, tmpReg);
+                }
+                if (manager.isReservedTmpReg(tmpReg)) {
+                    manager.releaseReservedTmpReg(tmpReg);
+                }
             }
+            push(rd, inst);
             return null;
         }
 
         @Override
         public Void visit(CastInst inst) {
             Value op = inst.getOperand(0);
-            if (op instanceof ConstantInt) {
-                throw new RuntimeException("did you solve the compile-time constant when generating ir?");
-            }
-            Register rs = pull(op);
+            //if (op instanceof ConstantInt) {
+            //    throw new RuntimeException("did you solve the compile-time constant when generating ir?");
+            //}
+            Register rs = (op instanceof ConstantInt c) ? resolveConstant(c.getValue()) : pull(op);
             Register rd = pull(inst);
             switch (inst.getInstrType()) {
                 case ZEXT -> builder.buildMove(rd, rs);
@@ -297,9 +317,9 @@ public class ASMGenerator {
         @Override
         public Void visit(ICmpInst inst) {
             Value op1 = inst.getOperand(0), op2 = inst.getOperand(1);
-            if (op1 instanceof ConstantInt && op2 instanceof ConstantInt) {
-                throw new RuntimeException("error @ " + inst.print() + ". did you solve the compile-time constant when generating ir?");
-            }
+            //if (op1 instanceof ConstantInt && op2 instanceof ConstantInt) {
+            //    throw new RuntimeException("error @ " + inst.print() + ". did you solve the compile-time constant when generating ir?");
+            //}
             Register rd = pull(inst);
             Register rs1 = (op1 instanceof ConstantInt c1) ? resolveConstant(c1.getValue()) : pull(op1);
             Register rs2 = (op2 instanceof ConstantInt c2) ? resolveConstant(c2.getValue()) : pull(op2);
@@ -319,11 +339,13 @@ public class ASMGenerator {
         @Override
         public Void visit(IBinaryInst inst) {
             Value op1 = inst.getOperand(0), op2 = inst.getOperand(1);
-            if (op1 instanceof ConstantInt && op2 instanceof ConstantInt) {
-                throw new RuntimeException("did you solve the compile-time constant when generating ir?");
-            }
+            //if (op1 instanceof ConstantInt && op2 instanceof ConstantInt) {
+            //    throw new RuntimeException("did you solve the compile-time constant when generating ir?");
+            //}
+            //if (checkAddPerf(inst) || checkMultPerf(inst)) {
+            //    return null;
+            //}
             Register rd = pull(inst);
-
             Register rs1 = (op1 instanceof ConstantInt c1) ? resolveConstant(c1.getValue()) : pull(op1);
             Register rs2 = (op2 instanceof ConstantInt c2) ? resolveConstant(c2.getValue()) : pull(op2);
             switch (inst.getInstrType()) {
@@ -334,82 +356,15 @@ public class ASMGenerator {
                 case SREM -> builder.buildRem(rd, rs1, rs2);
                 default -> throw new RuntimeException("Unsupported inst type: " + inst.getInstrType());
             }
-
-            //switch (inst.getInstrType()) {
-            //    case ADD -> genAdd(rd, op1, op2);
-            //    case SUB -> genSub(rd, op1, op2);
-            //    case MUL -> genMul(rd, op1, op2);
-            //    case SDIV -> genDiv(rd, op1, op2);
-            //    case SREM -> genRem(rd, op1, op2);
-            //    default -> throw new RuntimeException("Unsupported inst type: " + inst.getInstrType());
-            //}
             push(rd, inst);
             return null;
         }
-
-        private void genAdd(Register rd, Value op1, Value op2) {
-            Register rs1, rs2;
-            if (op1 instanceof ConstantInt || op2 instanceof ConstantInt) {
-                Value op1_ = op1, op2_ = op2;
-                op1 = (op1_ instanceof ConstantInt) ? op2_ : op1_;
-                op2 = (op1_ instanceof ConstantInt) ? op1_ : op2_;
-                ConstantInt c2 = (ConstantInt) op2;
-                rs1 = pull(op1);
-                if (canImmediateHold(c2.getValue())) {
-                    builder.buildAddiu(rd, rs1, c2.getValue());
-                } else {
-                    builder.buildAddu(rd, rs1, resolveConstant(c2.getValue()));
-                }
-            } else {
-                rs1 = pull(op1);
-                rs2 = pull(op2);
-                builder.buildAddu(rd, rs1, rs2);
-            }
-        }
-
-        // todo: 减法不具备交换律
-        private void genSub(Register rd, Value op1, Value op2) {
-            Register rs1, rs2;
-            if (op1 instanceof ConstantInt c1) {
-                rs1 = resolveConstant(c1.getValue());
-                rs2 = pull(op2);
-                builder.buildSubu(rd, rs1, rs2);
-            } else if (op2 instanceof ConstantInt c2) {
-                rs1 = pull(op1);
-                if (canImmediateHold(c2.getValue())) {
-                    builder.buildSubiu(rd, rs1, c2.getValue());
-                } else {
-                    builder.buildSubu(rd, rs1, resolveConstant(c2.getValue()));
-                }
-            } else {
-                rs1 = pull(op1);
-                rs2 = pull(op2);
-                builder.buildSubu(rd, rs1, rs2);
-            }
-        }
-
-        private void genMul(Register rd, Value op1, Value op2) {
-            Register rs1 = (op1 instanceof ConstantInt c1) ? resolveConstant(c1.getValue()) : pull(op1);
-            Register rs2 = (op2 instanceof ConstantInt c2) ? resolveConstant(c2.getValue()) : pull(op2);
-            builder.buildMul(rd, rs1, rs2);
-        }
-
-        private void genDiv(Register rd, Value op1, Value op2) {
-            Register rs1 = (op1 instanceof ConstantInt c1) ? resolveConstant(c1.getValue()) : pull(op1);
-            Register rs2 = (op2 instanceof ConstantInt c2) ? resolveConstant(c2.getValue()) : pull(op2);
-            builder.buildDiv(rd, rs1, rs2);
-        }
-
-        public void genRem(Register rd, Value op1, Value op2) {
-            Register rs1 = (op1 instanceof ConstantInt c1) ? resolveConstant(c1.getValue()) : pull(op1);
-            Register rs2 = (op2 instanceof ConstantInt c2) ? resolveConstant(c2.getValue()) : pull(op2);
-            builder.buildRem(rd, rs1, rs2);
-        }
-
-
     }
 
     private Register resolveConstant(int num) {
+        if (num == 0) {
+            return REG_ZERO;
+        }
         Register tmpReg = manager.getReservedTmpReg();
         if (!canImmediateHold(num)) {
             builder.buildLui(tmpReg, getHigh16Bits(num));
@@ -428,9 +383,10 @@ public class ASMGenerator {
         Register tmpReg = manager.getReservedTmpReg();
         if (value instanceof Argument arg) {
             int argno = arg.getArgno();
-            if (argno <= 3) {
+            if (curFunction.isLeaf() && argno <= 3) {
                 // 从参数寄存器取得实参
-                builder.buildMove(tmpReg, ARG_REGS[argno]);
+                //builder.buildMove(tmpReg, ARG_REGS[argno]);
+                return ARG_REGS[argno];
             } else {
                 // 从调用者栈帧的栈顶取得实参
                 buildLoad(value.getType().getSize(), tmpReg, REG_SP, manager.getFrameSize() + argno * WORD_SIZE);
@@ -461,18 +417,6 @@ public class ASMGenerator {
         }
     }
 
-    private void copyLocation(Value dest, Value src) {
-        if (regMap.containsKey(src)) {
-            regMap.put(dest, regMap.get(src));
-        } else if (memMap.containsKey(src)) {
-            memMap.put(dest, memMap.get(src));
-        } else if (glbMap.containsKey(src)) {
-            glbMap.put(dest, glbMap.get(src));
-        } else {
-            throw new RuntimeException("No memory or register are allocated for the value: " + src.print());
-        }
-    }
-
     private void buildLoad(int nBytes, Register dest, Register base, int offset) {
         if (nBytes == 1) {
             builder.buildLb(dest, base, offset);
@@ -498,19 +442,31 @@ public class ASMGenerator {
     public static int getLow16Bits(int num) {return num & 0xFFFF;}
     public static boolean canImmediateHold(int num) {return (num >>> 16) == 0;}
 
+    /******************************** api about mul/div opt ********************************/
+    public static boolean isPowerOfTwo(int num) {
+        if (num <= 0) {
+            return false;
+        }
+        return (num & (num - 1)) == 0;
+    }
+
+    public static int log2(int num) {
+        if (num <= 0) {
+            throw new IllegalArgumentException("Input must be a positive integer");
+        }
+        int count = 0;
+        while (num > 1) {
+            num >>= 1;
+            count++;
+        }
+        return count;
+    }
+
     /******************************** api about truncation ********************************/
-    public static boolean needsTruncation(int val, int numBits) {
+    public static boolean requireTruncation(int val, int numBits) {
         int mask = (1 << numBits) - 1;
         int truncatedValue = val & mask;
         return val != truncatedValue;
-    }
-
-    public static int truncateLowBits(int value, int numBits) {
-        if (numBits < 0 || numBits > 31) {
-            throw new IllegalArgumentException("numBits must be between 0 and 31");
-        }
-        int mask = ((1 << numBits) - 1);
-        return value & mask;
     }
 
     public void dump(String filePath) {
@@ -527,6 +483,57 @@ public class ASMGenerator {
 
     private String getBasicBlockLabel(BasicBlock bb) {
         return bb.getName() + "_at_" + bb.getParent().getName();
+    }
+
+    private boolean checkAddPerf(IBinaryInst inst) {
+        if (!inst.isAdd()) {
+            return false;
+        }
+        Value op1 = inst.getOperand(0), op2 = inst.getOperand(1);
+        if (op1 instanceof ConstantInt c1 && canImmediateHold(c1.getValue())) {
+            Register rd = pull(inst);
+            builder.buildAddiu(rd, pull(op2), c1.getValue());
+            push(rd, inst);
+            return true;
+        } else if (op2 instanceof ConstantInt c2 && canImmediateHold(c2.getValue())) {
+            Register rd = pull(inst);
+            builder.buildAddiu(rd, pull(op1), c2.getValue());
+            push(rd, inst);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkMultPerf(IBinaryInst inst) {
+        if (!inst.isMul()) {
+            return false;
+        }
+        Value op1 = inst.getOperand(0), op2 = inst.getOperand(1);
+        if (op1 instanceof ConstantInt c1 && isPowerOfTwo(c1.getValue())) {
+            Register rd = pull(inst);
+            builder.buildSll(rd, pull(op2), log2(c1.getValue()));
+            push(rd, inst);
+            return true;
+        } else if (op2 instanceof ConstantInt c2 && isPowerOfTwo(c2.getValue())) {
+            Register rd = pull(inst);
+            builder.buildSll(rd, pull(op1), log2(c2.getValue()));
+            push(rd, inst);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkDivPerf(IBinaryInst inst) {
+        if (!inst.isDiv()) {
+            return false;
+        }
+       if (inst.getOperand(1) instanceof ConstantInt c2 && isPowerOfTwo(c2.getValue())) {
+            Register rd = pull(inst);
+            builder.buildSra(rd, pull(inst.getOperand(0)), log2(c2.getValue()));
+            push(rd, inst);
+            return true;
+        }
+        return false;
     }
 
 }

@@ -1,0 +1,27 @@
+================== max liveVar ================
+label2:
+	%op3 = alloca i32  [op3]
+	store i32 %arg0, i32* %op3  [op3]
+	%op4 = alloca i32  [op3, op4]
+	store i32 %arg1, i32* %op4  [op3, op4]
+	br label %label10  [op3, op4]
+
+label5:
+	%op6 = load i32, i32* %op3  [op6]
+	ret i32 %op6  []
+
+label7:
+	ret i32 0  []
+
+label8:
+	%op9 = load i32, i32* %op4  [op9]
+	ret i32 %op9  []
+
+label10:
+	%op11 = load i32, i32* %op3  [op3, op4, op11]
+	%op12 = load i32, i32* %op4  [op3, op4, op11, op12]
+	%op13 = icmp sgt i32 %op11, %op12  [op3, op4, op13]
+	%op14 = zext i1 %op13 to i32  [op14, op3, op4]
+	%op15 = icmp ne i32 %op14, 0  [op3, op4, op15]
+	br i1 %op15, label %label5, label %label8  [op3, op4]
+

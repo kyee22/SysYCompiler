@@ -16,8 +16,11 @@ import backend.mips.Register;
 import frontend.llvm.value.Function;
 import frontend.llvm.value.Value;
 
+import java.util.List;
 import java.util.Map;
 
 public interface RegAllocator {
     public Map<Value, Register> allocate(Function function);
+
+    public List<Register> getUsedSavadRegs();
 }

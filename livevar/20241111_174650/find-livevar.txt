@@ -1,0 +1,62 @@
+================== find liveVar ================
+label2:
+	@1: %op3 = alloca i32*  [op3]
+	@2: store i32* %arg0, i32** %op3  [op3]
+	@3: %op4 = alloca i32  [op3, op4]
+	@4: store i32 %arg1, i32* %op4  [op3, op4]
+	@5: %op5 = alloca i32  [op3, op4, op5]
+	@6: %op6 = load i32*, i32** %op3  [op3, op4, op6, op5]
+	@7: %op7 = getelementptr i32, i32* %op6, i32 0  [op3, op4, op5, op7]
+	@8: %op8 = load i32, i32* %op7  [op3, op8, op4, op5]
+	@9: store i32 %op8, i32* %op5  [op3, op4, op5]
+	@10: %op9 = alloca i32  [op3, op4, op5, op9]
+	@11: store i32 0, i32* %op9  [op3, op4, op5, op9]
+	@12: %op10 = alloca i32  [op3, op4, op5, op10, op9]
+	@13: store i32 0, i32* %op10  [op3, op4, op5, op10, op9]
+	@14: br label %label14  [op3, op4, op5, op10, op9]
+
+label11:
+	@21: %op12 = load i32, i32* %op9  [op12]
+	@22: ret i32 %op12  []
+
+label13:
+	@24: br label %label30  [op3, op4, op5, op10, op9]
+
+label14:
+	@15: %op15 = load i32, i32* %op10  [op3, op15, op4, op5, op10, op9]
+	@16: %op16 = load i32, i32* %op4  [op3, op16, op15, op4, op5, op10, op9]
+	@17: %op17 = icmp slt i32 %op15, %op16  [op3, op17, op4, op5, op10, op9]
+	@18: %op18 = zext i1 %op17 to i32  [op3, op4, op18, op5, op10, op9]
+	@19: %op19 = icmp ne i32 %op18, 0  [op19, op3, op4, op5, op10, op9]
+	@20: br i1 %op19, label %label13, label %label11  [op3, op4, op5, op10, op9]
+
+label20:
+	@43: %op21 = load i32, i32* %op10  [op21, op3, op4, op5, op10, op9]
+	@44: %op22 = add i32 %op21, 1  [op3, op4, op5, op22, op10, op9]
+	@45: store i32 %op22, i32* %op10  [op3, op4, op5, op10, op9]
+	@46: br label %label14  [op3, op4, op5, op10, op9]
+
+label23:
+	@34: %op24 = load i32, i32* %op10  [op3, op4, op5, op10, op9, op24]
+	@35: %op25 = load i32*, i32** %op3  [op3, op4, op5, op10, op9, op24, op25]
+	@36: %op26 = getelementptr i32, i32* %op25, i32 %op24  [op3, op26, op4, op5, op10, op9]
+	@37: %op27 = load i32, i32* %op26  [op3, op27, op4, op5, op10, op9]
+	@38: store i32 %op27, i32* %op5  [op3, op4, op5, op10, op9]
+	@39: %op28 = load i32, i32* %op10  [op3, op28, op4, op5, op9, op10]
+	@40: store i32 %op28, i32* %op9  [op3, op4, op5, op10, op9]
+	@41: br label %label29  [op3, op4, op5, op10, op9]
+
+label29:
+	@42: br label %label20  [op3, op4, op5, op10, op9]
+
+label30:
+	@25: %op31 = load i32, i32* %op10  [op31, op3, op4, op5, op10, op9]
+	@26: %op32 = load i32*, i32** %op3  [op31, op3, op32, op4, op5, op10, op9]
+	@27: %op33 = getelementptr i32, i32* %op32, i32 %op31  [op33, op3, op4, op5, op10, op9]
+	@28: %op34 = load i32, i32* %op33  [op3, op34, op4, op5, op10, op9]
+	@29: %op35 = load i32, i32* %op5  [op3, op34, op4, op5, op10, op9, op35]
+	@30: %op36 = icmp sgt i32 %op34, %op35  [op3, op36, op4, op5, op10, op9]
+	@31: %op37 = zext i1 %op36 to i32  [op3, op37, op4, op5, op10, op9]
+	@32: %op38 = icmp ne i32 %op37, 0  [op3, op4, op5, op10, op9, op38]
+	@33: br i1 %op38, label %label23, label %label29  [op3, op4, op5, op10, op9]
+

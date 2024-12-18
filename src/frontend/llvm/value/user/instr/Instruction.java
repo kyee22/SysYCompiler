@@ -16,12 +16,21 @@ import frontend.llvm.IRPrinter;
 import frontend.llvm.type.Type;
 import frontend.llvm.value.BasicBlock;
 import frontend.llvm.value.Function;
+import frontend.llvm.value.Use;
+import frontend.llvm.value.Value;
 import frontend.llvm.value.user.User;
 import frontend.llvm.Module;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public abstract class Instruction extends User {
     private OpID opId;
     private BasicBlock parent;
+    private int index;
 
     public enum OpID {
             // Terminator Instructions
@@ -38,7 +47,10 @@ public abstract class Instruction extends User {
             FGE, FGT, FLE, FLT, FEQ, FNE,
             // Other operators
             PHI, CALL, GETELEMENTPTR, ZEXT, SEXT, TRUNCT,// zero extend
-            FPTOSI, SITOFP
+            FPTOSI, SITOFP,
+
+            // 伪指令 (LLVM IR 中事实上不存在)
+            PSEUDO_NOP, PSEUDO_MOVE
     }
 
     public Instruction(Type type, OpID id, BasicBlock parent) {
@@ -46,7 +58,13 @@ public abstract class Instruction extends User {
         this.opId = id;
         this.parent = parent;
         if (parent != null) {
-            parent.addInstr(this);
+            if (isPhi()) {
+                parent.addInstrBegin(this);
+            } else if (isMove()) {
+                parent.addInstrBeforeLast(this);
+            } else {
+                parent.addInstr(this);
+            }
         }
     }
 
@@ -70,8 +88,9 @@ public abstract class Instruction extends User {
     public String getInstrOpName() {return IRPrinter.printInstrOpName(opId);}
 
     public boolean isVoid() {
-        return (opId == OpID.RET || opId == OpID.BR || opId == OpID.STORE
-                || (opId == OpID.CALL && this.getType().isVoidType()));
+        return getType().isVoidType();
+        //return (opId == OpID.RET || opId == OpID.BR || opId == OpID.STORE || opId == OpID.PSEUDO_MOVE
+        //        || (opId == OpID.CALL && this.getType().isVoidType()));
     }
 
     public boolean isPhi() { return opId == OpID.PHI; }
@@ -97,6 +116,7 @@ public abstract class Instruction extends User {
     public boolean isGEP() { return opId == OpID.GETELEMENTPTR; }
     public boolean isZExt() { return opId == OpID.ZEXT; }
     public boolean isSExt() {return opId == OpID.SEXT; }
+    public boolean isMove() {return opId == OpID.PSEUDO_MOVE;}
 
     public boolean isBinary() {
         return (isAdd() || isSub() || isMul() || isDiv() || isRem()
@@ -109,6 +129,38 @@ public abstract class Instruction extends User {
 
     public <T> T accept(InstVisitor<T> visitor) {
         return visitor.visit(this);
+    }
+
+    public void setIndex(int index) {this.index = index;}
+
+    public int getIndex() {return index;}
+
+    public void eraseFromParent() {
+        removeAllOperands();
+        getParent().remoteInstr(this);
+        parent = null;
+    }
+
+    public boolean isGlobalName() {
+        // 是否是活跃在多个(>=2)基本块的变量
+        return useList.stream()
+                .map(use -> ((Instruction) use.getUser()).getParent())
+                .distinct()
+                .count() >= 2;
+    }
+
+    /******************** 活跃变量分析时用到的 api ********************/
+    public Optional<Value> getDef() {
+        if (isVoid()) {
+            return Optional.empty();
+        }
+        return Optional.of(this);
+    }
+
+    public List<Value> getUses() {
+        return getOperands().stream()
+                .filter(used -> used instanceof Instruction)
+                .collect(Collectors.toList());
     }
 }
 

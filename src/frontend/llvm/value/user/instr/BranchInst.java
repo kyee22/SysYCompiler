@@ -68,7 +68,7 @@ public class BranchInst extends Instruction {
     }
 
     @Override
-    protected void finalize() {
+    public void eraseFromParent() {
         List<BasicBlock> successors = new ArrayList<>();
         if (isCondBr()) {
             successors.add((BasicBlock) getOperand(1));
@@ -83,6 +83,7 @@ public class BranchInst extends Instruction {
                 getParent().removeSuccBasicBlock(successor);
             }
         }
+        super.eraseFromParent();
     }
 
     public boolean isCondBr() {

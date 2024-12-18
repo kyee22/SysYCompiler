@@ -12,12 +12,14 @@
 
 package utils;
 
+import frontend.llvm.Module;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static utils.StringUtils.resolveNumOfPlaceHoders;
+import static utils.StringUtils.sha1;
 
 class StringUtilsTest {
     @Test
@@ -170,6 +172,22 @@ class StringUtilsTest {
         assertEquals(5, resolveNumOfPlaceHoders("Start %d %c middle %d end %d %c."));
         assertEquals(0, resolveNumOfPlaceHoders("%%"));
         assertEquals(0, resolveNumOfPlaceHoders("%f%lf%u%lld%llu"));
+    }
 
+    @Test
+    public void testSha1() {
+        Module module1 = new Module();
+        Module module2 = new Module();
+        assertEquals(sha1(1, 2, 3), sha1(1, 2, 3));
+        assertNotEquals(sha1(1, 2, 3, 4, 5), sha1(1, 2, 3, 4, 4));
+        assertEquals(sha1(module1.getInt32Type().hashCode()), sha1(module1.getInt32Type().hashCode()));
+        assertEquals(sha1(module2.getInt32Type().hashCode()), sha1(module2.getInt32Type().hashCode()));
+        assertEquals(sha1(module1.getInt32Type(), module2.getInt32Type()),
+                     sha1(module1.getInt32Type(), module2.getInt32Type()));
+        assertNotEquals(sha1(module1.getInt32Type(), module2.getInt32Type()),
+                        sha1(module2.getInt32Type(), module1.getInt32Type()));
+        assertNotEquals(sha1(module1.getInt32Type().hashCode()), sha1(module2.getInt32Type().hashCode()));
+        assertNotEquals(sha1(module1), sha1(module2));
+        assertNotEquals(sha1(65), sha1('A'));
     }
 }

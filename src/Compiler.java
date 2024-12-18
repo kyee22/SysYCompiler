@@ -15,6 +15,7 @@ import frontend.core.*;
 import frontend.sysy.context.Context;
 import frontend.error.ErrorListener;
 import frontend.error.ErrorReporter;
+import midend.optimization.*;
 import utils.Charstream;
 import utils.FileUtils;
 
@@ -39,6 +40,13 @@ public class Compiler {
     private static IRGenVisitor irGenVisitor;
     private static ASMGenerator asmGenerator;
 
+    /*  TODO: 一些低效生成的 ir
+     *      1) 条件判断反复 trunc 与 zext
+     *      2) 分支条件判断产生巨量 br
+     *    不一定所以指令都要临时寄存器:
+     *      1) resolve arg
+     */
+
     private static void pipeline() {
         /*      Error Handling is through the whole pipeline        */
         errorListener = new ErrorReporter();
@@ -52,7 +60,7 @@ public class Compiler {
         lexer.addErrorListener(errorListener);
         lexer.engine();
 
-        ///*      STEP 2: Tokens ---> AST        */
+        /*      STEP 2: Tokens ---> AST        */
         parser = new Parser(lexer.getTokens());
         parser.addErrorListener(errorListener);
         parser.engine();
@@ -71,6 +79,18 @@ public class Compiler {
         /*      STEP 4: IR Gen        */
         irGenVisitor = new IRGenVisitor();
         ast.accept(irGenVisitor);
+        irGenVisitor.dump(IR_PATH);
+        irGenVisitor.getModule().removeUnreachedInsts();
+
+
+        // 对于从 entry 出发无法到达的结点，讨论其支配关系是没有意义的
+        // 所以我们先删掉无法到达的节点
+        (new UnreachableBlockElim()).run(irGenVisitor.getModule());
+        (new Mem2RegPass()).run(irGenVisitor.getModule());
+        (new PhiElim()).run(irGenVisitor.getModule());
+        (new ConstantFolding()).run(irGenVisitor.getModule());
+        //(new LocalVarNumbering()).run(irGenVisitor.getModule());
+        (new DeadCodeDetect()).run(irGenVisitor.getModule());
 
         /*      STEP 5: Code Gen        */
         asmGenerator = new ASMGenerator();
@@ -78,38 +98,57 @@ public class Compiler {
     }
 
     private static void output() {
+
         if (errorListener.hasErrors()) {
             errorListener.flushErrors(ERR_PATH);
         }
 
         /*      Switch on output interface for corresponding lab    */
         switch (LAB) {
-            case 1:
-                lexer.flushTokens(LEXER_OUTPUT_PATH);
-                break;
-            case 2:
+            case 1 -> lexer.flushTokens(LEXER_OUTPUT_PATH);
+            case 2 -> {
                 ASTDumpVisitor astDumpVisitor = new ASTDumpVisitor();
                 ast.accept(astDumpVisitor);
                 astDumpVisitor.flushInfos(PARSER_OUTPUT_PATH);
-                break;
-            case 3:
+            }
+            case 3 -> {
                 List<String> records = new ArrayList<>();
                 semanticCheckVisitor.getSymbolTables().stream().forEach(e -> records.addAll(e.getRecords()));
                 FileUtils.writeListToFile(records, SEMANTIC_CHECK_OUTPUT_PATH);
-                break;
-            case 4:
-                irGenVisitor.dump(IR_PATH);
-                break;
-            case 5:
-                asmGenerator.dump(ASM_PATH);
-                break;
-            default:
-                break;
+            }
+            case 4 -> irGenVisitor.dump(IR_PATH);
+            case 5 -> asmGenerator.dump(ASM_PATH);
         }
     }
+    // todo: mem2reg之后会产生新的 compile-time constant
+    //       但此时 IR 生成已经结束,
 
     public static void main(String[] args)  {
         pipeline();
         output();
     }
 }
+
+//InstCFGBuilder builder = new InstCFGBuilder();
+//String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//FileUtils.makeDir("livevar/" + timestamp);
+//for (Function function : irGenVisitor.getModule().getFunctions()) {
+//    if (function.isDeclaration()) {
+//        continue;
+//    }
+//    function.setInstrName();
+//    StringBuilder sb = new StringBuilder();
+//    LiveVariableAnalysis analysis = new LiveVariableAnalysis();
+//    DataflowResult<Instruction, SetFact<Value>> result = analysis.analyze(function);
+//    sb.append(String.format("================== %s liveVar ================\n", function.getName()));
+//    for (BasicBlock bb : function.getBasicBlocks()) {
+//        sb.append(bb.getName() + ":\n");
+//        for (Instruction inst : bb.getInstrs()) {
+//            sb.append("\t@" + inst.getIndex() + ": ");
+//            sb.append(inst.print());
+//            sb.append("  " + result.getResult(inst).toString() + "\n");
+//        }
+//        sb.append("\n");
+//    }
+//    FileUtils.writeStringToFile("livevar/" + timestamp + "/" + function.getName() + "-livevar.txt", sb.toString());
+//}

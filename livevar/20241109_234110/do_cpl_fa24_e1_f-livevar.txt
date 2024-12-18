@@ -1,0 +1,42 @@
+================== do_cpl_fa24_e1_f liveVar ================
+label0:
+	%op1 = alloca i32  [op1]
+	%op2 = call i32 @getint()  [op1, op2]
+	store i32 %op2, i32* %op1  [op1]
+	br label %label9  [op1]
+
+label3:
+	%op4 = getelementptr [13 x i8], [13 x i8]* @.str14, i32 0, i32 0  [op4]
+	call void @putstr(i8* %op4)  []
+	ret void  []
+
+label5:
+	%op6 = alloca i32  [op6, op1]
+	%op7 = load i32, i32* %op1  [op6, op1, op7]
+	%op8 = srem i32 %op7, 10  [op6, op1, op8]
+	store i32 %op8, i32* %op6  [op6, op1]
+	br label %label17  [op6, op1]
+
+label9:
+	%op10 = load i32, i32* %op1  [op10, op1]
+	%op11 = icmp ne i32 %op10, 0  [op11, op1]
+	br i1 %op11, label %label5, label %label3  [op1]
+
+label12:
+	%op13 = getelementptr [8 x i8], [8 x i8]* @.str13, i32 0, i32 0  [op13]
+	call void @putstr(i8* %op13)  []
+	ret void  []
+
+label14:
+	%op15 = load i32, i32* %op1  [op1, op15]
+	%op16 = sdiv i32 %op15, 10  [op1, op16]
+	store i32 %op16, i32* %op1  [op1]
+	br label %label9  [op1]
+
+label17:
+	%op18 = load i32, i32* %op6  [op1, op18]
+	%op19 = icmp eq i32 %op18, 6  [op1, op19]
+	%op20 = zext i1 %op19 to i32  [op1, op20]
+	%op21 = icmp ne i32 %op20, 0  [op1, op21]
+	br i1 %op21, label %label12, label %label14  [op1]
+

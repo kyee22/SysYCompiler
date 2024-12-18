@@ -20,6 +20,7 @@ import frontend.llvm.value.Function;
 import frontend.llvm.value.user.User;
 import frontend.llvm.value.user.constant.ConstantFP;
 import frontend.llvm.value.user.constant.ConstantInt;
+import frontend.llvm.value.user.instr.pinstr.MoveInst;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,6 +45,7 @@ class InstructionTest {
     private Instruction add2;
     private Instruction gpt1, gpt2, gpt3;
     private Instruction alloca1, alloca2;
+    private Instruction mv;
 
     @BeforeEach
     void setUp() {

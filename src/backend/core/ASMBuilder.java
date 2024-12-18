@@ -15,8 +15,6 @@ package backend.core;
 import backend.mips.Register;
 import frontend.llvm.value.user.GlobalVariable;
 
-import java.security.PublicKey;
-
 import static backend.core.ASMPrinter.*;
 import static backend.mips.Instruction.*;
 
@@ -58,6 +56,8 @@ public class ASMBuilder {
 
     public void buildBne(Register src1, Register src2, String labelName) {buf.append(printOp3(INST_BNE, src1, src2, labelName));}
     public void buildSyscall() {buf.append(printOp0(INST_SYSCALL));}
+
+    public void buildSra(Register dest, Register src, int shiftBits) {buf.append(printOp3(INST_SRA, dest, src, shiftBits));}
     public void buildSll(Register dest, Register src, int shiftBits) {buf.append(printOp3(INST_SLL, dest, src, shiftBits));}
     public void buildAndi(Register dest, Register src, int imm) {buf.append(printOp3(INST_ANDI, dest, src, imm));}
     public void buildSlt(Register dest, Register src1, Register src2) {buf.append(printOp3(INST_SLT, dest, src1, src2));}

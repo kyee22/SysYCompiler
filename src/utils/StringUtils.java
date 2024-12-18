@@ -12,7 +12,14 @@
 
 package utils;
 
+import java.io.Serializable;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -166,5 +173,51 @@ public class StringUtils {
         }
 
         return count;
+    }
+
+    /**
+     * Returns the SHA-1 hash of the concatenation of VALS, which may
+     * be any mixture of byte arrays, Strings, and Serializable objects.
+     */
+    public static String sha1(Object... vals) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+
+            for (Object val : vals) {
+                if (val instanceof byte[]) {
+                    md.update((byte[]) val);
+                } else if (val instanceof String) {
+                    md.update(((String) val).getBytes(StandardCharsets.UTF_8));
+                } else if (val instanceof Serializable) {
+                    md.update(toByteArray((Serializable) val));
+                } else {
+                    md.update(toByteArray(val.hashCode()));
+                }
+            }
+
+            Formatter result = new Formatter();
+            for (byte b : md.digest()) {
+                result.format("%02x", b);
+            }
+            return result.toString();
+        } catch (NoSuchAlgorithmException excp) {
+            throw new IllegalArgumentException("System does not support SHA-1");
+        }
+    }
+
+    /**
+     * Serializes a Serializable object to a byte array.
+     */
+    private static byte[] toByteArray(Serializable obj) {
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(obj);
+            oos.flush();
+            oos.close();
+            return bos.toByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to serialize object", e);
+        }
     }
 }

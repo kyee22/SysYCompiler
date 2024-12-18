@@ -1,0 +1,44 @@
+int a[10005],b[10005],sum;
+int find(int a[],int n) {
+    int max=a[0],under=0;
+    int i;
+    for( i=0;i<n;i=i+1) {
+        if(a[i]>max) {
+            max=a[i];
+            under=i;
+        }
+    }
+    return under;
+}
+int search(int a[],int n) {
+    int s=n, i;
+    for(i=0;i<n;i=i+1) {
+        if(a[i]==0)s = s-1;
+    }
+    return s;
+}
+int main() {
+    int n,l, i;
+    n = getint();
+    l = getint();
+    for(i=0;i<n;i=i+1) {
+        a[i] = getint();
+    }
+    for(i=0;i<n;i=i+1) {
+        b[i] = getint();
+    }
+    for(;l||search(a,n);) {
+        int i=find(a,n);
+        if(l>=b[i]) {
+            sum=sum+a[i]*b[i];
+            l=l-b[i];
+        }
+        else {
+            sum=sum+l*a[i];
+            l=0;
+        }
+        a[i]=0;
+    }
+    printf("%d",sum);
+    return 0;
+}

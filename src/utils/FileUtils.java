@@ -12,12 +12,26 @@
 
 package utils;
 
+import javax.xml.xpath.XPath;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class FileUtils {
+    public static void makeDir(String p) {
+        // 创建目录
+        try {
+            Path path = Paths.get(p);
+            Files.createDirectories(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void writeStringToFile(String filePath, String content) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write(content);

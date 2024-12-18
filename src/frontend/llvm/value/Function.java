@@ -17,17 +17,19 @@ import frontend.llvm.Module;
 import frontend.llvm.type.FunctionType;
 import frontend.llvm.type.Type;
 import frontend.llvm.value.user.instr.Instruction;
+import midend.analysis.dataflow.analysis.DominationAnalysis;
+import midend.analysis.dataflow.fact.DataflowResult;
+import midend.analysis.dataflow.fact.SetFact;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Function extends Value {
     private List<BasicBlock> basicBlocks = new ArrayList<>();
     private List<Argument> arguments = new ArrayList<>();
     private Module parent;
     private int seqCnt = 0;
+    protected boolean isLeaf = true;
 
     private Function(FunctionType type, String name, Module parent) {
         super(type, name);
@@ -60,6 +62,12 @@ public class Function extends Value {
     public List<BasicBlock> getBasicBlocks() {return basicBlocks;}
     public List<Argument> getArguments() {return arguments;}
     public boolean isDeclaration() {return basicBlocks.isEmpty();}
+
+    public List<Instruction> getInstructions() {
+        return getBasicBlocks().stream()
+                .flatMap(bb -> bb.getInstrs().stream())
+                .collect(Collectors.toList());
+    }
 
     public void setInstrName() {
         Map<Value, Integer> seq = new HashMap<>();
@@ -132,5 +140,42 @@ public class Function extends Value {
         }
 
         return funcIr.toString();
+    }
+
+    public void setDomination(DataflowResult<BasicBlock, SetFact<BasicBlock>> result) {
+        for (BasicBlock bb : getBasicBlocks()) {
+            Set<BasicBlock> dominators = result.getOutFact(bb).stream().collect(Collectors.toSet());
+            dominators.remove(bb);  //严格支配者不包含自己
+            bb.setStrictDominators(dominators);
+        }
+        for (BasicBlock bb : getBasicBlocks()) {
+            for (BasicBlock dominator : bb.getStrictDominators()) {
+                boolean dominateOther = false;
+                for (BasicBlock otherDominator : bb.getStrictDominators()) {
+                    if (otherDominator.isStrictlyDominatedBy(dominator)) {
+                        dominateOther = true;
+                        break;
+                    }
+                }
+                if (!dominateOther) {
+                    bb.setImmediateDominator(dominator);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void removeUnreachedInsts() {
+        for (BasicBlock basicBlock : getBasicBlocks()) {
+            basicBlock.removeUnreachedInsts();
+        }
+    }
+
+    public boolean isLeaf() {
+        return isLeaf;
+    }
+
+    public void setNonLeaf() {
+        isLeaf = false;
     }
 }

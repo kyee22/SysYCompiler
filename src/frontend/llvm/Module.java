@@ -111,4 +111,10 @@ public class Module {
         }
         return sb.toString();
     }
+
+    public void removeUnreachedInsts() {
+        for (Function function : getFunctions()) {
+            function.removeUnreachedInsts();
+        }
+    }
 }

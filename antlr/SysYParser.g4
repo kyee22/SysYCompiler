@@ -1,3 +1,5 @@
+// Copyright (C) 2024 Yixuan Kuang <kyee22@buaa.edu.cn>
+
 parser grammar SysYParser;
 
 options {
@@ -101,7 +103,7 @@ blockItem   : decl
 
 // with tag
 stmt : lVal ASSIGN exp SEMICOLON                                                    #AssignStatement
-     | (exp)? SEMICOLON                                                              #ExprStatement
+     | (exp)? SEMICOLON                                                             #ExprStatement
      | block                                                                        #BlockStatement
      | IF L_PAREN cond R_PAREN ifStmt=stmt (ELSE elseStmt=stmt)?                    #IfStatement
      | FOR L_PAREN (forStmt)? SEMICOLON (cond)? SEMICOLON (forStmt)? R_PAREN stmt   #ForStatement

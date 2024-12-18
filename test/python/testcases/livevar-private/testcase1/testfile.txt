@@ -1,0 +1,14 @@
+int ifElse(int m, int n, int k) {
+    int x = m;
+    if (n > 0) {
+        return x + n;
+    } else {
+        return k + n;
+    }
+    return 0;
+}
+
+int main() {
+    ifElse(1, 2, 3);
+    return 0;
+}

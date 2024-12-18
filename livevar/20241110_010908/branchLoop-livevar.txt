@@ -1,0 +1,63 @@
+================== branchLoop liveVar ================
+label2:
+	%op3 = alloca i32  [op3]
+	store i32 %arg0, i32* %op3  [op3]
+	%op4 = alloca i32  [op3, op4]
+	store i32 %arg1, i32* %op4  [op3, op4]
+	%op5 = alloca i32  [op3, op5, op4]
+	%op6 = alloca i32  [op3, op6, op5, op4]
+	%op7 = alloca i32  [op3, op7, op6, op5, op4]
+	store i32 1, i32* %op5  [op3, op7, op6, op5, op4]
+	store i32 2, i32* %op6  [op3, op7, op6, op5, op4]
+	br label %label11  [op3, op7, op6, op5, op4]
+
+label8:
+	br label %label22  [op3, op7, op6, op5, op4]
+
+label9:
+	%op10 = load i32, i32* %op5  [op10, op7]
+	store i32 %op10, i32* %op7  []
+	ret void  []
+
+label11:
+	%op12 = load i32, i32* %op3  [op3, op7, op12, op6, op5, op4]
+	%op13 = icmp sgt i32 %op12, 0  [op13, op3, op7, op6, op5, op4]
+	%op14 = zext i1 %op13 to i32  [op3, op7, op14, op6, op5, op4]
+	%op15 = icmp ne i32 %op14, 0  [op15, op3, op7, op6, op5, op4]
+	br i1 %op15, label %label8, label %label9  [op3, op7, op6, op5, op4]
+
+label16:
+	br label %label9  [op7, op5]
+
+label17:
+	%op18 = load i32, i32* %op6  [op3, op7, op6, op5, op18, op4]
+	%op19 = add i32 %op18, 1  [op19, op3, op7, op6, op5, op4]
+	store i32 %op19, i32* %op5  [op3, op7, op6, op5, op4]
+	%op20 = load i32, i32* %op7  [op3, op7, op6, op5, op20, op4]
+	%op21 = mul i32 2, %op20  [op3, op21, op7, op6, op5, op4]
+	store i32 %op21, i32* %op6  [op3, op7, op6, op5, op4]
+	br label %label32  [op3, op7, op6, op5, op4]
+
+label22:
+	%op23 = load i32, i32* %op3  [op23, op3, op7, op6, op5, op4]
+	%op24 = icmp slt i32 %op23, 20  [op3, op7, op6, op5, op24, op4]
+	%op25 = zext i1 %op24 to i32  [op3, op7, op25, op6, op5, op4]
+	%op26 = icmp ne i32 %op25, 0  [op3, op7, op6, op5, op26, op4]
+	br i1 %op26, label %label17, label %label16  [op3, op7, op6, op5, op4]
+
+label27:
+	%op28 = load i32, i32* %op6  [op3, op7, op28, op6, op5, op4]
+	%op29 = load i32, i32* %op7  [op3, op7, op28, op29, op6, op5, op4]
+	%op30 = add i32 %op28, %op29  [op3, op30, op7, op6, op5, op4]
+	store i32 %op30, i32* %op5  [op3, op7, op6, op5, op4]
+	br label %label31  [op3, op7, op6, op5, op4]
+
+label31:
+	store i32 1, i32* %op7  [op3, op7, op6, op5, op4]
+	br label %label22  [op3, op7, op6, op5, op4]
+
+label32:
+	%op33 = load i32, i32* %op4  [op3, op7, op33, op6, op5, op4]
+	%op34 = icmp ne i32 %op33, 0  [op3, op7, op34, op6, op5, op4]
+	br i1 %op34, label %label27, label %label31  [op3, op7, op6, op5, op4]
+

@@ -13,9 +13,12 @@
 package frontend.llvm.value.user.instr;
 
 import frontend.llvm.value.user.instr.Instruction;
+import frontend.llvm.value.user.instr.pinstr.MoveInst;
 import utils.DEBUG;
 
 public interface InstVisitor<T> {
+    default T visit(PhiInst inst) {return visitDefault(inst);}
+    default T visit(MoveInst inst) {return visitDefault(inst);}
     default T visit(AllocaInst inst) {return visitDefault(inst);}
     default T visit(BranchInst inst) {return visitDefault(inst);}
     default T visit(CallInstr inst) {return visitDefault(inst);}

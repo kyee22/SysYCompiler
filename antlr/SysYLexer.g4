@@ -1,3 +1,5 @@
+// Copyright (C) 2024 Yixuan Kuang <kyee22@buaa.edu.cn>
+
 lexer grammar SysYLexer ;
 
 MAIN    : 'main';
