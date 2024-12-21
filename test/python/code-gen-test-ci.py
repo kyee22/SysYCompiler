@@ -79,12 +79,11 @@ def run_test_case(testcase_directory: Path, output_path: Path, log_file_path: Pa
         return False
 
     with open(log_file_path, 'a') as log_file:
-        result = run([f'sudo ./{script_name}'], stdout=log_file, stderr=log_file, cwd=root_dir, shell=True)
+        result = run([f'./{script_name}'], stdout=log_file, stderr=log_file, cwd=root_dir, shell=True)
         if result.returncode != 0:
-            print(f"Error running {script_name}! judge log:")
+            print(f"Error running {script_name}! \njudge log:")
             try:
                 with open(log_file_path, 'r') as log_content:
-                    print("Contents of judge.log:")
                     print(log_content.read())
             except FileNotFoundError:
                 print(f"Error: {log_file_path} not found.")

@@ -67,6 +67,9 @@ jobs:
           name: compiled-classes
           path: bin/
 
+      - name: Ensure script is executable
+        run: chmod +x run-mips.sh
+
       - name: Run specific test
         run: |
           python3 test/python/code-gen-test-ci.py test/python/testcases/${{ matrix.testcase }} output.txt --script run-mips.sh
