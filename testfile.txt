@@ -1,6 +1,83 @@
+int next[10000];
+int prev[10000];
+
+int simulate(int n, int k) {
+    int i;
+    // initialize `next` array
+    for (i = 1; i < n; i = i + 1) {
+        next[i] = i + 1;
+        prev[i + 1] = i;
+    }
+    next[n] = 1;
+    prev[1] = n;
+
+    // simulate the progress
+    int cur = 1;
+    int j;
+    for (i = 1; i < n; i = i + 1) {
+        for (j = 1; j < k; j = j + 1) {
+            cur = next[cur];
+        }
+        prev[next[cur]] = prev[cur];
+        next[prev[cur]] = next[cur];
+        cur = next[cur];
+    }
+    return cur;
+}
+
+int f(int n, int k) {
+    if (n == 1) {
+        return 0;
+    }
+//    if (n == 2) {
+//        return k % 2;
+//    }
+
+    // 0 1 2
+
+    // 0 1 2 3
+
+    // 0 1 2 3 4
+
+    // 0, 1 (k=5, b=1)
+    // 0, b=1
+
+    // 0, 1, 2, ..., b-1, b, b+1, ..., n-1
+    // n-b-1         n-2     0, ...., n-2-b
+
+    // 0, 1, 2, ...,            n-1(b)
+    // 0, 1, 2, ...,
+
+    int b = k % n - 1; // b = boundary
+    int r = f(n-1, k);
+
+//    printf("%d : %d\n", n, r);
+
+    if (0 <= r && r <= n-2-b) {
+        return r + b + 1;
+    } else {
+        return r - (n - b - 1);
+    }
+    return 0;
+}
+
 int main() {
-int a[2];
-a[f()]; // c
-a[b]; // c
-return 0;
+    int t;
+    t = getint();
+
+    int n, k;
+    int i = 0;
+    for (; i < t; ) {
+        n = getint();
+        k = getint();
+
+        // for the sake of clearer logic of `mod` operation,
+        // we start index from '0', and recover the '1' at last
+        printf("formula:  %d\n", f(n, k) + 1);
+        printf("simulate: %d\n", simulate(n, k));
+
+        i = i + 2 - 1;
+    }
+
+    return 0;
 }

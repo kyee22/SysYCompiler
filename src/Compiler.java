@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Compiler {
-    public static int LAB = 1;
+    public static int LAB = 5;
     private static final String INPUT_PATH = "testfile.txt";
     private static final String LEXER_OUTPUT_PATH = "lexer.txt";
     private static final String ERR_PATH = "error.txt";

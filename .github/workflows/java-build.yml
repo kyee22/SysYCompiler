@@ -32,6 +32,12 @@ jobs:
         run: |
           find src -name "*.java" -exec javac -d bin -cp bin {} +
 
+      - name: Upload compiled classes as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: compiled-classes
+          path: bin/
+
   test:
     needs: build # 确保编译完成后再运行测试
     runs-on: ubuntu-latest
@@ -55,11 +61,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Copy compiled classes from previous job
-        uses: actions/cache@v3
+      - name: Download compiled classes from previous job
+        uses: actions/download-artifact@v3
         with:
-          path: bin
-          key: ${{ runner.os }}-bin-${{ github.sha }}
+          name: compiled-classes
+          path: bin/
 
       - name: Run specific test
         run: |
