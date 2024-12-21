@@ -20,17 +20,10 @@ import midend.analysis.graph.cfg.BasicBlockCFG;
 import midend.analysis.graph.cfg.BasicBlockCFGBuilder;
 import midend.analysis.graph.cfg.CFG;
 
-public class UnreachableBlockElim {
-    public void run(Module module) {
-        for (Function function : module.getFunctions()) {
-            if (function.isDeclaration()) {
-                continue;
-            }
-            run(function);
-        }
-    }
+public class UnreachableBlockElim implements Pass {
 
-    private void run(Function function) {
+    @Override
+    public void run(Function function) {
         CFG<BasicBlock> cfg = (new BasicBlockCFGBuilder()).analyze(function);
         (new UnreachableBlockElimWalker()).dfs(cfg);
     }

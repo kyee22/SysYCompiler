@@ -1,0 +1,66 @@
+# .github/workflows/java-build.yml
+
+name: Java CI - Direct Compilation and Testing
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Create output directories
+        run: |
+          mkdir -p bin
+          mkdir -p test-output
+
+      - name: Compile all source files
+        run: |
+          find src -name "*.java" -exec javac -d bin -cp bin {} +
+
+  test:
+    needs: build # 确保编译完成后再运行测试
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        testcase: [
+          "code-gen-private",
+          "code-gen-public/A",
+          "code-gen-public/B",
+          "code-gen-public/C",
+        ]
+      fail-fast: false # 如果一个测试失败，是否停止其他测试
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Copy compiled classes from previous job
+        uses: actions/cache@v3
+        with:
+          path: bin
+          key: ${{ runner.os }}-bin-${{ github.sha }}
+
+      - name: Run specific test
+        run: |
+          python3 test/python/code-gen-test-ci.py test/python/testcases/${matrix.testcase} output.txt --script run-mips.sh

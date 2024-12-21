@@ -30,20 +30,12 @@ import java.util.Queue;
 
 import static utils.StringUtils.sha1;
 
-public class ConstantFolding {
+public class ConstantFolding implements Pass {
     private Map<String, Value> map;
     private Queue<Value> worklist;
 
-    public void run(Module module) {
-        for (Function function : module.getFunctions()) {
-            if (function.isDeclaration()) {
-                continue;
-            }
-            run(function);
-        }
-    }
-
-    private void run(Function function) {
+    @Override
+    public void run(Function function) {
         map = new HashMap<>();
         worklist = new LinkedList<>();
         worklist.addAll(function.getInstructions());

@@ -23,20 +23,12 @@ import midend.analysis.dataflow.fact.DataflowResult;
 import midend.analysis.dataflow.fact.SetFact;
 import midend.analysis.graph.cfg.CFG;
 
-public class DeadCodeDetect {
+public class DeadCodeDetect implements Pass {
     // todo: 有副作用的语句不能删
     // todo: 删的时候还要维护好 llvm value 之间的关系
 
-    public void run(Module module) {
-        for (Function function : module.getFunctions()) {
-            if (function.isDeclaration()) {
-                continue;
-            }
-            run(function);
-        }
-    }
-
-    private void run(Function function) {
+    @Override
+    public void run(Function function) {
         boolean changed;
         do {
             changed = singlePass(function);

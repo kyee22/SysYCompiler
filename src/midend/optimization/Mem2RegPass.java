@@ -27,22 +27,14 @@ import midend.analysis.graph.cfg.CFG;
 
 import java.util.*;
 
-public class Mem2RegPass {
+public class Mem2RegPass implements Pass {
     private Map<BasicBlock, SetFact<BasicBlock>> DF;
     private Map<PhiInst, AllocaInst> phi2alloc;
     CFG<BasicBlock> cfg;
     private Map<AllocaInst, Stack<Value>> stacks;
     private List<Instruction> deleteList;
 
-    public void run(Module module) {
-        for (Function function : module.getFunctions()) {
-            if (function.isDeclaration()) {
-                continue;
-            }
-            run(function);
-        }
-    }
-
+    @Override
     public void run(Function function) {
         computeDominanceFrontier(function);
         insertPhiFunctions(function);

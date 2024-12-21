@@ -1,3 +1,4 @@
-7921, 7922, 7923, 7924, 7925, 7926, 7927, 7928, 7929, 7930, 
-10, -8983, -6
+Moca move otter 1 from queue A to queue B
+Moca move otter 2 from queue A to queue C
+Moca move otter 1 from queue B to queue C
 

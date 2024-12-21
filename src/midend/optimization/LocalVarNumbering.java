@@ -27,19 +27,12 @@ import java.util.Map;
 import static utils.StringUtils.sha1;
 
 
-public class LocalVarNumbering {
+public class LocalVarNumbering implements Pass {
     private Map<String, Value> map;
 
-    public void run(Module module) {
-        for (Function function : module.getFunctions()) {
-            if (function.isDeclaration()) {
-                continue;
-            }
-            run(function);
-        }
-    }
 
-    private void run(Function function) {
+    @Override
+    public void run(Function function) {
         for (BasicBlock basicBlock : function.getBasicBlocks()) {
             run(basicBlock);
         }

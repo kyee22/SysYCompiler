@@ -13,7 +13,6 @@
 package backend.mips;
 
 import backend.regalloc.BaseRegAllocator;
-import backend.regalloc.LinearScanRegAllocator;
 import backend.regalloc.RegAllocator;
 import frontend.llvm.value.BasicBlock;
 import frontend.llvm.value.Function;
@@ -32,7 +31,7 @@ public class Manager {
     private int saveOffset;
     private int raOffset;
     private int localOffset;
-    private RegAllocator regAllocator = new LinearScanRegAllocator();
+    private RegAllocator regAllocator = new BaseRegAllocator();
     private Map<Value, Register> regMap;
 
     public static final int WORD_SIZE = 4;

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Compiler {
-    public static int LAB = 5;
+    public static int LAB = 1;
     private static final String INPUT_PATH = "testfile.txt";
     private static final String LEXER_OUTPUT_PATH = "lexer.txt";
     private static final String ERR_PATH = "error.txt";
@@ -40,14 +40,17 @@ public class Compiler {
     private static IRGenVisitor irGenVisitor;
     private static ASMGenerator asmGenerator;
 
-    /*  TODO: 一些低效生成的 ir
-     *      1) 条件判断反复 trunc 与 zext
-     *      2) 分支条件判断产生巨量 br
-     *    不一定所以指令都要临时寄存器:
-     *      1) resolve arg
-     */
 
-    private static void pipeline() {
+    public static void main(String[] args)  {
+        frontend();
+        if (!errorListener.hasErrors()) {
+            //midend();
+            backend();
+        }
+        output();
+    }
+
+    private static void frontend() {
         /*      Error Handling is through the whole pipeline        */
         errorListener = new ErrorReporter();
 
@@ -79,28 +82,35 @@ public class Compiler {
         /*      STEP 4: IR Gen        */
         irGenVisitor = new IRGenVisitor();
         ast.accept(irGenVisitor);
-        irGenVisitor.dump(IR_PATH);
         irGenVisitor.getModule().removeUnreachedInsts();
+    }
 
+    private static void midend() {
+        PassManager passManager = new PassManager(irGenVisitor.getModule());
+        Pass[] passes = new Pass[]{
+                new UnreachableBlockElim(),
+                new Mem2RegPass(),
+                new PhiElim(),
+                new ConstantFolding(),
+                //new LocalVarNumbering(),
+                new DeadCodeDetect()
+        };
+        for (Pass pass : passes) {
+            passManager.addPass(pass);
+        }
+        passManager.run();
+    }
 
-        // 对于从 entry 出发无法到达的结点，讨论其支配关系是没有意义的
-        // 所以我们先删掉无法到达的节点
-        (new UnreachableBlockElim()).run(irGenVisitor.getModule());
-        (new Mem2RegPass()).run(irGenVisitor.getModule());
-        (new PhiElim()).run(irGenVisitor.getModule());
-        (new ConstantFolding()).run(irGenVisitor.getModule());
-        //(new LocalVarNumbering()).run(irGenVisitor.getModule());
-        (new DeadCodeDetect()).run(irGenVisitor.getModule());
-
+    private static void backend() {
         /*      STEP 5: Code Gen        */
         asmGenerator = new ASMGenerator();
         asmGenerator.genFrom(irGenVisitor.getModule());
     }
 
     private static void output() {
-
         if (errorListener.hasErrors()) {
             errorListener.flushErrors(ERR_PATH);
+            return;
         }
 
         /*      Switch on output interface for corresponding lab    */
@@ -120,35 +130,4 @@ public class Compiler {
             case 5 -> asmGenerator.dump(ASM_PATH);
         }
     }
-    // todo: mem2reg之后会产生新的 compile-time constant
-    //       但此时 IR 生成已经结束,
-
-    public static void main(String[] args)  {
-        pipeline();
-        output();
-    }
 }
-
-//InstCFGBuilder builder = new InstCFGBuilder();
-//String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-//FileUtils.makeDir("livevar/" + timestamp);
-//for (Function function : irGenVisitor.getModule().getFunctions()) {
-//    if (function.isDeclaration()) {
-//        continue;
-//    }
-//    function.setInstrName();
-//    StringBuilder sb = new StringBuilder();
-//    LiveVariableAnalysis analysis = new LiveVariableAnalysis();
-//    DataflowResult<Instruction, SetFact<Value>> result = analysis.analyze(function);
-//    sb.append(String.format("================== %s liveVar ================\n", function.getName()));
-//    for (BasicBlock bb : function.getBasicBlocks()) {
-//        sb.append(bb.getName() + ":\n");
-//        for (Instruction inst : bb.getInstrs()) {
-//            sb.append("\t@" + inst.getIndex() + ": ");
-//            sb.append(inst.print());
-//            sb.append("  " + result.getResult(inst).toString() + "\n");
-//        }
-//        sb.append("\n");
-//    }
-//    FileUtils.writeStringToFile("livevar/" + timestamp + "/" + function.getName() + "-livevar.txt", sb.toString());
-//}

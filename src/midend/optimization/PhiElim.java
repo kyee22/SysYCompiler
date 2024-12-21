@@ -22,18 +22,9 @@ import frontend.llvm.value.user.instr.pinstr.MoveInst;
 
 import java.util.List;
 
-public class PhiElim {
-    public void run(Module module) {
-        for (Function function : module.getFunctions()) {
-            if (function.isDeclaration()) {
-                continue;
-            }
-            run(function);
-        }
-
-    }
-
-    private void run(Function function) {
+public class PhiElim implements Pass {
+    @Override
+    public void run(Function function) {
         for (BasicBlock bb : function.getBasicBlocks()) {
             eliminatePhiFunctions(bb);
         }
