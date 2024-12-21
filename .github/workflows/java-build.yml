@@ -73,3 +73,8 @@ jobs:
       - name: Run specific test
         run: |
           python3 test/python/code-gen-test-ci.py test/python/testcases/${{ matrix.testcase }} output.txt --script run-mips.sh
+        continue-on-error: true # 即使测试失败，也继续执行后续步骤
+
+      - name: Display judge.log
+        if: always() # 无论之前步骤的结果如何，此步骤总是会执行
+        run: cat judge.log

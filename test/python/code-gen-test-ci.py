@@ -1,4 +1,5 @@
 import os
+import sys
 from pathlib import Path
 from subprocess import run, PIPE, STDOUT
 from shutil import copy2
@@ -81,13 +82,7 @@ def run_test_case(testcase_directory: Path, output_path: Path, log_file_path: Pa
     with open(log_file_path, 'a') as log_file:
         result = run([f'./{script_name}'], stdout=log_file, stderr=log_file, cwd=root_dir, shell=True)
         if result.returncode != 0:
-            print(f"Error running {script_name}! \njudge log:")
-            try:
-                with open(log_file_path, 'r') as log_content:
-                    print(log_content.read())
-            except FileNotFoundError:
-                print(f"Error: {log_file_path} not found.")
-
+            print(f"Error running {script_name}! See judge.log for details.")
             return False
 
     # Compare
@@ -122,3 +117,4 @@ if __name__ == "__main__":
         print("All tests passed.")
     else:
         print("Some tests failed.")
+        sys.exit(1)
