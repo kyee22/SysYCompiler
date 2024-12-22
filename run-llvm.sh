@@ -37,6 +37,8 @@ else
     exit 1
 fi
 
+chmod +x ./llvm_program
+
 # Execute the program and redirect input/output
 echo "Executing the program with input from input.txt..."
 ./llvm_program < $INPUT_FILE > $OUTPUT_FILE
