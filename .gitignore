@@ -1,6 +1,5 @@
 ### IntelliJ IDEA ###
 submit/
-doc/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
