@@ -2,50 +2,60 @@
 
 Lab assignments for *Compiling Techniques* @ Beihang University, Fall 2024  
 
-## Usage
+## Implementation
 
-TODO
+![](doc/img/3end.svg)
+
+## Pipeline
+
+<img src="doc/img/opt-struct.drawio-en.svg" style="zoom: 67%;" />
 
 ## Test
 
-### Test Cases
+**Test Case:**
 
 Test cases for local testing are located under `test/python/testcases`:
 
 -   Public test case directories have suffixes `-public`.
--   Manually constructed test case directories have suffixes `-private`.
+-   Personally constructed test case directories have suffixes `-private`.
 
-### Test Drivers
+**Test Driver:**
 
-#### Lexer & Parser & Semantic Check Test
-
--   Several redundant Python test scripts are located in the `test/python/` directory.
-
--   Later, Java versions of JUnit tests were written and are located in the `test/java/` directory.
-
--   Example
-
-    ![image-20241103185931810](docs/img/test-sc.png)
-
-#### IR Gen Test
-
-*   Testing the generated LLVM IR requires tools such as `clang`, `lli`, and `llvm-link`. For convenience, testing is performed on a Linux environment rather than a Windows platform.
+*   Testing is preferred to perform on a Linux environment.
 
 *   To run the tests, use the following command:
 
     ```bash
-    python3 test/python/code-gen-test.py {test_case_path} {IR_runtime_output_path}
+    python3 test/python/code-gen-test.py {test_case_path} {runtime_output_path} --script {running_script}
     ```
 
+    To test *IR Gen*, set `running_script` to `run-llvm.sh`; to test *Code Gen*, set `running_script` to `run-mips.sh`.
+    
 *   Example
 
     ```bash
-    $ python3 test/python/code-gen-test.py test/python/testcases/code-gen-public/A output.txt
-    Run test cases in test/python/testcases/code-gen-public/A ...
+    $ python3 test/python/code-gen-test.py test/python/testcases/code-gen-private/ output.txt --script run-mips.sh
+    Run test cases in test/python/testcases/code-gen-private with script run-mips.sh...
     [       OK ] TEST testcase1
     [       OK ] TEST testcase10
     [       OK ] TEST testcase11
+    [       OK ] TEST testcase12
+    [       OK ] TEST testcase13
+    [       OK ] TEST testcase14
+    [       OK ] TEST testcase15
+    [       OK ] TEST testcase16
+    [       OK ] TEST testcase17
+    [       OK ] TEST testcase18
+    [       OK ] TEST testcase19
     [       OK ] TEST testcase2
+    [       OK ] TEST testcase20
+    [       OK ] TEST testcase21
+    [       OK ] TEST testcase22
+    [       OK ] TEST testcase23
+    [       OK ] TEST testcase24
+    [       OK ] TEST testcase25
+    [       OK ] TEST testcase26
+    [       OK ] TEST testcase27
     [       OK ] TEST testcase3
     [       OK ] TEST testcase4
     [       OK ] TEST testcase5
@@ -54,11 +64,6 @@ Test cases for local testing are located under `test/python/testcases`:
     [       OK ] TEST testcase8
     [       OK ] TEST testcase9
     
-    [  PASSED  ] 11 tests.
+    [  PASSED  ] 27 tests.
     All tests passed.
     ```
-
-    
-
-
-

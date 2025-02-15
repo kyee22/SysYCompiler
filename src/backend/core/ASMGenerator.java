@@ -70,10 +70,10 @@ public class ASMGenerator {
             for (BasicBlock bb : function.getBasicBlocks()) {
                 builder.buildLabel(getBasicBlockLabel(bb));
                 for (Instruction inst : bb.getInstrs()) {
-                    builder.buildComment(inst.print());
+                    //builder.buildComment(inst.print());
                     manager.releaseAllReservedTmpReg();
                     inst.accept(instGenerator);
-                    builder.buildBreak();
+                    //builder.buildBreak();
                 }
             }
             epilogue(function);

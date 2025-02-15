@@ -1,6 +1,32 @@
 22371092
-12 127 56 52 a 644
-Most of us compare ourselves with anyone we think is happier - a relative, someone we know a lot, or someone we hardly know. As a result, what we do remember is anything that makes others happy, anything that makes ourselves unhappy, totally forgetting that there is something happy in our own life. So the best way to destroy happiness is to look at something and focus on even the smallest flaw. It is the smallest flaw that would make us complain. And it is the complaint that leads to us becoming unhappy. If one chooses to be happy, he will be blessed; if he chooses to be unhappy, he will be cursed. Happiness is just what you think will make you happy.
+=========================
+test_unary
+-98 -2024 1024
+=========================
+test_control_1
+i:223 break_flag: 1 n_continue: 112
+=========================
+test_control_2
+24
+=========================
+test_scope
+1
+1
+1
+4
+4
+5
+4
+1
+2
+2
+3
+2
+1
+=========================
+test_exp_stmt
+3 3 13 ;
+22371092
 22371092
 22371092
 22371092

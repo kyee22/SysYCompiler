@@ -4,134 +4,33 @@ declare void @putint(i32)
 declare void @putch(i32)
 declare void @putstr(i8*)
 
-@n = global i32 zeroinitializer
-@.str0 = constant [17 x i8] [i8 77, i8 111, i8 99, i8 97, i8 32, i8 109, i8 111, i8 118, i8 101, i8 32, i8 111, i8 116, i8 116, i8 101, i8 114, i8 32, i8 0]
-@.str1 = constant [13 x i8] [i8 32, i8 102, i8 114, i8 111, i8 109, i8 32, i8 113, i8 117, i8 101, i8 117, i8 101, i8 32, i8 0]
-@.str2 = constant [11 x i8] [i8 32, i8 116, i8 111, i8 32, i8 113, i8 117, i8 101, i8 117, i8 101, i8 32, i8 0]
-@.str3 = constant [2 x i8] [i8 10, i8 0]
-
-define void @print_move(i32 %arg0, i8 %arg1, i8 %arg2) {
-label3:
-  %op4 = alloca i32
-  store i32 %arg0, i32* %op4
-  %op5 = alloca i8
-  store i8 %arg1, i8* %op5
-  %op6 = alloca i8
-  store i8 %arg2, i8* %op6
-  %op7 = getelementptr [17 x i8], [17 x i8]* @.str0, i32 0, i32 0
-  call void @putstr(i8* %op7)
-  %op8 = load i32, i32* %op4
-  call void @putint(i32 %op8)
-  %op9 = getelementptr [13 x i8], [13 x i8]* @.str1, i32 0, i32 0
-  call void @putstr(i8* %op9)
-  %op10 = load i8, i8* %op5
-  %op11 = zext i8 %op10 to i32
-  call void @putch(i32 %op11)
-  %op12 = getelementptr [11 x i8], [11 x i8]* @.str2, i32 0, i32 0
-  call void @putstr(i8* %op12)
-  %op13 = load i8, i8* %op6
-  %op14 = zext i8 %op13 to i32
-  call void @putch(i32 %op14)
-  %op15 = getelementptr [2 x i8], [2 x i8]* @.str3, i32 0, i32 0
-  call void @putstr(i8* %op15)
-  ret void
-
-}
-
-define void @move(i32* %arg0, i32 %arg1, i8 %arg2, i8 %arg3, i8 %arg4) {
-label5:
-  %op6 = alloca i32*
-  store i32* %arg0, i32** %op6
-  %op7 = alloca i32
-  store i32 %arg1, i32* %op7
-  %op8 = alloca i8
-  store i8 %arg2, i8* %op8
-  %op9 = alloca i8
-  store i8 %arg3, i8* %op9
-  %op10 = alloca i8
-  store i8 %arg4, i8* %op10
-  br label %label37
-
-label11:                                                ; preds = %label37
-  %op12 = load i32*, i32** %op6
-  %op13 = getelementptr i32, i32* %op12, i32 0
-  %op14 = load i32, i32* %op13
-  %op15 = load i8, i8* %op8
-  %op16 = load i8, i8* %op10
-  call void @print_move(i32 %op14, i8 %op15, i8 %op16)
-  ret void
-  br label %label17
-
-label17:                                                ; preds = %label37, %label11
-  %op18 = load i32*, i32** %op6
-  %op19 = load i32, i32* %op7
-  %op20 = sub i32 %op19, 1
-  %op21 = load i8, i8* %op8
-  %op22 = load i8, i8* %op10
-  %op23 = load i8, i8* %op9
-  call void @move(i32* %op18, i32 %op20, i8 %op21, i8 %op22, i8 %op23)
-  %op24 = load i32, i32* %op7
-  %op25 = sub i32 %op24, 1
-  %op26 = load i32*, i32** %op6
-  %op27 = getelementptr i32, i32* %op26, i32 %op25
-  %op28 = load i32, i32* %op27
-  %op29 = load i8, i8* %op8
-  %op30 = load i8, i8* %op10
-  call void @print_move(i32 %op28, i8 %op29, i8 %op30)
-  %op31 = load i32*, i32** %op6
-  %op32 = load i32, i32* %op7
-  %op33 = sub i32 %op32, 1
-  %op34 = load i8, i8* %op9
-  %op35 = load i8, i8* %op8
-  %op36 = load i8, i8* %op10
-  call void @move(i32* %op31, i32 %op33, i8 %op34, i8 %op35, i8 %op36)
-  ret void
-
-label37:                                                ; preds = %label5
-  %op38 = load i32, i32* %op7
-  %op39 = icmp eq i32 %op38, 1
-  %op40 = zext i1 %op39 to i32
-  %op41 = icmp ne i32 %op40, 0
-  br i1 %op41, label %label11, label %label17
-
-}
+@t = global i32 zeroinitializer
+@a = global i32 zeroinitializer
+@b = global i32 zeroinitializer
+@c = global i32 zeroinitializer
+@mp = global [10000 x i8] zeroinitializer
+@.str0 = constant [2 x i8] [i8 10, i8 0]
 
 define i32 @main() {
 label0:
-  %op1 = call i32 @getint()
-  store i32 %op1, i32* @n
-  %op2 = alloca [200 x i32]
-  %op3 = alloca i32
-  store i32 0, i32* %op3
-  br label %label12
+  %op1 = alloca i32
+  store i32 10, i32* %op1
+  br label %label6
 
-label4:                                                ; preds = %label12
-  %op5 = getelementptr [200 x i32], [200 x i32]* %op2, i32 0, i32 0
-  %op6 = load i32, i32* @n
-  call void @move(i32* %op5, i32 %op6, i8 65, i8 66, i8 67)
+label2:                                                ; preds = %label6
+  %op3 = load i32, i32* %op1
+  call void @putint(i32 %op3)
+  %op4 = getelementptr [2 x i8], [2 x i8]* @.str0, i32 0, i32 0
+  call void @putstr(i8* %op4)
+  br label %label5
+
+label5:                                                ; preds = %label6, %label2
   ret i32 0
 
-label7:                                                ; preds = %label12
-  %op8 = load i32, i32* %op3
-  %op9 = getelementptr [200 x i32], [200 x i32]* %op2, i32 0, i32 %op8
-  %op10 = load i32, i32* %op3
-  %op11 = add i32 %op10, 1
-  store i32 %op11, i32* %op9
-  br label %label18
-
-label12:                                                ; preds = %label0, %label18
-  %op13 = load i32, i32* %op3
-  %op14 = load i32, i32* @n
-  %op15 = icmp slt i32 %op13, %op14
-  %op16 = zext i1 %op15 to i32
-  %op17 = icmp ne i32 %op16, 0
-  br i1 %op17, label %label7, label %label4
-
-label18:                                                ; preds = %label7
-  %op19 = load i32, i32* %op3
-  %op20 = add i32 %op19, 1
-  store i32 %op20, i32* %op3
-  br label %label12
+label6:                                                ; preds = %label0
+  %op7 = load i32, i32* %op1
+  %op8 = icmp ne i32 %op7, 0
+  br i1 %op8, label %label2, label %label5
 
 }
 
