@@ -40,6 +40,7 @@ jobs:
 
 
   code-gen-test:
+    needs: build
     runs-on: ubuntu-latest
     strategy:
       matrix:
